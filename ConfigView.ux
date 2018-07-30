@@ -44,7 +44,7 @@
 						</WhileTrue>
 						よるもーど
 					</Text>
-					<Switch Dock="Right" Value="{NightMode}" ValueChanged="{saveViewMode}" />
+					<Switch Dock="Right" Value="{NightMode}" ValueChanged="{saveViewMode}" ux:Name="NightModeEnabled" />
 				</DockPanel>
 				<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border9">
 					<WhileTrue Value="{NightMode}">
@@ -66,7 +66,7 @@
 						</WhileTrue>
 						ちゃっと（Pleroma用）
 					</Text>
-					<Switch Dock="Right" Value="{ChatEnabled}" ValueChanged="{saveChatEnabled}" />
+					<Switch Dock="Right" Value="{ChatEnabled}" ValueChanged="{saveChatEnabled}" ux:Name="PleromaChatEnabled" />
 				</DockPanel>
 				<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border11">
 					<WhileTrue Value="{NightMode}">
@@ -89,7 +89,7 @@
 						</WhileTrue>
 						ステータスバーに通知出す
 					</Text>
-					<Switch Dock="Right" Value="{LocalNotify}" ValueChanged="{saveViewMode}" />
+					<Switch Dock="Right" Value="{LocalNotify}" ValueChanged="{saveViewMode}" ux:Name="LocalNotifyEnabled" />
 				</DockPanel>
 				<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border8">
 					<WhileTrue Value="{NightMode}">
@@ -111,7 +111,7 @@
 						</WhileTrue>
 						がぞうびゅーあ
 					</Text>
-					<Switch Dock="Right" Value="{ImageViewer}" ValueChanged="{saveViewMode}" />
+					<Switch Dock="Right" Value="{ImageViewer}" ValueChanged="{saveViewMode}" ux:Name="ImageViewerEnabled" />
 				</DockPanel>
 				<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border4">
 					<WhileTrue Value="{NightMode}">
@@ -306,7 +306,7 @@
 						</WhileTrue>
 						ムーバブルしいたけ
 					</Text>
-					<Switch Dock="Right" Value="{MovableShiitake}" ValueChanged="{saveViewMode}" />
+					<Switch Dock="Right" Value="{MovableShiitake}" ValueChanged="{saveViewMode}" ux:Name="MovableShiitakeEnabled" />
 				</DockPanel>
 				<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border7">
 					<WhileTrue Value="{NightMode}">

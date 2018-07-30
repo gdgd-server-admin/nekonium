@@ -321,7 +321,7 @@ function clearUserInfo(){
 }
 
 function setImageUrl(args){
-	if(localStorage.getItem("ImageViewer") != undefined){
+	if(localStorage.getItem("ImageViewerEnabled") != undefined){
 		if(args.data.type == "image"){
 			ImageUrl.value = args.data.url;
 		}else if(args.data.type == "video" || args.data.type == "gifv"){
