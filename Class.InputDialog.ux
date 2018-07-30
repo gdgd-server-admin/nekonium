@@ -1,0 +1,55 @@
+<Panel ux:Class="InputDialog" ux:Name="root" Layer="Overlay">
+    <JavaScript>
+      var Observable = require("FuseJS/Observable");
+      module.exports = {
+        CommentText:  Observable("")
+      }
+    </JavaScript>
+    <Panel Margin="0,0,0,0" Opacity="0" ux:Name="AddToBasketPanel" HitTestMode="None">
+        <Rectangle ux:Name="addTaskButtons" Layer="Background" Margin="0,0,0,0">
+            <Tapped>
+                <Set root.Show="False"/>
+            </Tapped>
+        </Rectangle>
+        <Text ux:Name="text" Value="{Property root.Text}" Alignment="Center" Color="White" Offset="0,-500" TextWrapping="Wrap" FontSize="22" />
+        <TextInput ux:Name="comment" Value="{CommentText}" PlaceholderText="つうほうりゆう" PlaceholderColor="#666" Offset="0,-500" TextColor="#CCC" Height="36" Padding="3" Margin="5,0,5,0">
+          <Rectangle Layer="Background">
+            <Stroke Width="2" Brush="#333" />
+          </Rectangle>
+        </TextInput>
+        <StackPanel ux:Name="ButtonsPanel" Orientation="Horizontal" Alignment="HorizontalCenter" Offset="0,500" Y="50%" Padding="0,0,0,10">
+            <Rectangle CornerRadius="5" Margin="10" Width="150" Color="White" Padding="10" Height="40" Fill="Red">
+                <Text Alignment="Center"  Color="White">だめ</Text>
+                <Tapped>
+                    <Set root.Show="False"/>
+                </Tapped>
+            </Rectangle>
+            <Rectangle CornerRadius="5" Margin="10" Width="150" Color="White" Padding="10" Height="40" Fill="Green">
+                <Text Alignment="Center"  Color="White">いいよ</Text>
+                <Tapped>
+                    <Set root.Show="False"/>
+                    <RaiseUserEvent EventName="Event_Handler" >
+                      <UserEventArg Name="comment" StringValue="{CommentText}" />
+                      <UserEventArg Name="account_id" StringValue="{Property root.account_id}" />
+                      <UserEventArg Name="status_id" StringValue="{Property root.status_id}" />
+                    </RaiseUserEvent>
+                </Tapped>
+            </Rectangle>
+        </StackPanel>
+        <WhileTrue ux:Name="show" Value="{Property root.Show}">
+            <Change text.Offset="0,-50" Duration="0.2" Delay="0.2" DelayBack="0" Easing="CubicOut"/>
+            <Change comment.Offset="0,-15" Duration="0.2" Delay="0.2" DelayBack="0" Easing="CubicOut"/>
+            <Change addTaskButtons.Color="#000d" Duration="0.15" DelayBack="0.25"/>
+            <Change ButtonsPanel.Offset="0,0" Duration="0.30" Delay="0" Easing="QuinticInOut"/>
+            <Change AddToBasketPanel.HitTestMode="Children"/>
+            <Change AddToBasketPanel.Opacity="1" Duration="0.5" Easing="QuinticOut"/>
+        </WhileTrue>
+    </Panel>
+    <bool ux:Property="Show" />
+    <UserEvent ux:Name="Event_Handler" />
+    <OnUserEvent ux:Class="InputHandler" EventName="Event_Handler" />
+    <object ux:Property="InputHandler" />
+    <string ux:Property="Text" />
+    <string ux:Property="account_id" />
+    <string ux:Property="status_id" />
+</Panel>

@@ -1,0 +1,84 @@
+<Page ux:Class="LocalchatPage">
+  <JavaScript File="LocalChatView.js" />
+  <Activated>
+		<GiveFocus Target="chattext" />
+  </Activated>
+  <Router ux:Dependency="router" />
+  <DockPanel>
+    <ScrollView ux:Name="ltlsv" Background="#fff" SnapMinTransform="false" Dock="Fill">
+      <WhileTrue Value="{NightMode}">
+        <Change ltlsv.Background="#333" />
+      </WhileTrue>
+
+      <StackPanel>
+
+        <Each Items="{_chatlog}">
+          <Deferred>
+            <DockPanel Padding="0,10,0,0" ux:Name="TootPanel" Opacity="1">
+              <AddingAnimation>
+  							<Change TootPanel.Opacity="0" Delay="0.16" Duration="0.32" />
+  						</AddingAnimation>
+
+              <DockPanel Dock="Left">
+                <Image Url="{author.avatar_static}" Width="48" Height="48" Dock="Top" Clicked="{setUserInfo}" />
+                <Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border2">
+                  <WhileTrue Value="{NightMode}">
+                    <Change border2.Background="#777" />
+                  </WhileTrue>
+                </Rectangle>
+              </DockPanel>
+              <Text ux:Name="dispname" Value="{author.display_name}" Dock="Top" >
+                <WhileTrue Value="{NightMode}">
+                  <Change dispname.Color="#aaa" />
+                </WhileTrue>
+              </Text>
+              <DockPanel Dock="Fill">
+                <Text Dock="Fill" ux:Name="MainContent" TextWrapping="Wrap">
+                  {text}
+                  <WhileTrue Value="{NightMode}">
+                    <Change MainContent.Color="#aaa" />
+                    <Change MainContent.Background="#333" />
+                  </WhileTrue>
+                </Text>
+              </DockPanel>
+              <Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border1">
+                <WhileTrue Value="{NightMode}">
+                  <Change border1.Background="#777" />
+                </WhileTrue>
+              </Rectangle>
+            </DockPanel>
+          </Deferred>
+        </Each>
+
+      </StackPanel>
+    </ScrollView>
+    <DockPanel Dock="Bottom" Background="#fff" ux:Name="PostForm">
+      <WhileTrue Value="{NightMode}">
+        <Change PostForm.Background="#333" />
+      </WhileTrue>
+      <TextInput ux:Name="chattext" PlaceholderColor="#ccc" PlaceholderText="ぐだぐだー" Value="{ChatText}" FontSize="18" Padding="6" Margin="5,5,0,5" Dock="Fill">
+        <WhileTrue Value="{NightMode}">
+          <Change chattext.PlaceholderColor="#555" />
+          <Change chattext.TextColor="#aaa" />
+        </WhileTrue>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Color="#000" />
+        </Rectangle>
+      </TextInput>
+      <Button Height="48" Background="#ddd" ux:Name="PostButton" Dock="Right" Margin="5" Padding="15,5,15,5">
+        <Clicked>
+        <Callback Handler="{sendChatMessage}" />
+        <GiveFocus Target="chattext" />
+      </Clicked>
+      <Text Alignment="Center" Font="FontAwesome" FontSize="20" Color="#47f">&#xf1d8;</Text>
+      <Rectangle Layer="Background" CornerRadius="4">
+        <Stroke Color="#000" />
+      </Rectangle>
+
+      <WhileTrue Value="{NightMode}">
+        <Change PostButton.Background="#666" />
+      </WhileTrue>
+    </Button>
+  </DockPanel>
+</DockPanel>
+</Page>

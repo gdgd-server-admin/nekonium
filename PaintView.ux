@@ -1,0 +1,62 @@
+<Page ux:Class="PaintPage">
+	<Router ux:Dependency="router" />
+	<JavaScript File="HomeView.js" />
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+		var SearchResult = Observable();
+		var Query = Observable("");
+
+		this.onParameterChanged(function(param){
+			Query.value = param.query;
+			SearchResult.replaceAll(param.result);
+		});
+
+		module.exports = {
+			SearchResult:SearchResult,
+			Query:Query,
+		}
+	</JavaScript>
+	<DockPanel>
+		<TopFrameBackground DockPanel.Dock="Top" />
+
+		<ScrollView ux:Name="ltlsv" Background="#fff" SnapMinTransform="false" Dock="Fill">
+
+			<DockPanel>
+				<WhileTrue Value="{NightMode}">
+					<Change ltlsv.Background="#333" />
+				</WhileTrue>
+
+				<Panel  Padding="3" Dock="Top" Alignment="Center" Background="#cef" Width="100%">
+					<Text Alignment="Center" ux:Name="pageTitle" FontSize="24" Color="#47f" Value="{Query}" />
+				</Panel>
+
+				<StackPanel Dock="Fill">
+					<Each Items="{SearchResult}">
+						<Deferred>
+							<TootPanel ux:Name="TootPanel">
+								<AddingAnimation>
+							    <Change TootPanel.Opacity="0" Delay="0.16" Duration="0.32" />
+							  </AddingAnimation>
+							  <RemovingAnimation>
+							    <Change TootPanel.Opacity="1" Delay="0.16" Duration="0.32" />
+							  </RemovingAnimation>
+							</TootPanel>
+						</Deferred>
+					</Each>
+
+					<DockPanel Padding="0,15,0,15" ux:Name="ReadMorePanel" >
+						<Text Value="щ(ﾟДﾟщ)ｶﾓｰﾝ"  ux:Name="rmtext" TextAlignment="Center" >
+							<WhileTrue Value="{NightMode}">
+								<Change rmtext.Color="#aaa" />
+
+							</WhileTrue>
+						</Text>
+					</DockPanel>
+
+				</StackPanel>
+			</DockPanel>
+			<Scrolled ux:Name="atEnd" To="End" Within="104" Handler="{localReadmore}" />
+		</ScrollView>
+		<BottomBarBackground Dock="Bottom" />
+	</DockPanel>
+</Page>

@@ -1,0 +1,10 @@
+<Page ux:Class="SplashPage">
+	<JavaScript File="SplashPage.js" />
+
+	<Router ux:Dependency="router" />
+
+	<Navigator>
+		<HomePage ux:Template="HomePage" router="router" />
+		<LoginPage ux:Template="LoginPage"  router="router" />
+	</Navigator>
+</Page>

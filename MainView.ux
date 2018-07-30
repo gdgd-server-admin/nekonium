@@ -1,0 +1,22 @@
+<App Background="#136">
+	<Font File="assets/fontawesome-webfont.ttf" ux:Global="FontAwesome" />
+	<Font File="Assets/NotoSansCJKjp-Bold.otf" ux:Global="BoldFont" />
+	<Font File="Assets/NotoSansCJKjp-Regular.otf" ux:Global="RegularFont" />
+
+	<Router ux:Name="router" />
+
+	<JavaScript File="ViewMode.js" />
+	<JavaScript File="Gacha.js" />
+
+    <Navigator DefaultPath="SplashPage">
+    	<SplashPage ux:Template="SplashPage" router="router" />
+    	<HomePage ux:Template="HomePage" router="router" />
+    	<LoginPage ux:Template="LoginPage" router="router" />
+    	<PostPage ux:Template="PostPage" router="router" />
+    	<ConfigPage ux:Template="ConfigPage" router="router" />
+    	<VideoPage ux:Template="VideoPage" router="router" />
+    	<PaintPage ux:Template="PaintPage" router="router" />
+    	<GachaPage ux:Template="GachaPage" router="router" />
+    </Navigator>
+
+</App>

@@ -1,0 +1,230 @@
+<DockPanel Padding="0,5,0,5" ux:Class="TootPanel" Opacity="1">
+
+  <Confirm ux:Name="confirmDelete" Show="False" Text="けしちゃうよ？">
+    <Handler Handler="{deleteItem}" />
+  </Confirm>
+  <InputDialog ux:Name="confirmReport" Show="False" Text="つうほうするよ？">
+    <InputHandler Handler="{reportItem}" />
+  </InputDialog>
+
+  <DockPanel Dock="Fill" Margin="5">
+
+    <!--左上にアイコン-->
+    <Image ux:Name="avatorImage" Url="{account.avatar_static}" Alignment="TopLeft" Width="48" Height="48" Dock="Left" Clicked="{setUserInfo}" />
+
+    <!--上に名前-->
+    <Text ux:Name="dispname" Color="#37F" Value="{account.display_name}" Dock="Top" Margin="5" Font="BoldFont">
+      <WhileTrue Value="{NightMode}">
+        <Change dispname.Color="#aaa" />
+      </WhileTrue>
+    </Text>
+
+    <!--メイン-->
+    <StackPanel Dock="Fill" Margin="2">
+
+      <!-- contents warning -->
+      <Panel  Dock="Top" Margin="2" Padding="4" ux:Name="CWButton" Visibility="Collapsed">
+        <Text Value="{spoiler_text}" ux:Name="cwtext">
+          <WhileTrue Value="{NightMode}">
+            <Change cwtext.Color="#aaa" />
+          </WhileTrue>
+        </Text>
+        <Clicked>
+          <Toggle Target="contentswarning" />
+          <Toggle Target="rbcontentswarning" />
+        </Clicked>
+        <Rectangle Layer="Background" CornerRadius="4" Background="#aaa" ux:Name="cwbg">
+          <Stroke Color="#ccc" />
+          <WhileTrue Value="{NightMode}">
+            <Change cwbg.Background="#666" />
+          </WhileTrue>
+        </Rectangle>
+      </Panel>
+
+      <!-- content -->
+      <Text TextWrapping="Wrap" ux:Name="MainContent" Font="RegularFont" Clicked="{openExternLink}">
+        {content}
+        <WhileTrue Value="{NightMode}">
+          <Change MainContent.Color="#aaa" />
+          <Change MainContent.Background="#333" />
+        </WhileTrue>
+      </Text>
+
+      <!-- media attachments -->
+      <!-- sensitive button -->
+      <Panel Margin="2" Padding="4" ux:Name="NSFWButton" Visibility="Collapsed">
+        <Text Value="えつらんちゅうい" ux:Name="rnsfwtxt">
+          <WhileTrue Value="{NightMode}">
+            <Change rnsfwtxt.Color="#aaa" />
+          </WhileTrue>
+        </Text>
+        <Clicked>
+          <Toggle Target="rbsensitive" />
+          <Toggle Target="sensitive" />
+        </Clicked>
+        <Rectangle Layer="Background" CornerRadius="4" Background="#aaa" ux:Name="rnsfwbg">
+          <WhileTrue Value="{NightMode}">
+            <Change rnsfwbg.Background="#666" />
+          </WhileTrue>
+          <Stroke Color="#ccc" />
+        </Rectangle>
+      </Panel>
+      <!-- image container -->
+      <Panel ux:Name="ImageContainer" Margin="0,10,0,10">
+        <ColumnLayout ColumnCount="3" />
+        <WhileString Value="{reblog}" Test="IsEmpty">
+          <Each Items="{media_attachments}">
+            <Image Url="{preview_url}" StretchMode="UniformToFill" Margin="5,0,0,5" Clicked="{setImageUrl}" />
+          </Each>
+        </WhileString>
+        <WhileString Value="{reblog}" Test="IsNotEmpty">
+          <Each Items="{reblog.media_attachments}">
+            <Image Url="{preview_url}" StretchMode="UniformToFill" Margin="5,0,0,5" Clicked="{setImageUrl}" />
+          </Each>
+        </WhileString>
+      </Panel>
+
+      <!-- timestamp -->
+      <Text TextAlignment="Right" FontSize="11" ux:Name="timestamp" TextWrapping="Wrap">
+        {account.acct}
+        {timestamp}
+      </Text>
+
+      <!-- replyto boost favorite buttons -->
+      <Grid Columns="1*,1*,1*,1*" ContentAlignment="Center" Margin="10">
+
+        <!-- reply button -->
+        <Panel Clicked="{replyTo}" Alignment="Center">
+          <Text Font="FontAwesome" FontSize="24">
+            &#xf112;
+          </Text>
+        </Panel>
+
+        <!-- boost button -->
+        <Panel Clicked="{boostItem}" Alignment="Center">
+          <WhileString Value="{reblog}" Test="IsNotEmpty">
+            <Text Font="FontAwesome" FontSize="24" ux:Name="reblogBoostButton" >
+              <WhileTrue Value="{reblog.reblogged}">
+                <Change reblogBoostButton.Color="#47f" />
+              </WhileTrue>
+              &#xf079;
+            </Text>
+          </WhileString>
+          <WhileString Value="{reblog}" Test="IsEmpty">
+            <Text Font="FontAwesome" FontSize="24" ux:Name="reblogButton" >
+              <WhileTrue Value="{reblogged}">
+                <Change reblogButton.Color="#47f" />
+              </WhileTrue>
+              &#xf079;
+            </Text>
+          </WhileString>
+        </Panel>
+
+        <!-- favorite button -->
+        <Panel Clicked="{favouriteItem}" Alignment="Center">
+          <WhileString Value="{reblog}" Test="IsNotEmpty">
+            <Text Font="FontAwesome" FontSize="24" ux:Name="reblogFavouriteButton">
+              <WhileTrue Value="{reblog.favourited}">
+                <Change reblogFavouriteButton.Color="#47f" />
+              </WhileTrue>
+              &#xf005;
+            </Text>
+          </WhileString>
+          <WhileString Value="{reblog}" Test="IsEmpty">
+            <Text Font="FontAwesome" FontSize="24" ux:Name="favouriteButton">
+              <WhileTrue Value="{favourited}">
+                <Change favouriteButton.Color="#47f" />
+              </WhileTrue>
+              &#xf005;
+            </Text>
+          </WhileString>
+        </Panel>
+
+        <!-- report button -->
+        <WhileTrue Value="{account.acct} != {MyUsername}">
+          <Panel Alignment="Center">
+            <WhileString Value="{reblog}" Test="IsNotEmpty">
+              <Clicked>
+                <Set confirmReport.account_id="{reblog.account.id}" />
+                <Set confirmReport.status_id="{reblog.id}" />
+                <Set confirmReport.Show="True" />
+              </Clicked>
+              <Text Font="FontAwesome" FontSize="24" ux:Name="reblogReportButton">
+                &#xf024;
+              </Text>
+            </WhileString>
+            <WhileString Value="{reblog}" Test="IsEmpty">
+              <Clicked>
+                <Set confirmReport.account_id="{account.id}" />
+                <Set confirmReport.status_id="{id}" />
+                <Set confirmReport.Show="True" />
+              </Clicked>
+              <Text Font="FontAwesome" FontSize="24" ux:Name="reportButton">
+                &#xf024;
+              </Text>
+            </WhileString>
+          </Panel>
+        </WhileTrue>
+
+        <!-- delete button -->
+        <WhileString Value="{reblog}" Test="IsEmpty">
+          <WhileString Value="{account.acct}" Equals="{MyUsername}">
+            <Panel Alignment="Center">
+              <Clicked>
+                <Set confirmDelete.Show="True" />
+              </Clicked>
+              <Text Font="FontAwesome" FontSize="24" ux:Name="deleteButton">
+                &#xf1f8;
+              </Text>
+            </Panel>
+          </WhileString>
+        </WhileString>
+
+      </Grid>
+      <WhileString Value="{reblog}" Test="IsNotEmpty">
+        <Text Value="{account.acct} がブースト" TextAlignment="Right" TextWrapping="Wrap" />
+      </WhileString>
+
+
+      <WhileString Value="{reblog}" Test="IsNotEmpty">
+        <Change avatorImage.Url="{reblog.account.avatar_static}" />
+        <Change dispname.Value="{reblog.account.display_name}" />
+        <Change MainContent.Value="{reblog.content}" />
+        <Change timestamp.Value="{reblog.account.acct} {reblog.timestamp}" />
+        <Change cwtext.Value="{reblog.spoiler_text}" />
+        <WhileString Value="{reblog.spoiler_text}" Test="IsNotEmpty">
+          <Change CWButton.Visibility="Visible" />
+        </WhileString>
+        <WhileTrue Value="{reblog.spoiler_text} != ''"  ux:Name="rbcontentswarning">
+          <Change MainContent.Visibility="Collapsed" />
+        </WhileTrue>
+        <WhileCount  Items="{reblog.media_attachments}" GreaterThan="0">
+          <WhileTrue Value="{reblog.sensitive}">
+            <Change NSFWButton.Visibility="Visible" />
+          </WhileTrue>
+          <WhileTrue Value="{reblog.sensitive}" ux:Name="rbsensitive">
+            <Change ImageContainer.Visibility="Collapsed" />
+          </WhileTrue>
+        </WhileCount>
+      </WhileString>
+      <WhileString Value="{reblog}" Test="IsEmpty">
+        <WhileString Value="{spoiler_text}" Test="IsNotEmpty">
+          <Change CWButton.Visibility="Visible" />
+        </WhileString>
+        <WhileTrue Value="{spoiler_text} != ''" ux:Name="contentswarning">
+          <Change MainContent.Visibility="Collapsed" />
+        </WhileTrue>
+        <WhileTrue Value="{sensitive}" ux:Name="sensitive">
+          <Change ImageContainer.Visibility="Collapsed" />
+        </WhileTrue>
+      </WhileString>
+
+    </StackPanel>
+  </DockPanel>
+
+  <Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border1">
+    <WhileTrue Value="{NightMode}">
+      <Change border1.Background="#777" />
+    </WhileTrue>
+  </Rectangle>
+</DockPanel>

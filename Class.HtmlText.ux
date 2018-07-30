@@ -1,0 +1,39 @@
+<StackPanel ux:Class="HtmlText">
+	<object ux:Property="sourcehtml" />
+	<JavaScript File="Class.HtmlText.js" />
+	
+	
+	<Each Items="{Property sourcehtml}">
+		<Text Value="{value}" ux:Name="htmlLine" TextTruncation="Standard" TextWrapping="Wrap" >
+			<WhileTrue Value="{NightMode}">
+				<Change htmlLine.Color="#aaa" />
+				<Change htmlLine.Background="#333" />
+			</WhileTrue>
+			<WhileString Value="{percent}" Test="IsNotEmpty">
+				<Change htmlLine.Margin="3" />
+				<Change htmlLine.Padding="3" />
+				
+				<Rectangle ux:Name="percentBar" Layer="Background" CornerRadius="2" Padding="3" Width="{percent}" Alignment="BottomLeft">
+					<Stroke Color="#777" />
+			        <WhileString Value="{percentstyle}" Equals='a'>
+			        	<Change percentBar.Color="#66F" />
+			        </WhileString>
+			        <WhileString Value="{percentstyle}" Equals='b'>
+			        	<Change percentBar.Color="#59F" />
+			        </WhileString>
+			        <WhileString Value="{percentstyle}" Equals='c'>
+			        	<Change percentBar.Color="#5F5" />
+			        </WhileString>
+			        <WhileString Value="{percentstyle}" Equals='d'>
+			        	<Change percentBar.Color="#F95" />
+			        </WhileString>
+			        <WhileString Value="{percentstyle}" Equals='e'>
+			        	<Change percentBar.Color="#F55" />
+			        </WhileString>
+			        
+			    </Rectangle>
+			</WhileString>
+		</Text>
+	</Each>
+	
+</StackPanel>
