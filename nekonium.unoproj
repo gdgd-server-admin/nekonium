@@ -1,7 +1,7 @@
 {
 	"RootNamespace":"net.jp.gdgd.sns",
-	"Version": "0.28.0",
-	"VersionCode": 76,
+	"Version": "20180730",
+	"VersionCode": 77,
 	"Packages": [
 		"Fuse",
 		"FuseJS",
@@ -23,9 +23,16 @@
 		"ShowStatusbar": true,
 		"RunsInBackground": true,
 		"UriScheme": "nekonium"
-    },
-    "Android": {
-        "ApplicationLabel": "nekonium",
+	},
+	"Android": {
+		"ApplicationLabel": "nekonium",
+		"Package": "net.jp.gdgd.sns",
+		"Key": {
+			"Alias": "application",
+			"AliasPassword": "godkn0ws",
+			"Store": "release.keystore",
+			"StorePassword": "godkn0ws"
+		},
 		"VersionName": "$(Version)",
 		"Icons": {
 			"LDPI": "Assets/icon/ldpi/nekonium-icon.png",
@@ -34,8 +41,6 @@
 			"XHDPI": "Assets/icon/xhdpi/nekonium-icon.png",
 			"XXHDPI": "Assets/icon/xxhdpi/nekonium-icon.png",
 			"XXXHDPI": "Assets/icon/xxxhdpi/nekonium-icon.png"
-
 		}
-    }
-
+	}
 }
