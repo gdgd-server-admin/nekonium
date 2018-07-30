@@ -17,17 +17,6 @@
 					<TopFrameBackground DockPanel.Dock="Top" />
 					<ScrollView  Dock="Fill">
 						<StackPanel Width="100%">
-							<!--
-							<DockPanel Width="100%" Height="60" Margin="0,0,0,15" ux:Name="topicView">
-
-								<NativeViewHost>
-									<WebView Dock="Fill" Url="https://topic.gdgd.jp.net/topic/gdgd" ZoomEnabled="false">
-
-									</WebView>
-								</NativeViewHost>
-
-							</DockPanel>
-							-->
 							<DockPanel Width="100%" Height="48" Padding="8" Margin="0,8,0,0">
 								<TextInput Padding="4" Margin="0,0,8,0" PlaceholderColor="#777" PlaceholderText="けんさく" Value="{SearchQuery}" Dock="Fill">
 									<Rectangle Layer="Background" CornerRadius="4" Background="#fff" >
@@ -167,9 +156,6 @@
 				</Rectangle>
 
 				<Image  Url="{ImageUrl}" Clicked="{clearImageUrl}" Opacity="2" Margin="3,30,3,50" >
-					<!--<Rectangle Layer="Background">
-					<Stroke Color="#F00" />
-				</Rectangle>-->
 				<DockPanel  Layer="Overlay">
 					<Grid Columns="1*,1*" ContentAlignment="Center" Margin="5" Dock="Top">
 						<Panel Alignment="Center" Clicked="{openImageUrl}">
@@ -199,9 +185,6 @@
 					<Change vdock.Width = "{VideoUrl.meta.small.height}" />
 					<Change vdock.Height = "{VideoUrl.meta.small.width}" />
 				</WhileTrue>
-				<!--<Rectangle Layer="Background">
-				<Stroke Color="#F00" />
-			</Rectangle>-->
 			<Video Dock="Fill" StretchMode="Fill" IsLooping="true" Url="{VideoUrl.url}" AutoPlay="true" Position="0.1" ux:Name="videoplayer">
 				<Rotation Degrees="{VideoRotate}" />
 			</Video>
@@ -594,15 +577,6 @@
 	</Grid>
 	<WhileWindowSize GreaterThan="1024,1">
 		<DockPanel Width="200" Dock="Left" Background="#455">
-			<!--
-			<Panel Height="60" Margin="0,0,0,15" Dock="Top">
-				<NativeViewHost>
-					<WebView Dock="Fill" Url="https://topic.gdgd.jp.net/topic/gdgd" ZoomEnabled="false">
-
-					</WebView>
-				</NativeViewHost>
-			</Panel>
-		-->
 			<ScrollView Dock="Fill">
 				<StackPanel Width="100%">
 
