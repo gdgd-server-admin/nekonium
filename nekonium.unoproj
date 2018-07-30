@@ -1,7 +1,7 @@
 {
 	"RootNamespace":"net.jp.gdgd.sns",
-	"Version": "20180730",
-	"VersionCode": 77,
+	"Version": "20180730.2222",
+	"VersionCode": 78,
 	"Packages": [
 		"Fuse",
 		"FuseJS",
