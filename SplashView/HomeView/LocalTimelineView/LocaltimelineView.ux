@@ -1,0 +1,91 @@
+<Page ux:Class="LocaltimelineView">
+	<JavaScript File="LocaltimelineView.js" />
+
+	<Activated Handler="{localActivated}" />
+
+	<Router ux:Dependency="router" />
+
+	<Deferred>
+		<Panel ux:Name="loadingIcon" Layer="Overlay" Visibility="Collapsed">
+		<!--<Panel ux:Name="loadingIcon" Layer="Overlay" Visibility="Visible">-->
+			<Image Height="60" Width="60" Anchor="50%,50%" File="../../../Assets/nekonium-icon.png" ux:Name="Neko" />
+			<WhileTrue Value="{_ltlr}">
+				<Change loadingIcon.Visibility="Visible" />
+				<Cycle Target="Neko.Y" Low="85" High="110" Frequency="0.5" />
+				<!--<Cycle Target="Neko.X" Low="40" High="60" Frequency="0.25" />-->
+			</WhileTrue>
+		</Panel>
+	</Deferred>
+
+	<ScrollView ux:Name="ltlsv" Background="#fff" SnapMinTransform="false">
+		<DockPanel>
+			<WhileTrue Value="{NightModeEnabled}">
+				<Change ltlsv.Background="#333" />
+			</WhileTrue>
+
+			<Panel Dock="Top" ClipToBounds="True">
+				<!-- places all cog wheels and move rotates them so they fit together -->
+				<Panel ux:Name="cogPanel" Background="#4af" Alignment="Bottom" Height="0" MinHeight="0">
+					<Text Margin="10" TextAlignment="Center" Color="#FFF" Font="FontAwesome" FontSize="24" ux:Name="loadingMessage" />
+				</Panel>
+
+				<!-- set the hight of cogPanel so it stays open while loading -->
+				<WhileTrue ux:Name="retainSpace">
+
+				</WhileTrue>
+
+				<!-- Rotate the wheels as we pull down -->
+				<ScrollingAnimation Range="SnapMin">
+					<Change cogPanel.Height="60" Duration="1" />
+				</ScrollingAnimation>
+
+				<!-- Move the big wheels when pulled past threshold -->
+				<Timeline ux:Name="moveCogsIntoPlace">
+
+				</Timeline>
+
+
+				<PullToReload IsLoading="{_ltlr}" ReloadHandler="{localReload}">
+					<State ux:Binding="Pulling">
+						<!-- animate elements while pulling here -->
+						<Change loadingMessage.Value="&#xf103;" />
+					</State>
+					<State ux:Binding="PulledPastThreshold">
+						<TimelineAction Target="moveCogsIntoPlace" How="PlayTo" Progress="1" />
+						<Change loadingMessage.Value="&#xf01e;" />
+					</State>
+					<State ux:Binding="Loading">
+						<Change retainSpace.Value="true" DurationBack="0.5" />
+						<TimelineAction Target="moveCogsIntoPlace" How="PlayTo" When="Backward" Progress="0" />
+						<Change loadingMessage.Value="&#xf01e;" />
+					</State>
+				</PullToReload>
+			</Panel>
+			<StackPanel Dock="Fill">
+				<Each Items="{_ltl}">
+					<Deferred>
+						<TootPanel ux:Name="TootPanel">
+							<AddingAnimation>
+						    <Change TootPanel.Opacity="0" Delay="0.16" Duration="0.32" />
+						  </AddingAnimation>
+						  <RemovingAnimation>
+						    <Change TootPanel.Opacity="1" Delay="0.16" Duration="0.32" />
+						  </RemovingAnimation>
+						</TootPanel>
+					</Deferred>
+				</Each>
+
+				<DockPanel Padding="0,15,0,15" ux:Name="ReadMorePanel" >
+					<Text Value="щ(ﾟДﾟщ)ｶﾓｰﾝ"  ux:Name="rmtext" TextAlignment="Center" >
+						<WhileTrue Value="{NightModeEnabled}">
+							<Change rmtext.Color="#aaa" />
+
+						</WhileTrue>
+					</Text>
+				</DockPanel>
+
+			</StackPanel>
+		</DockPanel>
+		<Scrolled ux:Name="atEnd" To="End" Within="104" Handler="{localReadmore}" />
+	</ScrollView>
+</Page>

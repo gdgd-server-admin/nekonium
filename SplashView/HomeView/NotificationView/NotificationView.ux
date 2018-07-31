@@ -1,0 +1,230 @@
+<Page ux:Class="NotificationView">
+	<Router ux:Dependency="router" />
+	<JavaScript File="NotificationView.js" />
+
+	<Activated Handler="{noticeActivated}" />
+
+	<Deferred>
+		<Panel ux:Name="loadingIcon" Layer="Overlay" Visibility="Collapsed">
+		<!--<Panel ux:Name="loadingIcon" Layer="Overlay" Visibility="Visible">-->
+			<Image Height="60" Width="60" Anchor="50%,50%" File="../../../Assets/nekonium-icon.png" ux:Name="Neko" />
+			<WhileTrue Value="{_ntlr}">
+				<Change loadingIcon.Visibility="Visible" />
+				<Cycle Target="Neko.Y" Low="85" High="110" Frequency="0.5" />
+				<!--<Cycle Target="Neko.X" Low="40" High="60" Frequency="0.25" />-->
+			</WhileTrue>
+		</Panel>
+	</Deferred>
+
+	<ScrollView Background="#fff" SnapMinTransform="false" ux:Name="ltlsv">
+		<DockPanel>
+			<WhileTrue Value="{NightModeEnabled}">
+				<Change ltlsv.Background="#333" />
+			</WhileTrue>
+			<Panel Dock="Top" ClipToBounds="True">
+				<!-- places all cog wheels and move rotates them so they fit together -->
+				<Panel ux:Name="cogPanel" Background="#4af" Alignment="Bottom" Height="0" MinHeight="0">
+					<Text Margin="10" TextAlignment="Center" Color="#FFF" Font="FontAwesome" FontSize="24" ux:Name="loadingMessage" />
+				</Panel>
+
+				<!-- set the hight of cogPanel so it stays open while loading -->
+				<WhileTrue ux:Name="retainSpace">
+
+				</WhileTrue>
+
+				<!-- Rotate the wheels as we pull down -->
+				<ScrollingAnimation Range="SnapMin">
+					<Change cogPanel.Height="60" Duration="1" />
+				</ScrollingAnimation>
+
+				<!-- Move the big wheels when pulled past threshold -->
+				<Timeline ux:Name="moveCogsIntoPlace">
+
+				</Timeline>
+
+
+				<PullToReload IsLoading="{_ntlr}" ReloadHandler="{noticeReload}">
+					<State ux:Binding="Pulling">
+						<!-- animate elements while pulling here -->
+						<Change loadingMessage.Value="&#xf103;" />
+					</State>
+					<State ux:Binding="PulledPastThreshold">
+						<TimelineAction Target="moveCogsIntoPlace" How="PlayTo" Progress="1" />
+						<Change loadingMessage.Value="&#xf01e;" />
+					</State>
+					<State ux:Binding="Loading">
+						<Change retainSpace.Value="true" DurationBack="0.5" />
+						<TimelineAction Target="moveCogsIntoPlace" How="PlayTo" When="Backward" Progress="0" />
+						<Change loadingMessage.Value="&#xf01e;" />
+					</State>
+				</PullToReload>
+			</Panel>
+			<StackPanel Dock="Fill">
+				<Each Items="{_ntl}">
+					<Deferred>
+						<DockPanel Margin="0,5,0,5" ux:Name="TootPanel" Opacity="1">
+							<AddingAnimation>
+								<Change TootPanel.Opacity="0" Delay="0.16" Duration="0.32" />
+							</AddingAnimation>
+							<RemovingAnimation>
+								<Change TootPanel.Opacity="1" Delay="0.16" Duration="0.32" />
+							</RemovingAnimation>
+
+							<DockPanel Dock="Left">
+								<Image Url="{account.avatar_static}" Width="48" Height="48" Dock="Top" Clicked="{setUserInfo}" />
+								<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border2">
+									<WhileTrue Value="{NightModeEnabled}">
+										<Change border2.Background="#777" />
+									</WhileTrue>
+								</Rectangle>
+							</DockPanel>
+							<Text Value="{account.display_name}" Dock="Top" ux:Name="dispname">
+								<WhileTrue Value="{NightModeEnabled}">
+									<Change dispname.Color="#aaa" />
+								</WhileTrue>
+							</Text>
+							<DockPanel Dock="Fill">
+
+								<Text ux:Name="notificationtype" Dock="Top" Color="#aaa">
+									<WhileTrue Value="{NightModeEnabled}">
+										<Change notificationtype.Color="#666" />
+									</WhileTrue>
+									<WhileString Value="{type}" Equals="favourite">
+										<Change notificationtype.Value="ふぁぼられたよ" />
+									</WhileString>
+									<WhileString Value="{type}" Equals="reblog">
+										<Change notificationtype.Value="ブーストされたよ" />
+									</WhileString>
+									<WhileString Value="{type}" Equals="follow">
+										<Change notificationtype.Value="フォローされたよ" />
+									</WhileString>
+									<WhileString Value="{type}" Equals="mention">
+										<Change notificationtype.Value="リプキタヨ" />
+									</WhileString>
+								</Text>
+
+								<DockPanel ux:Name="targetStatus" Dock="Fill">
+									<WhileString Value="{status}" Test="IsNotEmpty">
+										<WhileString Value="{status.spoiler_text}" Test="IsNotEmpty">
+											<Panel  Dock="Top" Margin="2" Padding="4">
+												<Text Value="{status.spoiler_text}" ux:Name="cwtext">
+													<WhileTrue Value="{NightModeEnabled}">
+														<Change cwtext.Color="#aaa" />
+
+													</WhileTrue>
+												</Text>
+												<Clicked>
+													<Toggle Target="contentswarning" />
+												</Clicked>
+												<Rectangle Layer="Background" CornerRadius="4" Background="#aaa" ux:Name="cwbg">
+													<Stroke Color="#ccc" />
+													<WhileTrue Value="{NightModeEnabled}">
+														<Change cwbg.Background="#666" />
+													</WhileTrue>
+												</Rectangle>
+											</Panel>
+										</WhileString>
+										<Panel Dock="Fill">
+
+											<Text Value="{status.content}" ux:Name="MainContent" TextTruncation="Standard" TextWrapping="Wrap">
+												<WhileTrue Value="{NightModeEnabled}">
+													<Change MainContent.Color="#aaa" />
+												</WhileTrue>
+											</Text>
+
+											<WhileString Value="{status.spoiler_text}" Test="IsNotEmpty">
+												<WhileTrue Value="true" ux:Name="contentswarning">
+													<Change MainContent.Visibility="Collapsed" />
+												</WhileTrue>
+											</WhileString>
+										</Panel>
+									</WhileString>
+									<StackPanel Dock="Bottom">
+										<WhileCount  Items="{status.media_attachments}" GreaterThan="0">
+											<WhileTrue Value="{status.sensitive}">
+
+												<Panel Margin="2" Padding="4">
+													<Text Value="えつらんちゅうい" ux:Name="nsfwtxt">
+														<WhileTrue Value="{NightModeEnabled}">
+															<Change nsfwtxt.Color="#aaa" />
+
+														</WhileTrue>
+													</Text>
+													<Clicked>
+														<Toggle Target="sensitive" />
+													</Clicked>
+													<Rectangle Layer="Background" CornerRadius="4" Background="#aaa" ux:Name="nsfwbg">
+														<WhileTrue Value="{NightModeEnabled}">
+
+															<Change nsfwbg.Background="#666" />
+
+														</WhileTrue>
+														<Stroke Color="#ccc" />
+													</Rectangle>
+												</Panel>
+											</WhileTrue>
+
+											<StackPanel Orientation="Horizontal" ux:Name="ImageContainer">
+												<Each Items="{status.media_attachments}">
+													<Image Url="{preview_url}" Width="70" Margin="2" Clicked="{setImageUrl}" />
+												</Each>
+												<WhileTrue Value="{sensitive}" ux:Name="sensitive">
+													<Change ImageContainer.Visibility="Collapsed" />
+												</WhileTrue>
+											</StackPanel>
+										</WhileCount>
+										<Text TextAlignment="Right" FontSize="11">
+											{account.acct} {timestamp}
+										</Text>
+									</StackPanel>
+								</DockPanel>
+
+								<Grid Columns="1*,1*,1*,1*" ContentAlignment="Center" Margin="10" Dock="Bottom">
+									<WhileString Value="{type}" Equals="mention">
+										<Panel Clicked="{replyTo}">
+											<Text Font="FontAwesome" FontSize="24">
+												&#xf112;
+											</Text>
+										</Panel>
+									</WhileString>
+									<WhileString Value="{type}" Equals="follow">
+										<Panel>
+											<Text Font="FontAwesome" FontSize="24">
+												&#xf234;
+											</Text>
+											<Clicked>
+												<Callback Handler="{followUser}" />
+											</Clicked>
+										</Panel>
+										<Panel>
+											<Text Font="FontAwesome" FontSize="24">
+												&#xf235;
+											</Text>
+											<Clicked>
+												<Callback Handler="{unfollowUser}" />
+											</Clicked>
+										</Panel>
+										<Panel>
+											<Text Font="FontAwesome" FontSize="24">
+												&#xf05e;
+											</Text>
+											<Clicked>
+												<Callback Handler="{blockUser}" />
+											</Clicked>
+										</Panel>
+									</WhileString>
+								</Grid>
+
+							</DockPanel>
+							<Rectangle Height="2" Background="#eee" Dock="Bottom" ux:Name="border1">
+								<WhileTrue Value="{NightModeEnabled}">
+									<Change border1.Background="#777" />
+								</WhileTrue>
+							</Rectangle>
+						</DockPanel>
+					</Deferred>
+				</Each>
+			</StackPanel>
+		</DockPanel>
+	</ScrollView>
+</Page>
