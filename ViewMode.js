@@ -1,16 +1,16 @@
 var Observable = require("FuseJS/Observable");
 var api = require("Assets/js/api");
 
-var NightMode = Observable(false);
-var ImageViewer = Observable(false);
-var LocalNotify = Observable(false);
+var NightModeEnabled = Observable(false);
+var ImageViewerEnabled = Observable(false);
+var LocalNotifyEnabled = Observable(false);
 var ShiitakeX = Observable("80%");
 var ShiitakeY = Observable("85%");
-var MovableShiitake = Observable(false);
+var MovableShiitakeEnabled = Observable(false);
 var ShiitakeAlign = Observable("↑");
 var MyUsername = Observable("");
 var VTagText = Observable("");
-var ChatEnabled = Observable(false);
+var PleromaChatEnabled = Observable(false);
 
 var _align =  Observable(
 	{ id : "↑" 			, next: "→"			, prev: "←"			},
@@ -21,25 +21,25 @@ var _align =  Observable(
 var _logged = false;
 
 function toggleNightMode(){
-	NightMode.value = !NightMode.value;
+	NightModeEnabled.value = !NightModeEnabled.value;
 	var args = {
 		"sender": "NightModeEnabled",
-		"value": NightMode.value
+		"value": NightModeEnabled.value
 	}
 	saveViewMode(args);
 }
 
 function toggleLocalNotify(){
-	LocalNotify.value = !LocalNotify.value;
+	LocalNotifyEnabled.value = !LocalNotifyEnabled.value;
 	var args = {
 		"sender": "LocalNotiEnabled",
-		"value": LocalNotify.value
+		"value": LocalNotifyEnabled.value
 	}
 	saveViewMode(args);
 }
 
 function moveShiitake(args){
-	if(MovableShiitake.value){
+	if(MovableShiitakeEnabled.value){
 		var _offsetx = 0;
 		var _offsety = 0;
 		ShiitakeX.value = args.x + _offsetx;
@@ -63,14 +63,14 @@ function toggleShiitakeLeft(){
 }
 
 function resetShiitake(){
-	MovableShiitake.value = false;
+	MovableShiitakeEnabled.value = false;
 	ShiitakeX.value = "80%";
 	ShiitakeY.value = "70%";
 	ShiitakeAlign.value = "↑";
 
 	localStorage.removeItem("ShiitakeX");
 	localStorage.removeItem("ShiitakeY");
-	localStorage.removeItem('MovableShiitake');
+	localStorage.removeItem('MovableShiitakeEnabled');
 	localStorage.removeItem('ShiitakeAlign');
 }
 
@@ -107,15 +107,15 @@ function getInitialDataFromLocalStorage(){
 
 	// localStorageに特定のキーの値がセットされているかどうかの確認
 
-	NightMode.value = (localStorage.getItem("NightModeEnabled") != undefined);
+	NightModeEnabled.value = (localStorage.getItem("NightModeEnabled") != undefined);
 
-	ChatEnabled.value = (localStorage.getItem("PleromaChatEnabled") != undefined);
+	PleromaChatEnabled.value = (localStorage.getItem("PleromaChatEnabled") != undefined);
 
-	LocalNotify.value = (localStorage.getItem("LocalNotifyEnabled") != undefined);
+	LocalNotifyEnabled.value = (localStorage.getItem("LocalNotifyEnabled") != undefined);
 
-	ImageViewer.value = (localStorage.getItem("ImageViewerEnabled") != undefined);
+	ImageViewerEnabled.value = (localStorage.getItem("ImageViewerEnabled") != undefined);
 
-	MovableShiitake.value = (localStorage.getItem("MovableShiitakeEnabled") != undefined);
+	MovableShiitakeEnabled.value = (localStorage.getItem("MovableShiitakeEnabled") != undefined);
 
 
 	if(localStorage.getItem("ShiitakeX") != undefined){
@@ -152,20 +152,20 @@ function getInitialDataFromLocalStorage(){
 module.exports = {
 	getInitialDataFromLocalStorage:getInitialDataFromLocalStorage,
 	saveViewMode:saveViewMode,
-  NightMode:NightMode,
+  NightModeEnabled:NightModeEnabled,
 	toggleNightMode:toggleNightMode,
-	ImageViewer:ImageViewer,
-	LocalNotify:LocalNotify,
+	ImageViewerEnabled:ImageViewerEnabled,
+	LocalNotifyEnabled:LocalNotifyEnabled,
 	toggleLocalNotify:toggleLocalNotify,
 	ShiitakeX:ShiitakeX,
 	ShiitakeY:ShiitakeY,
 	moveShiitake:moveShiitake,
-	MovableShiitake:MovableShiitake,
+	MovableShiitakeEnabled:MovableShiitakeEnabled,
 	ShiitakeAlign:ShiitakeAlign,
 	toggleShiitakeLeft:toggleShiitakeLeft,
 	toggleShiitakeRight:toggleShiitakeRight,
 	resetShiitake:resetShiitake,
 	MyUsername:MyUsername,
 	VTagText:VTagText,
-	ChatEnabled:ChatEnabled,
+	PleromaChatEnabled:PleromaChatEnabled,
 }

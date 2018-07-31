@@ -1,0 +1,12 @@
+<Page ux:Class="SplashView">
+	<JavaScript File="SplashView.js" />
+
+	<Router ux:Dependency="router" />
+
+	<!--
+	<Navigator>
+		<HomeView ux:Template="HomeView" router="router" />
+		<LoginView ux:Template="LoginView"  router="router" />
+	</Navigator>
+	-->
+</Page>

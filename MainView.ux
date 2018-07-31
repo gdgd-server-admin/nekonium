@@ -6,17 +6,16 @@
 	<Router ux:Name="router" />
 
 	<JavaScript File="ViewMode.js" />
-	<JavaScript File="Gacha.js" />
-
-    <Navigator DefaultPath="SplashPage">
-    	<SplashPage ux:Template="SplashPage" router="router" />
-    	<HomePage ux:Template="HomePage" router="router" />
-    	<LoginPage ux:Template="LoginPage" router="router" />
-    	<PostPage ux:Template="PostPage" router="router" />
-    	<ConfigPage ux:Template="ConfigPage" router="router" />
-    	<VideoPage ux:Template="VideoPage" router="router" />
-    	<PaintPage ux:Template="PaintPage" router="router" />
-    	<GachaPage ux:Template="GachaPage" router="router" />
+	
+    <Navigator DefaultPath="SplashView">
+    	<SplashView ux:Template="SplashView" router="router" />
+    	<HomeView ux:Template="HomeView" router="router" />
+    	<LoginView ux:Template="LoginView" router="router" />
+    	<PostView ux:Template="PostView" router="router" />
+    	<ConfigView ux:Template="ConfigView" router="router" />
+    	<ProfileView ux:Template="ProfileView" router="router" />
+    	<SearchResultView ux:Template="SearchResultView" router="router" />
+    	<MiniGameView ux:Template="MiniGameView" router="router" />
     </Navigator>
 
 </App>
