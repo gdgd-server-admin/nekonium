@@ -7,5 +7,32 @@
   "Includes": [
     "*",
     "**.js:FuseJS"
-  ]
+  ],
+  "Version": "20180801",
+	"VersionCode": 80,
+  "Mobile": {
+		"KeepAlive": true,
+		"ShowStatusbar": true,
+		"RunsInBackground": true,
+		"UriScheme": "nekonium"
+	},
+  "Android": {
+		"ApplicationLabel": "nekonium",
+		"Package": "net.jp.gdgd.sns",
+		"Key": {
+			"Alias": "application",
+			"AliasPassword": "godkn0ws",
+			"Store": "Android/release.keystore",
+			"StorePassword": "godkn0ws"
+		},
+		"VersionName": "$(Version)",
+		"Icons": {
+			"LDPI": "Android/icon/ldpi/nekonium-icon.png",
+			"MDPI": "Android/icon/mdpi/nekonium-icon.png",
+			"HDPI": "Android/icon/hdpi/nekonium-icon.png",
+			"XHDPI": "Android/icon/xhdpi/nekonium-icon.png",
+			"XXHDPI": "Android/icon/xxhdpi/nekonium-icon.png",
+			"XXXHDPI": "Android/icon/xxxhdpi/nekonium-icon.png"
+		}
+	}
 }

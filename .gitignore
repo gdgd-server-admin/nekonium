@@ -2,3 +2,5 @@ build
 .uno
 /release.keystore
 /release.private
+/Android/release.keystore
+/Android/release.private
