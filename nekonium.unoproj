@@ -1,46 +1,11 @@
 {
-	"RootNamespace":"net.jp.gdgd.sns",
-	"Version": "20180731",
-	"VersionCode": 79,
-	"Packages": [
-		"Fuse",
-		"FuseJS",
-		"Fuse.Launcher",
-		"Fuse.Launcher.InterApp",
-		"Fuse.Camera",
-		"Fuse.CameraRoll",
-		"Fuse.LocalNotifications",
-		"Fuse.Scripting",
-		"Fuse.Share",
-	],
-	"Includes": [
-		"*",
-		"*.js:Bundle",
-		"*.Uno"
-	],
-	"Mobile": {
-		"KeepAlive": true,
-		"ShowStatusbar": true,
-		"RunsInBackground": true,
-		"UriScheme": "nekonium"
-	},
-	"Android": {
-		"ApplicationLabel": "nekonium",
-		"Package": "net.jp.gdgd.sns",
-		"Key": {
-			"Alias": "application",
-			"AliasPassword": "godkn0ws",
-			"Store": "release.keystore",
-			"StorePassword": "godkn0ws"
-		},
-		"VersionName": "$(Version)",
-		"Icons": {
-			"LDPI": "Assets/icon/ldpi/nekonium-icon.png",
-			"MDPI": "Assets/icon/mdpi/nekonium-icon.png",
-			"HDPI": "Assets/icon/hdpi/nekonium-icon.png",
-			"XHDPI": "Assets/icon/xhdpi/nekonium-icon.png",
-			"XXHDPI": "Assets/icon/xxhdpi/nekonium-icon.png",
-			"XXXHDPI": "Assets/icon/xxxhdpi/nekonium-icon.png"
-		}
-	}
+  "RootNamespace":"",
+  "Packages": [
+    "Fuse",
+    "FuseJS"
+  ],
+  "Includes": [
+    "*",
+    "**.js:FuseJS"
+  ]
 }
