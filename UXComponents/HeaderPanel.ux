@@ -1,0 +1,7 @@
+<DockPanel Background="#77F" DockPanel.Dock="Top" Height="40" ux:Class="HeaderPanel">
+  <Panel Width="40" Height="40" Background="#777" DockPanel.Dock="Left" />
+  <Panel Width="40" Height="40" Background="#F77" DockPanel.Dock="Left" />
+  <Text DockPanel.Dock="Fill" Alignment="Center">{timelines[current_page].name}</Text>
+  <Panel Width="40" Height="40" Background="#777" DockPanel.Dock="Right" />
+  <Panel Width="40" Height="40" Background="#F77" DockPanel.Dock="Right" />
+</DockPanel>

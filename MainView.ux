@@ -2,19 +2,9 @@
 	<DockPanel Background="#136">
 		<TopFrameBackground DockPanel.Dock="Top" />
 		<DockPanel DockPanel.Dock="Fill">
-			<Panel Background="#77F" DockPanel.Dock="Top" Height="40">
-				<Text>🌙🔔　画面名　💛🔍</Text>
-			</Panel>
-			<ScrollView DockPanel.Dock="Fill" Background="#FFF">
-				<StackPanel>
-					<Text>横スワイプでＴＬを切り替える</Text>
-					<Text>振ったらにゃーん</Text>
-					<Text Value="{account.base_url}" />
-				</StackPanel>
-			</ScrollView>
-			<Panel Background="#77F" DockPanel.Dock="Bottom" Height="60">
-				<Text>📷　上にシュッとやったらフォーム出現　📂</Text>
-			</Panel>
+			<HeaderPanel />
+			<TimeLinePanel />
+			<FooterPanel />
 		</DockPanel>
 		<BottomBarBackground Dock="Bottom" />
 	</DockPanel>

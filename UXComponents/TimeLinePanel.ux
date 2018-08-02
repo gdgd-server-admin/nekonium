@@ -1,0 +1,14 @@
+<PageControl DockPanel.Dock="Fill" Background="#FFF" ux:Class="TimeLinePanel" ActiveIndex="{current_page}">
+  <Each Items="{timelines}">
+    <Panel>
+      <ScrollView>
+        <StackPanel>
+          <Text>横スワイプでＴＬを切り替える</Text>
+          <Text>振ったらにゃーん</Text>
+          <Text Value="{settings.nightmode}" />
+          <Button Clicked="{testaction}" Text="Test" />
+        </StackPanel>
+      </ScrollView>
+    </Panel>
+  </Each>
+</PageControl>

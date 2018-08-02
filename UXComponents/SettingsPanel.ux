@@ -1,0 +1,8 @@
+<Panel ux:Class="SettingsPanel">
+  <ScrollView>
+    <StackPanel>
+      <Text Alignment="Center" LineSpacing="1.5" FontSize="20">Settings</Text>
+      <Text>何かの設定</Text>
+    </StackPanel>
+  </ScrollView>
+</Panel>

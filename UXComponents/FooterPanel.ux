@@ -1,0 +1,5 @@
+<DockPanel Background="#77F" Height="60" DockPanel.Dock="Bottom" ux:Class="FooterPanel">
+  <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" />
+  <Text DockPanel.Dock="Fill" TextWrapping="Wrap">上にシュッとやったらフォームが出現する</Text>
+  <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" />
+</DockPanel>

@@ -13,16 +13,36 @@ export default class App {
       'shake': false,
       'shake_text': 'にゃーん',
     };
-    this.timelines = { // タイムライン
-      'home': [],
-      'notice': [],
-      'local': [],
-      'tag': [],
-      'public': [],
-      'search': [],
-    };
+    this.timelines = [ // タイムライン
+      {
+        'name': 'ほーむ',
+        'data': []
+      },
+      {
+        'name': 'つうち',
+        'data': []
+      },
+      {
+        'name': 'ろーかる',
+        'data': []
+      },
+      {
+        'name': 'たぐ',
+        'data': []
+      },
+      {
+        'name': 'ぱぶりっく',
+        'data': []
+      },
+    ];
     this.compose = {}; // トゥート内容
     this.query = ''; // 検索クエリ
     this.profile = {}; // プロフィール情報
+    this.current_page = 0;
+  }
+
+  testaction(args){
+    var nm = this.settings.nightmode;
+    this.settings.nightmode = !nm;
   }
 }
