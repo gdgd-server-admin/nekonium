@@ -1,8 +1,11 @@
+import MastodonAPI from 'lib/MastodonAPI';
+import PleromaAPI from 'lib/PleromaAPI';
+
 export default class App {
   constructor(){
     this.account = { // アカウント情報
       'base_url': 'https://pleroma.gdgd.jp.net/',
-      'access_token': 'tokentoken',
+      'access_token': '',
     };
     this.settings = { // 各種設定
       'nightmode': false,
@@ -16,7 +19,7 @@ export default class App {
     this.timelines = [ // タイムライン
       {
         'name': 'ほーむ',
-        'data': []
+        'data': [1,2,3]
       },
       {
         'name': 'つうち',
@@ -39,10 +42,12 @@ export default class App {
     this.query = ''; // 検索クエリ
     this.profile = {}; // プロフィール情報
     this.current_page = 0;
+
+    this.MastodonAPI = new MastodonAPI();
+    this.PleromaAPI = new PleromaAPI();
   }
 
-  testaction(args){
-    var nm = this.settings.nightmode;
-    this.settings.nightmode = !nm;
+  loginButtonClicked(args){
+    this.MastodonAPI.login(this.base_url);
   }
 }

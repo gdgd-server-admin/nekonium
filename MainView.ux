@@ -1,12 +1,17 @@
 <App Model="App" Background="#136">
-	<DockPanel Background="#136">
-		<TopFrameBackground DockPanel.Dock="Top" />
-		<DockPanel DockPanel.Dock="Fill">
-			<HeaderPanel />
-			<TimeLinePanel />
-			<FooterPanel />
+	<WhileString Value="{account.access_token}" Test="IsNotEmpty">
+		<DockPanel Background="#136">
+			<TopFrameBackground DockPanel.Dock="Top" />
+			<DockPanel DockPanel.Dock="Fill">
+				<HeaderPanel />
+				<TimeLinePanel />
+				<FooterPanel />
+			</DockPanel>
+			<BottomBarBackground Dock="Bottom" />
 		</DockPanel>
-		<BottomBarBackground Dock="Bottom" />
-	</DockPanel>
+	</WhileString>
 
+	<WhileString Value="{account.access_token}" Test="IsEmpty">
+		<LoginPage />
+	</WhileString>
 </App>
