@@ -1,8 +1,42 @@
 <DockPanel ux:Class="TootPanel" Margin="0,0,0,1" Background="#FFF">
-  <Text TextWrapping="Wrap">
-    TODO:
-      HTMLの解釈問題
-      GIF画像アバター問題
-      カスタム絵文字問題
+  <DockPanel DockPanel.Dock="Top">
+    <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+      <Stroke Width="1" Brush="#BBF" />
+      <ImageFill Url="{account.avatar_static}" />
+    </Rectangle>
+    <Text DockPanel.Dock="Fill" Alignment="CenterLeft">{account.display_name}</Text>
+    <Panel Width="60" Height="60" DockPanel.Dock="Right" Margin="5">
+      <Clicked>
+				<Toggle Target="expanded" />
+			</Clicked>
+      <Text Alignment="Center" FontSize="30">🍔</Text>
+      <Grid Layer="Overlay" Columns="1*,1*,1*,1*" Opacity="0" Width="240" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed">
+        <WhileTrue ux:Name="expanded">
+          <Change ToolTip.Visibility="Visible" />
+          <Change ToolTip.Opacity="1" Delay="0.08" Duration="0.16" />
+        </WhileTrue>
+        <Rectangle Layer="Background" CornerRadius="8">
+          <Stroke Width="2" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+        </Rectangle>
+
+        <!-- リプライ、ブースト、ふぁぼ、通報（あるいは削除） -->
+        <Panel Width="60" Height="60" Row="0" Column="0" Clicked="{replyTo}">
+          <Text Alignment="Center" FontSize="30">↩</Text>
+        </Panel>
+        <Panel Width="60" Height="60" Row="0" Column="1" Clicked="{MastodonAPI.boostStatus}">
+          <Text Alignment="Center" FontSize="30">🔁</Text>
+        </Panel>
+        <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{MastodonAPI.favoriteStatus}">
+          <Text Alignment="Center" FontSize="30">✰</Text>
+        </Panel>
+        <Panel Width="60" Height="60" Row="0" Column="3">
+          <Text Alignment="Center" FontSize="30">🚩</Text>
+        </Panel>
+      </Grid>
+    </Panel>
+  </DockPanel>
+  <Text TextWrapping="Wrap" DockPanel.Dock="Fill" Margin="5">
+    {content}
   </Text>
 </DockPanel>

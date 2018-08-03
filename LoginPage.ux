@@ -7,9 +7,10 @@
         <Stroke Color="#000" />
       </Rectangle>
     </TextInput>
-    <Button Text="ログインする！" Height="48" Width="95%" Background="#158" Clicked="{loginButtonClicked}">
+    <Button Text="ログインする！" Height="48" Width="95%" Clicked="{loginButtonClicked}">
       <Rectangle Layer="Background" CornerRadius="4">
         <Stroke Width="2" Brush="#BBB" />
+        <SolidColor Color="#158" />
       </Rectangle>
     </Button>
   </StackPanel>

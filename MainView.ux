@@ -1,40 +1,37 @@
 <App Model="App" Background="#136">
-	<WhileString Value="{loaded}" Test="IsNotEmpty">
-		<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
-			<DockPanel Background="#136" ux:Name="MainView">
-				<AddingAnimation>
-			    <Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />
-			  </AddingAnimation>
+	<ClientPanel>
+		<WhileString Value="{loaded}" Test="IsNotEmpty">
+			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
+				<DockPanel ux:Name="MainView">
+					<AddingAnimation>
+						<Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />
+					</AddingAnimation>
 
-				<TopFrameBackground DockPanel.Dock="Top" />
-				<DockPanel DockPanel.Dock="Fill">
 					<HeaderPanel />
 					<TimeLinePanel />
 					<FooterPanel />
+
 				</DockPanel>
-				<BottomBarBackground Dock="Bottom" />
-			</DockPanel>
+			</WhileString>
+
+			<WhileString Value="{ConfigFile.account.access_token}" Test="IsEmpty">
+				<LoginPage ux:Name="LoginView">
+					<AddingAnimation>
+						<Change LoginView.Opacity="0" Delay="0.16" Duration="0.32" />
+					</AddingAnimation>
+				</LoginPage>
+			</WhileString>
 		</WhileString>
 
-		<WhileString Value="{ConfigFile.account.access_token}" Test="IsEmpty">
-			<LoginPage ux:Name="LoginView">
-				<AddingAnimation>
-			    <Change LoginView.Opacity="0" Delay="0.16" Duration="0.32" />
-			  </AddingAnimation>
-			</LoginPage>
-		</WhileString>
-	</WhileString>
-	<WhileString Value="{loaded}" Test="IsEmpty">
-		<DockPanel Background="#136" ux:Name="SplashScreen">
-			<RemovingAnimation>
-		    <Change SplashScreen.Opacity="1" Delay="0.16" Duration="0.32" />
-		  </RemovingAnimation>
+		<WhileString Value="{loaded}" Test="IsEmpty">
+			<DockPanel Background="#FFF" ux:Name="SplashScreen">
+				<RemovingAnimation>
+					<Change SplashScreen.Opacity="1" Delay="0.16" Duration="0.32" />
+				</RemovingAnimation>
 
-			<TopFrameBackground DockPanel.Dock="Top" />
-			<DockPanel DockPanel.Dock="Fill" Background="#FFF">
 				<Text Alignment="Center">きどうちゅう</Text>
+
 			</DockPanel>
-			<BottomBarBackground Dock="Bottom" />
-		</DockPanel>
-	</WhileString>
+		</WhileString>
+	</ClientPanel>
 </App>

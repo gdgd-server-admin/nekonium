@@ -25,8 +25,10 @@ export default class App {
     this.profile = {}; // プロフィール情報
     this.current_page = 0;
 
-    this.loadConfigFromFile();
-
+    // this.loadConfigFromFile();
+    this.ConfigFile.loadConfigFromFile();
+    console.log("読み終わった");
+    this.loaded = "loaded";
   }
 
   async loginButtonClicked(args){
@@ -43,13 +45,9 @@ export default class App {
 
   }
 
-  ready(){
-    this.loaded = "loaded";
+  replyTo(args){
+    console.log("リプライを送る！");
+    console.log(JSON.stringify(args.data));
   }
-  async loadConfigFromFile(){
-    await this.ConfigFile.loadConfigFromFile();
-    console.log("読み終わった");
 
-    this.ready();
-  }
 }
