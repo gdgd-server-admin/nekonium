@@ -47,7 +47,16 @@ export default class App {
     this.PleromaAPI = new PleromaAPI();
   }
 
-  loginButtonClicked(args){
-    this.MastodonAPI.login(this.base_url);
+  async loginButtonClicked(args){
+    await this.MastodonAPI.login(this.account.base_url);
+
+    // アクセストークンを設定ファイルから読み込む
+    this.loadConfigFromFile();
+  }
+
+  loadConfigFromFile(){
+    let config = this.MastodonAPI.loadConfigFromFile();
+    this.account.access_token = config.account.access_token;
+    this.account.base_url = config.account.base_url;
   }
 }

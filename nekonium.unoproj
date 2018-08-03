@@ -1,9 +1,16 @@
 {
   "RootNamespace":"",
   "Packages": [
-    "Fuse",
-    "FuseJS"
-  ],
+		"Fuse",
+		"FuseJS",
+		"Fuse.Launcher",
+		"Fuse.Launcher.InterApp",
+		"Fuse.Camera",
+		"Fuse.CameraRoll",
+		"Fuse.LocalNotifications",
+		"Fuse.Scripting",
+		"Fuse.Share",
+	],
   "Includes": [
     "*",
     "**.js:FuseJS"
