@@ -1,6 +1,6 @@
 <App Model="App" Background="#136">
-	<WhileString Value="{configLoaded}" Test="IsNotEmpty">
-		<WhileString Value="{account.access_token}" Test="IsNotEmpty">
+	<WhileString Value="{loaded}" Test="IsNotEmpty">
+		<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
 			<DockPanel Background="#136" ux:Name="MainView">
 				<AddingAnimation>
 			    <Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />
@@ -16,7 +16,7 @@
 			</DockPanel>
 		</WhileString>
 
-		<WhileString Value="{account.access_token}" Test="IsEmpty">
+		<WhileString Value="{ConfigFile.account.access_token}" Test="IsEmpty">
 			<LoginPage ux:Name="LoginView">
 				<AddingAnimation>
 			    <Change LoginView.Opacity="0" Delay="0.16" Duration="0.32" />
@@ -24,7 +24,7 @@
 			</LoginPage>
 		</WhileString>
 	</WhileString>
-	<WhileString Value="{configLoaded}" Test="IsEmpty">
+	<WhileString Value="{loaded}" Test="IsEmpty">
 		<DockPanel Background="#136" ux:Name="SplashScreen">
 			<RemovingAnimation>
 		    <Change SplashScreen.Opacity="1" Delay="0.16" Duration="0.32" />

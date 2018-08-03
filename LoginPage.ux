@@ -2,7 +2,7 @@
   <TopFrameBackground DockPanel.Dock="Top" />
   <StackPanel DockPanel.Dock="Fill" Alignment="Center" Width="95%">
     <Text TextAlignment="Center" LineSpacing="15">ログインする？</Text>
-    <TextInput ux:Name="tagtext" PlaceholderColor="#ccc" PlaceholderText="https://pleroma.gdgd.jp.net/" Value="{account.base_url}" FontSize="18" Padding="6,10,6,10" Margin="0,0,0,5" Width="95%">
+    <TextInput ux:Name="tagtext" PlaceholderColor="#ccc" PlaceholderText="https://pleroma.gdgd.jp.net/" Value="{ConfigFile.account.base_url}" FontSize="18" Padding="6,10,6,10" Margin="0,0,0,5" Width="95%">
       <Rectangle Layer="Background" CornerRadius="4">
         <Stroke Color="#000" />
       </Rectangle>
