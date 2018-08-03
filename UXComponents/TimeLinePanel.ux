@@ -1,6 +1,6 @@
 <PageControl DockPanel.Dock="Fill" Background="#DDD" ux:Class="TimeLinePanel" ActiveIndex="{current_page}">
   <Each Items="{timelines}">
-    <Panel>
+    <Panel Activated="{tlPanelActivated}">
       <ScrollView>
         <StackPanel>
           <Each Items="{data}">

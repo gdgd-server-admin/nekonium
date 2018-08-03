@@ -1,8 +1,13 @@
 import MastodonAPI from 'lib/MastodonAPI';
 import PleromaAPI from 'lib/PleromaAPI';
+import TimeLine from 'lib/TimeLine';
+
 
 export default class App {
   constructor(){
+    this.MastodonAPI = new MastodonAPI();
+    this.PleromaAPI = new PleromaAPI();
+
     this.configLoaded = "";
     this.account = { // アカウント情報
       'base_url': 'https://pleroma.gdgd.jp.net/',
@@ -18,39 +23,22 @@ export default class App {
       'shake_text': 'にゃーん',
     };
     this.timelines = [ // タイムライン
-      {
-        'name': 'ほーむ',
-        'data': [1,2,3]
-      },
-      {
-        'name': 'つうち',
-        'data': []
-      },
-      {
-        'name': 'ろーかる',
-        'data': []
-      },
-      {
-        'name': 'たぐ',
-        'data': []
-      },
-      {
-        'name': 'ぱぶりっく',
-        'data': []
-      },
+      new TimeLine('ほーむ', 'api/v1/timelines/home'),
+      new TimeLine('つうち', 'api/v1/notifications'),
+      new TimeLine('ろーかる', 'api/v1/timelines/public?local=true'),
+      new TimeLine('たぐ', 'api/v1/timelines/tag/ねこにうむ'),
+      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=40'),
     ];
     this.compose = {}; // トゥート内容
     this.query = ''; // 検索クエリ
     this.profile = {}; // プロフィール情報
     this.current_page = 0;
 
-    this.MastodonAPI = new MastodonAPI();
-    this.PleromaAPI = new PleromaAPI();
-
     this.loadConfigFromFile()
     .then(result => {
       console.log("読み込み終わった");
       this.configLoaded = "loaded";
+      resolve(0);
     });
   }
 
@@ -73,5 +61,14 @@ export default class App {
         reject(0);
       }
     });
+  }
+
+  tlPanelActivated(args){
+    let i = this.timelines.findIndex((elm,ind,arr) => {
+      return elm.name == args.data.name;
+    });
+
+    this.timelines[i].loadTimeLine(this.account.base_url,this.account.access_token);
+
   }
 }
