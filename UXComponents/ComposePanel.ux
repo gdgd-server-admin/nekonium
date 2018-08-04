@@ -1,0 +1,3 @@
+<Panel ux:Class="ComposePanel" Background="#000">
+  <Text Color="#FFF">これは投稿フォーム</Text>
+</Panel>

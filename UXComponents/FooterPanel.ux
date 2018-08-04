@@ -1,5 +1,16 @@
-<DockPanel Background="#77F" Height="60" DockPanel.Dock="Bottom" ux:Class="FooterPanel">
-  <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" />
-  <Text DockPanel.Dock="Fill" TextWrapping="Wrap">上にシュッとやったらフォームが出現する</Text>
-  <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" />
+<DockPanel Background="#77F" Height="60" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
+  <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" />
+  <DockPanel DockPanel.Dock="Top">
+    <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" />
+    <Text DockPanel.Dock="Fill" Alignment="Center" ux:Name="swipeIcon">⇧</Text>
+    <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" />
+  </DockPanel>
+  <Panel DockPanel.Dock="Fill" Height="0"  ux:Name="ComposePanel">
+    <SwipingAnimation Source="swipeForCompose">
+      <Change Footer.Height="300" Duration=".5" />
+      <Change ComposePanel.Height="240" Duration=".5" />
+      <Change swipeIcon.Value="⇩" />
+    </SwipingAnimation>
+    <ComposePanel />
+  </Panel>
 </DockPanel>
