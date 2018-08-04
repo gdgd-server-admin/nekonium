@@ -49,4 +49,10 @@ export default class App {
     console.log("リプライを送る！");
     console.log(JSON.stringify(args.data));
   }
+
+  showUrl(args){
+    console.log("添付メディアを開く");
+    const InterApp = require("FuseJS/InterApp");
+    InterApp.launchUri(args.data.url);
+  }
 }

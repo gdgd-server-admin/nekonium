@@ -4,7 +4,34 @@
       <ScrollView>
         <StackPanel>
           <Each Items="{data}">
-            <TootPanel />
+            <Deferred>
+              <WhileString Value="{reblog}" Test="IsEmpty">
+                <TootPanel
+                  ux:Name="NormalToot"
+                  display_name="{account.display_name}"
+                  avatar_static="{account.avatar_static}"
+                  content="{content}"
+                  media_attachments="{media_attachments}">
+                  <AddingAnimation>
+                    <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                  </AddingAnimation>
+                </TootPanel>
+              </WhileString>
+              <WhileString Value="{reblog}" Test="IsNotEmpty">
+                <TootPanel
+                   ux:Name="ReblogToot"
+                   display_name="{reblog.account.display_name}"
+                   avatar_static="{reblog.account.avatar_static}"
+                   content="{reblog.content}"
+                   media_attachments="{reblog.media_attachments}"
+                   rebloged_display_name="{account.display_name}"
+                   rebloged_avatar_static="{account.avatar_static}">
+                  <AddingAnimation>
+                    <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                  </AddingAnimation>
+                </TootPanel>
+              </WhileString>
+            </Deferred>
           </Each>
         </StackPanel>
       </ScrollView>
