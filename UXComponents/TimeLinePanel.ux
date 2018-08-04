@@ -15,11 +15,9 @@
             </WhileTrue>
 
             <!-- Rotate the wheels as we pull down -->
-            <!--
             <ScrollingAnimation Range="SnapMin">
-              <Change cogPanel.Height="40" Duration="1" />
+              <Change cogPanel.Height="80" Duration="1" />
             </ScrollingAnimation>
-          -->
 
             <!-- Move the big wheels when pulled past threshold -->
             <Timeline ux:Name="moveCogsIntoPlace">
@@ -40,7 +38,7 @@
                 <Change retainSpace.Value="true" DurationBack="0.5" />
                 <TimelineAction Target="moveCogsIntoPlace" How="PlayTo" When="Backward" Progress="0" />
                 <Change loadingMessage.Value="鋭意更新中..." />
-                <Change cogPanel.Height="40" />
+                <Change cogPanel.Height="60" Duration="1" />
               </State>
             </PullToReload>
           </Panel>
