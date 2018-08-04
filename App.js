@@ -49,5 +49,4 @@ export default class App {
     console.log("リプライを送る！");
     console.log(JSON.stringify(args.data));
   }
-
 }

@@ -39,4 +39,6 @@
   <Text TextWrapping="Wrap" DockPanel.Dock="Fill" Margin="5">
     {content}
   </Text>
+  <!-- 添付されたメディア -->
+
 </DockPanel>
