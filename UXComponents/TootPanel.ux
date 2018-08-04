@@ -20,9 +20,6 @@
       </WhileString>
     </Rectangle>
     <Text DockPanel.Dock="Fill" Alignment="CenterLeft">{Property Toot.display_name}</Text>
-    <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
-      <Text DockPanel.Dock="Fill" Alignment="BottomLeft" Color="#999">{Property Toot.rebloged_display_name} boosted</Text>
-    </WhileString>
     <Panel Width="60" Height="60" DockPanel.Dock="Right" Margin="5">
       <Clicked>
 				<Toggle Target="expanded" />
@@ -32,6 +29,7 @@
         <WhileTrue ux:Name="expanded">
           <Change ToolTip.Visibility="Visible" />
           <Change ToolTip.Opacity="1" Delay="0.08" Duration="0.16" />
+          <BringToFront Target="ToolTip" />
         </WhileTrue>
         <Rectangle Layer="Background" CornerRadius="8">
           <Stroke Width="2" Brush="#BBF" />
@@ -59,4 +57,7 @@
   </Text>
   <!-- 添付されたメディア -->
   <MediaAttachmentsPanel DockPanel.Dock="Bottom" Items="{Property Toot.media_attachments}" />
+  <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
+    <Text DockPanel.Dock="Bottom" Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
+  </WhileString>
 </DockPanel>
