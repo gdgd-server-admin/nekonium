@@ -12,22 +12,22 @@ export default class App {
 
     this.loaded = "";
 
-    this.timelines = [ // タイムライン
-      new TimeLine('ほーむ', 'api/v1/timelines/home'),
-      new TimeLine('つうち', 'api/v1/notifications'),
-      new TimeLine('ろーかる', 'api/v1/timelines/public?local=true'),
-      new TimeLine('たぐ', 'api/v1/timelines/tag/ねこにうむ'),
-      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=40'),
-    ];
-
     this.compose = {}; // トゥート内容
     this.query = ''; // 検索クエリ
     this.profile = {}; // プロフィール情報
     this.current_page = 0;
 
-    // this.loadConfigFromFile();
+    this.timelines = [ // タイムライン
+      new TimeLine('ほーむ', 'api/v1/timelines/home'),
+      new TimeLine('つうち', 'api/v1/notifications'),
+      new TimeLine('ろーかる', 'api/v1/timelines/public?local=true'),
+      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=40'),
+    ];
+
     this.ConfigFile.loadConfigFromFile();
     console.log("読み終わった");
+
+    this.loadTagConfig();
     this.loaded = "loaded";
   }
 
@@ -52,7 +52,19 @@ export default class App {
 
   showUrl(args){
     console.log("添付メディアを開く");
-    const InterApp = require("FuseJS/InterApp");
-    InterApp.launchUri(args.data.url);
+
+    if(this.ConfigFile.imageviewer){
+
+    }else{
+      const InterApp = require("FuseJS/InterApp");
+      InterApp.launchUri(args.data.url);
+    }
+  }
+
+  async loadTagConfig(){
+    console.log("設定に書かれたタグのＴＬをリストに追加する");
+
+    await this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
+
   }
 }

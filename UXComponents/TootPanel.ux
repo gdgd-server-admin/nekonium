@@ -57,6 +57,8 @@
   </Text>
   <!-- 添付されたメディア -->
   <MediaAttachmentsPanel DockPanel.Dock="Bottom" Items="{Property Toot.media_attachments}" />
+
+  <!-- この人がブーストした -->
   <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
     <Text DockPanel.Dock="Bottom" Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
   </WhileString>
