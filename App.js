@@ -45,6 +45,14 @@ export default class App {
 
   }
 
+  tlPanelPulled(args){
+
+    console.log("見えてるＴＬをリロードする");
+    args.data.loadTimeLine(this.ConfigFile.account.base_url,this.ConfigFile.account.access_token,true);
+    console.log("リロード完了")
+
+  }
+
   replyTo(args){
     console.log("リプライを送る！");
     console.log(JSON.stringify(args.data));
