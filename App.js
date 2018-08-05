@@ -113,7 +113,17 @@ export default class App {
   }
 
   doCompose(args){
-    console.log(JSON.stringify(this.Compose));
+    this.MastodonAPI.postStatus(
+      this.ConfigFile.account.base_url,
+      this.ConfigFile.account.access_token,
+      this.Compose.status,
+      this.Compose.in_reply_to_id,
+      this.Compose.media_ids,
+      this.Compose.sensitive,
+      this.Compose.spoiler_text,
+      this.Compose.visiblity
+    );
+    this.Compose = new Compose();
   }
 
   async loadTagConfig(){

@@ -27,5 +27,96 @@
     </Panel>
   </DockPanel>
 
-  <ComposePanel DockPanel.Dock="Fill" ux:Name="Compose" Height="0" />
+  <StackPanel DockPanel.Dock="Fill" ux:Name="Compose" Background="#FFF" Height="0">
+    <Rectangle Height="2" Background="#BBB" />
+    <Rectangle Height="1" Background="#FFF" />
+    <Rectangle Height="2" Background="#BBB" />
+    <TextInput PlaceholderText="すぽいらーてきすと" PlaceholderColor="#DDD" Padding="4" Margin="4" Value="{Compose.spoiler_text}">
+      <Rectangle Layer="Background" CornerRadius="4">
+        <Stroke Color="#BBF" />
+      </Rectangle>
+    </TextInput>
+    <TextView TextWrapping="Wrap" Padding="4" Margin="4" Height="64" Value="{Compose.status}">
+      <Rectangle Layer="Background" CornerRadius="4">
+        <Stroke Color="#BBF" />
+        <Text Color="#DDD" Margin="4">ぐだぐだしてる</Text>
+      </Rectangle>
+    </TextView>
+    <Grid Columns="1*,1*,1*,1*">
+      <Panel Column="0" Margin="4" Width="80" Height="80">
+        <Rectangle>
+          <Stroke Width="1" Brush="#BBF" />
+          <WhileCount Items="{Compose.media_attachment}" EqualTo="0">
+            <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
+          </WhileCount>
+        </Rectangle>
+      </Panel>
+      <Panel Column="1" Margin="4" Width="80" Height="80">
+        <Rectangle>
+          <Stroke Width="1" Brush="#BBF" />
+          <WhileCount Items="{Compose.media_attachment}" EqualTo="1">
+            <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
+          </WhileCount>
+        </Rectangle>
+      </Panel>
+      <Panel Column="2" Margin="4" Width="80" Height="80">
+        <Rectangle>
+          <Stroke Width="1" Brush="#BBF" />
+          <WhileCount Items="{Compose.media_attachment}" EqualTo="2">
+            <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
+          </WhileCount>
+        </Rectangle>
+      </Panel>
+      <Panel Column="3" Margin="4" Width="80" Height="80">
+        <Rectangle>
+          <Stroke Width="1" Brush="#BBF" />
+          <WhileCount Items="{Compose.media_attachment}" EqualTo="3">
+            <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
+          </WhileCount>
+        </Rectangle>
+      </Panel>
+    </Grid>
+    <Grid Columns="1*,1*,1*,1*">
+      <Button Column="0" Text="{Compose.visiblity_label[Compose.visiblity]}" Height="48" Margin="4" Clicked="{Compose.toggleVisiblity}">
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+      <Button Column="1" Text="健全" Height="48" Margin="4" ux:Name="SensitiveButton" Clicked="{Compose.toggleSensitive}">
+        <WhileTrue Value="{Compose.sensitive}">
+          <Change SensitiveButton.Text="18禁" />
+        </WhileTrue>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+      <Button Column="2" ColumnSpan="2" Text="そうしん！" Height="48" Margin="4" ux:Name="SubmitButton">
+        <Clicked>
+          <Callback Handler="{doCompose}" />
+          <ToggleSwipeActive Target="swipeForCompose" />
+        </Clicked>
+        <WhileString Value="{Compose.status}" Test="IsEmpty">
+          <Change SubmitButton.IsEnabled="false" />
+        </WhileString>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+    </Grid>
+  </StackPanel>
 </DockPanel>
