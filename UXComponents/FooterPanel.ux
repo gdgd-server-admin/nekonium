@@ -1,16 +1,31 @@
-<DockPanel Background="#77F" Height="60" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
+<DockPanel Background="#77F" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
   <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" />
-  <DockPanel DockPanel.Dock="Top">
-    <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" />
-    <Text DockPanel.Dock="Fill" Alignment="Center" ux:Name="swipeIcon">⇧</Text>
-    <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" />
+  <SwipingAnimation Source="swipeForCompose">
+    <Change swipePanel.Height="0" Duration="0.5" />
+    <Change QuickPhoto.Visibility="Collapsed" />
+    <Change swipeIcon.Visibility="Collapsed" />
+    <Change QuickGallery.Visibility="Collapsed" />
+    <Change Compose.Height="260" Duration="0.5" />
+  </SwipingAnimation>
+
+  <DockPanel DockPanel.Dock="Top" ux:Name="swipePanel" Height="60">
+
+    <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" ux:Name="QuickPhoto">
+      <Clicked>
+        <ToggleSwipeActive Target="swipeForCompose" />
+      </Clicked>
+      <Text Alignment="Center" FontSize="36">📷</Text>
+    </Panel>
+    <Panel DockPanel.Dock="Fill" Background="#BFB">
+      <Text Alignment="Center" ux:Name="swipeIcon">⇧</Text>
+    </Panel>
+    <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" ux:Name="QuickGallery">
+      <Clicked>
+        <ToggleSwipeActive Target="swipeForCompose" />
+      </Clicked>
+      <Text Alignment="Center" FontSize="36">📂</Text>
+    </Panel>
   </DockPanel>
-  <Panel DockPanel.Dock="Fill" Height="0"  ux:Name="ComposePanel">
-    <SwipingAnimation Source="swipeForCompose">
-      <Change Footer.Height="300" Duration=".5" />
-      <Change ComposePanel.Height="240" Duration=".5" />
-      <Change swipeIcon.Value="⇩" />
-    </SwipingAnimation>
-    <ComposePanel />
-  </Panel>
+
+  <ComposePanel DockPanel.Dock="Fill" ux:Name="Compose" Height="0" />
 </DockPanel>
