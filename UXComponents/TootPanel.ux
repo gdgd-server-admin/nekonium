@@ -40,10 +40,10 @@
         <Panel Width="60" Height="60" Row="0" Column="0" Clicked="{replyTo}">
           <Text Alignment="Center" FontSize="30">↩</Text>
         </Panel>
-        <Panel Width="60" Height="60" Row="0" Column="1" Clicked="{MastodonAPI.boostStatus}">
+        <Panel Width="60" Height="60" Row="0" Column="1" Clicked="{boostStatus}">
           <Text Alignment="Center" FontSize="30">🔁</Text>
         </Panel>
-        <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{MastodonAPI.favoriteStatus}">
+        <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{favoriteStatus}">
           <Text Alignment="Center" FontSize="30">✰</Text>
         </Panel>
         <Panel Width="60" Height="60" Row="0" Column="3">

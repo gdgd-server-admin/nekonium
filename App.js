@@ -60,6 +60,10 @@ export default class App {
     this.profile = {}; // プロフィール情報
     this.current_page = 0;
 
+    this.nyaan = 0;
+    this.shakecount = 0;
+    this.lastshake = 0;
+
     this.timelines = [ // タイムライン
       new TimeLine('ほーむ', 'api/v1/timelines/home'),
       new TimeLine('つうち', 'api/v1/notifications'),
@@ -72,6 +76,54 @@ export default class App {
 
     this.loadTagConfig();
     this.loaded = "loaded";
+
+    if(this.ConfigFile.access_token != ""){
+      console.log("ふったらにゃーんするしくみを初期化");
+
+      var accelerometer = require("Accelerometer");
+
+      console.log("加速度センサーを初期化");
+
+      accelerometer.on("update", function(x, y, z) {
+        if(Math.abs(x) > 15){
+          this.nyaan ++;
+
+          if(this.nyaan == 5){
+            // 500ミリ秒以内にこのルートに入ったらカウント
+            let now = new Date();
+            if(now - this.lastshake < 500){
+              this.shakecount ++;
+              console.log("shakecount: " + this.shakecount);
+              if(this.shakecount == 5){
+                // にゃーんする時が来た！
+
+                this.MastodonAPI.postStatus(
+                  this.ConfigFile.account.base_url,
+                  this.ConfigFile.account.access_token,
+                  "にゃーん",
+                  "",
+                  [],
+                  false,
+                  "",
+                  "public"
+                );
+
+                console.log("にゃああああああああああああああああああん");
+                this.shakecount = 0; // にゃーんしたのでカウンタをリセットする
+              }
+            }else{
+              this.shakecount = 0; // これはシェイクではないのでカウンタをリセット
+            }
+            this.lastshake = now;
+          }
+        }else{
+          // シェイクしてる途中に制止することがあるので必ず０になる
+          this.nyaan = 0;
+        }
+  		});
+
+  		accelerometer.start();
+    }
   }
 
   async loginButtonClicked(args){
@@ -99,6 +151,48 @@ export default class App {
   replyTo(args){
     console.log("リプライを送る！");
     console.log(JSON.stringify(args.data));
+  }
+
+  favoriteStatus(args){
+    console.log(args.data.favourited);
+    this.MastodonAPI.favoriteStatus(
+      this.ConfigFile.account.base_url,
+      this.ConfigFile.account.access_token,
+      args.data.id,
+      args.data.favourited
+    )
+    .then(result => {
+      let faved = args.data.favourited;
+      args.data.favourited = !faved;
+      var deviceToast = require("deviceToast");
+      console.log("ふぁぼったことをトーストで出す");
+      if(args.data.favourited){
+        deviceToast.ToastIt("ふぁぼった！");
+      }else{
+        deviceToast.ToastIt("ふぁぼやめた！");
+      }
+    });
+  }
+
+  boostStatus(args){
+    console.log(args.data.favourited);
+    this.MastodonAPI.boostStatus(
+      this.ConfigFile.account.base_url,
+      this.ConfigFile.account.access_token,
+      args.data.id,
+      args.data.reblogged
+    )
+    .then(result => {
+      let faved = args.data.reblogged;
+      args.data.reblogged = !faved;
+      var deviceToast = require("deviceToast");
+      console.log("かくさんしたことをトーストで出す");
+      if(args.data.favourited){
+        deviceToast.ToastIt("かっくさーん！");
+      }else{
+        deviceToast.ToastIt("かくさんやめ！");
+      }
+    });
   }
 
   showUrl(args){

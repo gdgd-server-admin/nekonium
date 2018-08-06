@@ -7,7 +7,6 @@
 		"Fuse.Launcher.InterApp",
 		"Fuse.Camera",
 		"Fuse.CameraRoll",
-    'Fuse.ImageTools',
 		"Fuse.LocalNotifications",
 		"Fuse.Scripting",
 		"Fuse.Share",
@@ -15,7 +14,11 @@
   "Includes": [
     "*",
     "**.js:FuseJS",
-    "*.Uno"
+    "Uploader.uno",
+    "toast.uno",
+    "ForeignAccelerometer/AccelerometerModule.uno",
+    "ForeignAccelerometer/Accelerometer.uno",
+		"ForeignAccelerometer/AccelerometerImpl.java:Java:Android",
   ],
   "Version": "20180801",
 	"VersionCode": 80,
@@ -23,7 +26,8 @@
 		"KeepAlive": true,
 		"ShowStatusbar": true,
 		"RunsInBackground": true,
-		"UriScheme": "nekonium"
+		"UriScheme": "nekonium",
+    "Orientations": "Portrait"
 	},
   "Android": {
 		"ApplicationLabel": "nekonium",
