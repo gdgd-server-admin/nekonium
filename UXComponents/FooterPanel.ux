@@ -2,29 +2,35 @@
   <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" />
   <SwipingAnimation Source="swipeForCompose">
     <Change swipePanel.Height="0" Duration="0.5" />
-    <Change QuickPhoto.Visibility="Collapsed" />
+
     <Change swipeIcon.Visibility="Collapsed" />
+    <!--
+    <Change QuickPhoto.Visibility="Collapsed" />
     <Change QuickGallery.Visibility="Collapsed" />
+    -->
     <Change Compose.Height="260" Duration="0.5" />
   </SwipingAnimation>
 
   <DockPanel DockPanel.Dock="Top" ux:Name="swipePanel" Height="60">
-
+    <!--
     <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" ux:Name="QuickPhoto">
       <Clicked>
         <ToggleSwipeActive Target="swipeForCompose" />
       </Clicked>
       <Text Alignment="Center" FontSize="36">📷</Text>
     </Panel>
-    <Panel DockPanel.Dock="Fill" Background="#BFB">
-      <Text Alignment="Center" ux:Name="swipeIcon">⇧</Text>
+    -->
+    <Panel DockPanel.Dock="Fill" Background="#FFB">
+      <Text Alignment="Center" ux:Name="swipeIcon">シュッとやったら投稿画面</Text>
     </Panel>
+    <!--
     <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" ux:Name="QuickGallery">
       <Clicked>
         <ToggleSwipeActive Target="swipeForCompose" />
       </Clicked>
       <Text Alignment="Center" FontSize="36">📂</Text>
     </Panel>
+    -->
   </DockPanel>
 
   <StackPanel DockPanel.Dock="Fill" ux:Name="Compose" Background="#FFF" Height="0">
