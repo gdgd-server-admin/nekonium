@@ -1,5 +1,5 @@
 {
-  "RootNamespace":"",
+  "RootNamespace":"net.jp.gdgd.sns",
   "Packages": [
 		"Fuse",
 		"FuseJS",
@@ -7,13 +7,15 @@
 		"Fuse.Launcher.InterApp",
 		"Fuse.Camera",
 		"Fuse.CameraRoll",
+    'Fuse.ImageTools',
 		"Fuse.LocalNotifications",
 		"Fuse.Scripting",
 		"Fuse.Share",
 	],
   "Includes": [
     "*",
-    "**.js:FuseJS"
+    "**.js:FuseJS",
+    "*.Uno"
   ],
   "Version": "20180801",
 	"VersionCode": 80,

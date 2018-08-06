@@ -113,12 +113,16 @@ export default class App {
   }
 
   doCompose(args){
+    let media_ids = [];
+    this.Compose.media_attachment.forEach(media => {
+      media_ids.push(media.id);
+    })
     this.MastodonAPI.postStatus(
       this.ConfigFile.account.base_url,
       this.ConfigFile.account.access_token,
       this.Compose.status,
       this.Compose.in_reply_to_id,
-      this.Compose.media_ids,
+      media_ids,
       this.Compose.sensitive,
       this.Compose.spoiler_text,
       this.Compose.visiblity
@@ -131,5 +135,37 @@ export default class App {
 
     await this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
 
+  }
+
+  uploadFile(args){
+    const CameraRoll = require('FuseJS/CameraRoll');
+    CameraRoll.getImage()
+    .then(image => {
+      this.MastodonAPI.uploadFile(
+        this.ConfigFile.account.base_url,
+        this.ConfigFile.account.access_token,
+        image.path
+      )
+      .then(result => {
+        console.log("ファイルをアップロードした");
+        console.log(this.Compose.media_attachment.length);
+        this.Compose.media_attachment.push(JSON.parse(result));
+      });
+    });
+  }
+
+  removeFile(args){
+    if(args.sender == "firstMediaPanel"){
+      this.Compose.media_attachment.splice(0,1);
+    }
+    if(args.sender == "secondMediaPanel"){
+      this.Compose.media_attachment.splice(1,1);
+    }
+    if(args.sender == "thirdMediaPanel"){
+      this.Compose.media_attachment.splice(2,1);
+    }
+    if(args.sender == "fourthMediaPanel"){
+      this.Compose.media_attachment.splice(3,1);
+    }
   }
 }

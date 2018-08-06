@@ -42,40 +42,90 @@
         <Text Color="#DDD" Margin="4">ぐだぐだしてる</Text>
       </Rectangle>
     </TextView>
+    <!-- 添付メディア -->
     <Grid Columns="1*,1*,1*,1*">
-      <Panel Column="0" Margin="4" Width="80" Height="80">
-        <Rectangle>
-          <Stroke Width="1" Brush="#BBF" />
-          <WhileCount Items="{Compose.media_attachment}" EqualTo="0">
+      <Panel Column="0" Margin="4" Width="80" Height="80" ux:Name="firstMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="0">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
             <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
-          </WhileCount>
-        </Rectangle>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="0">
+          <Clicked>
+            <Callback Handler="{removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
+            <ImageFill Url="{Compose.media_attachment[0].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
       </Panel>
-      <Panel Column="1" Margin="4" Width="80" Height="80">
-        <Rectangle>
-          <Stroke Width="1" Brush="#BBF" />
-          <WhileCount Items="{Compose.media_attachment}" EqualTo="1">
+      <Panel Column="1" Margin="4" Width="80" Height="80" ux:Name="secondMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="1">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
             <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
-          </WhileCount>
-        </Rectangle>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="1">
+          <Clicked>
+            <Callback Handler="{removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
+            <ImageFill Url="{Compose.media_attachment[1].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
       </Panel>
-      <Panel Column="2" Margin="4" Width="80" Height="80">
-        <Rectangle>
-          <Stroke Width="1" Brush="#BBF" />
-          <WhileCount Items="{Compose.media_attachment}" EqualTo="2">
+      <Panel Column="2" Margin="4" Width="80" Height="80" ux:Name="thirdMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="2">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
             <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
-          </WhileCount>
-        </Rectangle>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="2">
+          <Clicked>
+            <Callback Handler="{removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
+            <ImageFill Url="{Compose.media_attachment[2].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
       </Panel>
-      <Panel Column="3" Margin="4" Width="80" Height="80">
-        <Rectangle>
-          <Stroke Width="1" Brush="#BBF" />
-          <WhileCount Items="{Compose.media_attachment}" EqualTo="3">
+      <Panel Column="3" Margin="4" Width="80" Height="80" ux:Name="fourthMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="3">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
             <Text FontSize="40" Alignment="Center" Color="#BBF">＋</Text>
-          </WhileCount>
-        </Rectangle>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="3">
+          <Clicked>
+            <Callback Handler="{removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="#BBF" />
+            <ImageFill Url="{Compose.media_attachment[3].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
       </Panel>
     </Grid>
+    <!-- 送信ボタン -->
     <Grid Columns="1*,1*,1*,1*">
       <Button Column="0" Text="{Compose.visiblity_label[Compose.visiblity]}" Height="48" Margin="4" Clicked="{Compose.toggleVisiblity}">
         <Rectangle Layer="Background" CornerRadius="4">
