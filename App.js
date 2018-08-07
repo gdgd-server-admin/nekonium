@@ -96,7 +96,6 @@ export default class App {
     args.data.loadTimeLine(this.ConfigFile.account.base_url,this.ConfigFile.account.access_token);
 
     console.log("すでにソケットがオープンな場合は1回クローズする");
-    //args.data.closeSocket();
     if(this.socket != null){
       this.socket.close();
       this.socket = null;
@@ -104,7 +103,6 @@ export default class App {
 
     console.log("WebSocketをつなぎに行く");
 
-    //args.data.openSocket(this.ConfigFile.account.base_url,this.ConfigFile.account.access_token);
     if(args.data.streaminguri != ""){
       let url = this.ConfigFile.account.base_url.replace("http","ws") + args.data.streaminguri + this.ConfigFile.account.access_token;
       this.socket = new WebSocket(url);
@@ -133,15 +131,12 @@ export default class App {
             console.log("ストリーミングＡＰＩでデータを受信");
 
             payload.content = payload.content.replace(/<br \/>/gm,"\n").replace(/<(?:.|\n)*?>/gm, '');
-
-            console.log(JSON.stringify(payload.reblog));
             if(payload.reblog != undefined){
               payload.reblog.content = payload.reblog.content.replace(/<br \/>/gm,"\n").replace(/<(?:.|\n)*?>/gm, '');
             }
 
             console.log("受け取ったデータをTLに反映する");
             args.data.appendToot(payload);
-
             console.log("受け取ったデータを追加した");
 
           }
