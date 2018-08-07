@@ -29,17 +29,17 @@ class Compose {
   toggleVisiblity(){
     switch(this.visiblity){
       case "public":
-        this.visiblity = "unlisted";
-        break;
+      this.visiblity = "unlisted";
+      break;
       case "unlisted":
-        this.visiblity = "private";
-        break;
+      this.visiblity = "private";
+      break;
       case "private":
-        this.visiblity = "direct";
-        break;
+      this.visiblity = "direct";
+      break;
       case "direct":
-        this.visiblity = "public";
-        break;
+      this.visiblity = "public";
+      break;
 
     }
   }
@@ -77,53 +77,7 @@ export default class App {
     this.loadTagConfig();
     this.loaded = "loaded";
 
-    if(this.ConfigFile.access_token != ""){
-      console.log("ふったらにゃーんするしくみを初期化");
-
-      var accelerometer = require("Accelerometer");
-
-      console.log("加速度センサーを初期化");
-
-      accelerometer.on("update", function(x, y, z) {
-        if(Math.abs(x) > 15){
-          this.nyaan ++;
-
-          if(this.nyaan == 5){
-            // 500ミリ秒以内にこのルートに入ったらカウント
-            let now = new Date();
-            if(now - this.lastshake < 500){
-              this.shakecount ++;
-              console.log("shakecount: " + this.shakecount);
-              if(this.shakecount == 5){
-                // にゃーんする時が来た！
-
-                this.MastodonAPI.postStatus(
-                  this.ConfigFile.account.base_url,
-                  this.ConfigFile.account.access_token,
-                  "にゃーん",
-                  "",
-                  [],
-                  false,
-                  "",
-                  "public"
-                );
-
-                console.log("にゃああああああああああああああああああん");
-                this.shakecount = 0; // にゃーんしたのでカウンタをリセットする
-              }
-            }else{
-              this.shakecount = 0; // これはシェイクではないのでカウンタをリセット
-            }
-            this.lastshake = now;
-          }
-        }else{
-          // シェイクしてる途中に制止することがあるので必ず０になる
-          this.nyaan = 0;
-        }
-  		});
-
-  		accelerometer.start();
-    }
+    this.MainViewActivated();
   }
 
   async loginButtonClicked(args){
@@ -260,6 +214,66 @@ export default class App {
     }
     if(args.sender == "fourthMediaPanel"){
       this.Compose.media_attachment.splice(3,1);
+    }
+  }
+
+  MainViewActivated(){
+    if(this.ConfigFile.access_token != ""){
+      console.log("ふったらにゃーんするしくみを初期化");
+
+      var accelerometer = require("Accelerometer");
+
+      console.log("加速度センサーを初期化");
+
+      accelerometer.on("update", function(x, y, z) {
+        if(Math.abs(x) > 15){
+          this.nyaan ++;
+
+          if(this.nyaan == 5){
+            // 500ミリ秒以内にこのルートに入ったらカウント
+            let now = new Date();
+            if(now - this.lastshake < 500){
+              this.shakecount ++;
+              console.log("shakecount: " + this.shakecount);
+              if(this.shakecount == 5){
+                // にゃーんする時が来た！
+
+                accelerometer.stop();
+
+                let cfg = new ConfigFile();
+                cfg.loadConfigFromFile();
+                let mstdn = new MastodonAPI();
+                mstdn.postStatus(
+                  cfg.account.base_url,
+                  cfg.account.access_token,
+                  "にゃーん",
+                  "",
+                  [],
+                  false,
+                  "",
+                  "public"
+                );
+
+                this.shakecount = 0; // にゃーんしたのでカウンタをリセットする
+
+                setTimeout(() => {
+                  console.log("加速度センサーを再開");
+                  accelerometer.start();
+                },30000);
+              }
+            }else{
+              this.shakecount = 0; // これはシェイクではないのでカウンタをリセット
+            }
+            this.lastshake = now;
+          }
+        }else{
+          // シェイクしてる途中に制止することがあるので必ず０になる
+          this.nyaan = 0;
+        }
+      });
+
+      accelerometer.start();
+
     }
   }
 }
