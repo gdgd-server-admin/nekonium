@@ -1,5 +1,5 @@
 <DockPanel Background="#77F" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
-  <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" />
+  <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" IsActive="{swipeActive}" />
   <SwipingAnimation Source="swipeForCompose">
     <Change swipePanel.Height="0" Duration="0.5" />
 
@@ -37,11 +37,28 @@
     <Rectangle Height="2" Background="#BBB" />
     <Rectangle Height="1" Background="#FFF" />
     <Rectangle Height="2" Background="#BBB" />
-    <TextInput PlaceholderText="すぽいらーてきすと" PlaceholderColor="#DDD" Padding="4" Margin="4" Value="{Compose.spoiler_text}">
-      <Rectangle Layer="Background" CornerRadius="4">
-        <Stroke Color="#BBF" />
-      </Rectangle>
-    </TextInput>
+    <DockPanel>
+      <WhileString Value="{Compose.in_reply_to_id}" Test="IsNotEmpty">
+        <Button DockPanel.Dock="Left" Text="リプライ" Height="30" Width="80" Margin="4" ux:Name="ReplyIdExists">
+          <Clicked>
+            <Callback Handler="{clearReplyId}" />
+          </Clicked>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="#BBF" />
+              <SolidColor Color="#FFF" />
+            </Rectangle>
+          </Rectangle>
+        </Button>
+      </WhileString>
+      <TextInput DockPanel.Dock="Fill" PlaceholderText="すぽいらーてきすと" PlaceholderColor="#DDD" Padding="4" Margin="4" Value="{Compose.spoiler_text}">
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Color="#BBF" />
+        </Rectangle>
+      </TextInput>
+    </DockPanel>
     <TextView TextWrapping="Wrap" Padding="4" Margin="4" Height="64" Value="{Compose.status}">
       <Rectangle Layer="Background" CornerRadius="4">
         <Stroke Color="#BBF" />
