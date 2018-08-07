@@ -1,4 +1,7 @@
 <App Model="App" Background="#136">
+
+	<Font File="Fonts/fontawesome-webfont.ttf" ux:Global="Icon" />
+
 	<ClientPanel>
 		<WhileString Value="{loaded}" Test="IsNotEmpty">
 			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">

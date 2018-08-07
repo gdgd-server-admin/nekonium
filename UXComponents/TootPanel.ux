@@ -24,7 +24,7 @@
       <Clicked>
 				<Toggle Target="expanded" />
 			</Clicked>
-      <Text Alignment="Center" FontSize="30">🍔</Text>
+      <Text Alignment="Center" FontSize="30" Font="Icon">&#xf0c9;</Text>
       <!-- <Grid Layer="Overlay" Columns="1*,1*,1*,1*" Opacity="0" Width="240" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed"> -->
       <Grid Layer="Overlay" Columns="1*,1*,1*" Opacity="0" Width="180" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed">
         <WhileTrue ux:Name="expanded">
@@ -39,13 +39,13 @@
 
         <!-- リプライ、ブースト、ふぁぼ、通報（あるいは削除） -->
         <Panel Width="60" Height="60" Row="0" Column="0" Clicked="{replyTo}">
-          <Text Alignment="Center" FontSize="30">↩</Text>
+          <Text Alignment="Center" FontSize="30" Font="Icon">&#xf112;</Text>
         </Panel>
         <Panel Width="60" Height="60" Row="0" Column="1" Clicked="{boostStatus}">
-          <Text Alignment="Center" FontSize="30">🔁</Text>
+          <Text Alignment="Center" FontSize="30" Font="Icon" ux:Name="boosted">&#xf079;</Text>
         </Panel>
         <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{favoriteStatus}">
-          <Text Alignment="Center" FontSize="30">✰</Text>
+          <Text Alignment="Center" FontSize="30" Font="Icon" ux:Name="favourited">&#xf005;</Text>
         </Panel>
         <!--
         <Panel Width="60" Height="60" Row="0" Column="3">

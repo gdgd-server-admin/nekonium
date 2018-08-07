@@ -1,4 +1,4 @@
-<DockPanel Background="#77F" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
+<DockPanel Background="#DDF" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
   <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" IsActive="{swipeActive}" />
   <SwipingAnimation Source="swipeForCompose">
     <Change swipePanel.Height="0" Duration="0.5" />
@@ -20,8 +20,10 @@
       <Text Alignment="Center" FontSize="36">📷</Text>
     </Panel>
     -->
-    <Panel DockPanel.Dock="Fill" Background="#FFB">
-      <Text Alignment="Center" ux:Name="swipeIcon">シュッとやったら投稿画面</Text>
+    <Rectangle Height="2" DockPanel.Dock="Top" Background="#BBB" />
+    
+    <Panel DockPanel.Dock="Fill">
+      <Text Alignment="Center" ux:Name="swipeIcon" Font="Icon" FontSize="56">&#xf102;</Text>
     </Panel>
     <!--
     <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" ux:Name="QuickGallery">
