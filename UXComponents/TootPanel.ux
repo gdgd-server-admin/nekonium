@@ -25,7 +25,8 @@
 				<Toggle Target="expanded" />
 			</Clicked>
       <Text Alignment="Center" FontSize="30">🍔</Text>
-      <Grid Layer="Overlay" Columns="1*,1*,1*,1*" Opacity="0" Width="240" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed">
+      <!-- <Grid Layer="Overlay" Columns="1*,1*,1*,1*" Opacity="0" Width="240" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed"> -->
+      <Grid Layer="Overlay" Columns="1*,1*,1*" Opacity="0" Width="180" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed">
         <WhileTrue ux:Name="expanded">
           <Change ToolTip.Visibility="Visible" />
           <Change ToolTip.Opacity="1" Delay="0.08" Duration="0.16" />
@@ -46,9 +47,11 @@
         <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{favoriteStatus}">
           <Text Alignment="Center" FontSize="30">✰</Text>
         </Panel>
+        <!--
         <Panel Width="60" Height="60" Row="0" Column="3">
           <Text Alignment="Center" FontSize="30">🚩</Text>
         </Panel>
+      -->
       </Grid>
     </Panel>
   </DockPanel>

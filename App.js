@@ -106,7 +106,6 @@ export default class App {
 
   replyTo(args){
     console.log("リプライを送る！");
-    console.log(JSON.stringify(args.data));
     this.Compose.status = "@" + args.data.account.acct;
     this.Compose.in_reply_to_id = args.data.id;
     this.Compose.visiblity = args.data.visibility;
