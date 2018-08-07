@@ -53,8 +53,10 @@
                       ux:Name="NormalToot"
                       display_name="{account.display_name}"
                       avatar_static="{account.avatar_static}"
+                      spoiler_text="{spoiler_text}"
                       content="{content}"
-                      media_attachments="{media_attachments}">
+                      media_attachments="{media_attachments}"
+                      sensitive="{sensitive}">
                       <AddingAnimation>
                         <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
@@ -65,8 +67,10 @@
                       ux:Name="ReblogToot"
                       display_name="{reblog.account.display_name}"
                       avatar_static="{reblog.account.avatar_static}"
+                      spoiler_text="{reblog.spoiler_text}"
                       content="{reblog.content}"
                       media_attachments="{reblog.media_attachments}"
+                      sensitive="{reblog.sensitive}"
                       rebloged_display_name="{account.display_name}"
                       rebloged_avatar_static="{account.avatar_static}">
                       <AddingAnimation>

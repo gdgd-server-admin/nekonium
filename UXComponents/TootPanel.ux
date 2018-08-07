@@ -2,8 +2,10 @@
 
   <string ux:Property="display_name" />
   <string ux:Property="avatar_static" />
+  <string ux:Property="spoiler_text" />
   <string ux:Property="content" />
   <object ux:Property="media_attachments" />
+  <bool ux:Property="sensitive" />
   <string ux:Property="rebloged_display_name" />
   <string ux:Property="rebloged_avatar_static" />
 
@@ -55,12 +57,52 @@
       </Grid>
     </Panel>
   </DockPanel>
-  <Text TextWrapping="Wrap" DockPanel.Dock="Fill" Margin="5">
-    {Property Toot.content}
-  </Text>
-  <!-- 添付されたメディア -->
-  <MediaAttachmentsPanel DockPanel.Dock="Bottom" Items="{Property Toot.media_attachments}" />
+  <StackPanel DockPanel.Dock="Fill">
+    <WhileString Value="{Property Toot.spoiler_text}" Test="IsNotEmpty">
+      <WhileTrue Value="{Property Toot.spoiler_text} != ''" ux:Name="cwExpand">
+        <Change ContentText.Visibility="Collapsed" />
+      </WhileTrue>
 
+      <Button Text="{Property Toot.spoiler_text}" Height="30" Margin="4">
+        <Clicked>
+          <Toggle Target="cwExpand" />
+        </Clicked>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+    </WhileString>
+    <Text TextWrapping="Wrap" ux:Name="ContentText" Margin="5">
+      {Property Toot.content}
+    </Text>
+  </StackPanel>
+  <!-- 添付されたメディア -->
+  <StackPanel  DockPanel.Dock="Bottom">
+    <WhileTrue Value="{Property Toot.sensitive}">
+      <WhileTrue Value="true" ux:Name="nsfwExpand">
+        <Change MAPanel.Visibility="Collapsed" />
+      </WhileTrue>
+      <Button Text="閲覧注意！" Height="30" Margin="4">
+        <Clicked>
+          <Toggle Target="nsfwExpand" />
+        </Clicked>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="#BBF" />
+          <SolidColor Color="#FFF" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="#BBF" />
+            <SolidColor Color="#FFF" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+    </WhileTrue>
+    <MediaAttachmentsPanel ux:Name="MAPanel" Items="{Property Toot.media_attachments}" />
+  </StackPanel>
   <!-- この人がブーストした -->
   <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
     <Text DockPanel.Dock="Bottom" Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
