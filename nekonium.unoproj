@@ -20,8 +20,8 @@
     "ForeignAccelerometer/Accelerometer.uno",
 		"ForeignAccelerometer/AccelerometerImpl.java:Java:Android",
   ],
-  "Version": "20180806",
-	"VersionCode": 80,
+  "Version": "2018080.2300(dev)",
+	"VersionCode": 83,
   "Mobile": {
 		"KeepAlive": true,
 		"ShowStatusbar": true,

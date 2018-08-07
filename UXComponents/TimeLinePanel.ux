@@ -60,6 +60,9 @@
                       <AddingAnimation>
                         <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change NormalToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
                     </TootPanel>
                   </WhileString>
                   <WhileString Value="{reblog}" Test="IsNotEmpty">
@@ -76,6 +79,9 @@
                       <AddingAnimation>
                         <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change ReblogToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
                     </TootPanel>
                   </WhileString>
                 </WhileString>
