@@ -3,6 +3,9 @@ import PleromaAPI from 'lib/PleromaAPI';
 import TimeLine from 'lib/TimeLine';
 import ConfigFile from 'lib/ConfigFile';
 
+var moment = require("Bundles/moment-with-locales");
+moment.locale("ja");
+
 class Compose {
   constructor(){
     this.status = "";
@@ -131,8 +134,10 @@ export default class App {
             console.log("ストリーミングＡＰＩでデータを受信");
 
             payload.content = payload.content.replace(/<br \/>/gm,"\n").replace(/<(?:.|\n)*?>/gm, '');
+            payload.created_at = moment(payload.created_at).format('L LT');
             if(payload.reblog != undefined){
               payload.reblog.content = payload.reblog.content.replace(/<br \/>/gm,"\n").replace(/<(?:.|\n)*?>/gm, '');
+              payload.reblog.created_at = moment(payload.reblog.created_at).format('L LT');
             }
 
             console.log("受け取ったデータをTLに反映する");

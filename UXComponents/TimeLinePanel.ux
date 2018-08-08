@@ -56,7 +56,8 @@
                       spoiler_text="{spoiler_text}"
                       content="{content}"
                       media_attachments="{media_attachments}"
-                      sensitive="{sensitive}">
+                      sensitive="{sensitive}"
+                      created_at="{created_at}">
                       <AddingAnimation>
                         <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
@@ -75,7 +76,8 @@
                       media_attachments="{reblog.media_attachments}"
                       sensitive="{reblog.sensitive}"
                       rebloged_display_name="{account.display_name}"
-                      rebloged_avatar_static="{account.avatar_static}">
+                      rebloged_avatar_static="{account.avatar_static}"
+                      created_at="{reblog.created_at}">
                       <AddingAnimation>
                         <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>

@@ -8,6 +8,7 @@
   <bool ux:Property="sensitive" />
   <string ux:Property="rebloged_display_name" />
   <string ux:Property="rebloged_avatar_static" />
+  <string ux:Property="created_at" />
 
   <string ux:Property="striped_content" />
 
@@ -68,10 +69,13 @@
           <Change ContentText.Visibility="Collapsed" />
         </WhileTrue>
 
-        <Button Text="{Property Toot.spoiler_text}" Height="30" Margin="4">
+        <Panel Margin="4">
           <Clicked>
             <Toggle Target="cwExpand" />
           </Clicked>
+          <Text Alignment="CenterLeft" Margin="5">
+            {Property Toot.spoiler_text}
+          </Text>
           <Rectangle Layer="Background" CornerRadius="4">
             <Stroke Width="1" Brush="#BBF" />
             <SolidColor Color="#FFF" />
@@ -80,7 +84,7 @@
               <SolidColor Color="#FFF" />
             </Rectangle>
           </Rectangle>
-        </Button>
+        </Panel>
       </WhileString>
       <Text TextWrapping="Wrap" ux:Name="ContentText" Margin="5">
         {Property Toot.content}
@@ -109,10 +113,16 @@
         </Button>
       </WhileTrue>
       <MediaAttachmentsPanel ux:Name="MAPanel" Items="{Property Toot.media_attachments}" />
+      <!-- 投稿日時 -->
+      <Text Alignment="CenterRight" Color="#999" Margin="5">
+        {Property Toot.created_at}
+      </Text>
+      <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
+        <Text Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
+      </WhileString>
     </StackPanel>
   </Deferred>
   <!-- この人がブーストした -->
-  <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
-    <Text DockPanel.Dock="Bottom" Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
-  </WhileString>
+
+
 </DockPanel>
