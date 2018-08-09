@@ -363,4 +363,14 @@ export default class App {
       this.Color.toggleColor(this.ConfigFile.settings.nightmode);
     }),1000);
   }
+
+  addTagToCompose(){
+    if(this.Compose.status.indexOf("#" + this.ConfigFile.settings.default_tag.replace("#","")) < 0){
+      let bufs = this.Compose.status;
+      if(bufs != ""){
+        bufs = bufs + " ";
+      }
+      this.Compose.status = bufs + "#" + this.ConfigFile.settings.default_tag.replace("#","");
+    }
+  }
 }

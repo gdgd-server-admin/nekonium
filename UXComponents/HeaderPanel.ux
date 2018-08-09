@@ -1,6 +1,13 @@
 <StackPanel Background="{Color.bg_bar}" DockPanel.Dock="Top" Height="40" ux:Class="HeaderPanel" Activated="{MainViewActivated}">
   <DockPanel>
-    <Panel Width="40" Height="40" DockPanel.Dock="Left" />
+    <Panel Width="40" Height="40" DockPanel.Dock="Left">
+      <WhileTrue Value="{swipeActive}">
+        <Clicked>
+          <Callback Handler="{addTagToCompose}" />
+        </Clicked>
+        <Text Font="Icon" FontSize="40" Alignment="Center" Color="{Color.text_main}">&#xf02b;</Text>
+      </WhileTrue>
+    </Panel>
   <!--
   <Panel Width="40" Height="40" Background="#F77" DockPanel.Dock="Left" /> -->
   <Text DockPanel.Dock="Fill" Alignment="Center" Color="{Color.text_main}">{timelines[current_page].name}</Text>
