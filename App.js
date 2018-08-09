@@ -75,6 +75,8 @@ export default class App {
       new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=40','api/v1/streaming/?stream=public&access_token='),
     ];
 
+    this.setting_open = false; // 設定画面の表示
+
     this.ConfigFile.loadConfigFromFile();
     console.log("読み終わった");
 
@@ -342,5 +344,11 @@ export default class App {
       accelerometer.start();
 
     }
+  }
+
+  toggleSettingPanel(args){
+    console.log("設定画面の表示を切り替え");
+    let sp = this.setting_open;
+    this.setting_open = !sp;
   }
 }

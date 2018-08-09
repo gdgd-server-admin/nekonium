@@ -5,6 +5,13 @@
 	<ClientPanel>
 		<WhileString Value="{loaded}" Test="IsNotEmpty">
 			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
+
+				<Panel Background="#FBB" Layer="Overlay" Margin="10,50,10,10" Visibility="Collapsed" ux:Name="settingPanel">
+					<WhileTrue Value="{setting_open}">
+						<Change settingPanel.Visibility="Visible" />
+					</WhileTrue>
+				</Panel>
+
 				<DockPanel ux:Name="MainView">
 					<AddingAnimation>
 						<Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />
