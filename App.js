@@ -316,10 +316,11 @@ export default class App {
                 let cfg = new ConfigFile();
                 cfg.loadConfigFromFile();
                 let mstdn = new MastodonAPI();
+
                 mstdn.postStatus(
                   cfg.account.base_url,
                   cfg.account.access_token,
-                  "にゃーん",
+                  cfg.settings.shake_text,
                   "",
                   [],
                   false,
