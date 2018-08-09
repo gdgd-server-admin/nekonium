@@ -1,16 +1,17 @@
-<StackPanel Background="#DDF" DockPanel.Dock="Top" Height="40" ux:Class="HeaderPanel" Activated="{MainViewActivated}">
+<StackPanel Background="{Color.bg_bar}" DockPanel.Dock="Top" Height="40" ux:Class="HeaderPanel" Activated="{MainViewActivated}">
   <DockPanel>
-  <!-- <Panel Width="40" Height="40" Background="#777" DockPanel.Dock="Left" />
+    <Panel Width="40" Height="40" DockPanel.Dock="Left" />
+  <!--
   <Panel Width="40" Height="40" Background="#F77" DockPanel.Dock="Left" /> -->
-  <Text DockPanel.Dock="Fill" Alignment="Center">{timelines[current_page].name}</Text>
+  <Text DockPanel.Dock="Fill" Alignment="Center" Color="{Color.text_main}">{timelines[current_page].name}</Text>
   <!-- <Panel Width="40" Height="40" Background="#777" DockPanel.Dock="Right" />
    -->
   <Panel Width="40" Height="40" DockPanel.Dock="Right">
     <Clicked>
       <Callback Handler="{toggleSettingPanel}" />
     </Clicked>
-    <Text Font="Icon" FontSize="40" Alignment="Center">&#xf013;</Text>
+    <Text Font="Icon" FontSize="40" Alignment="Center" Color="{Color.text_main}">&#xf013;</Text>
   </Panel>
   </DockPanel>
-  <Rectangle Height="2" Background="#BBB" />
+  <Rectangle Height="2" Background="{Color.border}" />
 </StackPanel>

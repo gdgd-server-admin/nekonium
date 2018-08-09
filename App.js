@@ -2,6 +2,7 @@ import MastodonAPI from 'lib/MastodonAPI';
 import PleromaAPI from 'lib/PleromaAPI';
 import TimeLine from 'lib/TimeLine';
 import ConfigFile from 'lib/ConfigFile';
+import Color from 'lib/Color';
 
 var moment = require("Bundles/moment-with-locales");
 moment.locale("ja");
@@ -53,6 +54,7 @@ export default class App {
     this.MastodonAPI = new MastodonAPI();
     this.PleromaAPI = new PleromaAPI();
     this.ConfigFile = new ConfigFile();
+    this.Color = new Color();
 
     this.loaded = "";
 
@@ -82,6 +84,8 @@ export default class App {
 
     this.loadTagConfig();
     this.loaded = "loaded";
+
+    this.Color.toggleColor(this.ConfigFile.settings.nightmode);
 
     this.swipeActive = false;
 
@@ -287,7 +291,7 @@ export default class App {
   }
 
   MainViewActivated(){
-    if(this.ConfigFile.access_token != ""){
+    if(this.ConfigFile.access_token != "" && this.ConfigFile.settings.shake){
       console.log("ふったらにゃーんするしくみを初期化");
 
       var accelerometer = require("Accelerometer");
@@ -350,5 +354,12 @@ export default class App {
     console.log("設定画面の表示を切り替え");
     let sp = this.setting_open;
     this.setting_open = !sp;
+  }
+
+  configChanged(args){
+    setTimeout((()=>{
+      this.ConfigFile.saveConfigToFile();
+      this.Color.toggleColor(this.ConfigFile.settings.nightmode);
+    }),1000);
   }
 }

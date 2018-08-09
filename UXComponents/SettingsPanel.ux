@@ -1,8 +1,68 @@
-<Panel ux:Class="SettingsPanel">
-  <ScrollView>
+<Panel ux:Class="SettingsPanel" Layer="Overlay" Margin="10,50,10,10">
+  <Rectangle Layer="Background" CornerRadius="8">
+    <Stroke Width="2" Brush="{Color.border}" />
+    <SolidColor Color="{Color.bg_main}" />
+  </Rectangle>
+  <ScrollView Margin="5">
     <StackPanel>
-      <Text Alignment="Center" LineSpacing="1.5" FontSize="20">Settings</Text>
-      <Text>何かの設定</Text>
+      <Text Alignment="Center" LineSpacing="1.5" FontSize="20" Margin="5" Color="{Color.text_main}">Settings</Text>
+      <Rectangle Height="1" Background="{Color.border}" />
+      <!-- 背景を全体的に黒くする -->
+      <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          よるもーど
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.nightmode}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
+      <!-- ローカルの通知を行う -->
+      <!-- <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          プッシュ通知
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.localnotify}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <!-- 内臓の画像ビューア -->
+      <!-- <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          内臓画像ビューア
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.imageviewer}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <!-- Pleromaのローカルチャット -->
+      <!-- <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          Pleromaチャット
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.pleromachat}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <!-- ふったらにゃーんする機能 -->
+      <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          ふったらにゃーんする
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.shake}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
+      <!-- にゃーんテキスト -->
+      <DockPanel Height="48" Margin="3">
+        <Text FontSize="10" Alignment="CenterLeft" Dock="Top" Color="{Color.text_main}">
+          にゃーんテキスト
+        </Text>
+        <TextInput Dock="Fill" PlaceholderColor="{Color.text_sub}" TextColor="{Color.text_main}" PlaceholderText="にゃーん" Value="{ConfigFile.settings.shake_text}" ValueChanged="{configChanged}" Padding="6" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
+      <!-- デフォルトのタグ -->
+      <DockPanel Height="48" Margin="3">
+        <Text FontSize="10" Alignment="CenterLeft" Dock="Top" Color="{Color.text_main}">
+          デフォルトのタグ
+        </Text>
+        <TextInput Dock="Fill" PlaceholderColor="{Color.text_sub}" TextColor="{Color.text_main}" PlaceholderText="「＃」はいらない" Value="{ConfigFile.settings.default_tag}" ValueChanged="{configChanged}" Padding="6" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
     </StackPanel>
   </ScrollView>
 </Panel>

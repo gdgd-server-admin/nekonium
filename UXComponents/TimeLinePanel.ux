@@ -1,4 +1,4 @@
-<PageControl DockPanel.Dock="Fill" Background="#DDD" ux:Class="TimeLinePanel" ActiveIndex="{current_page}">
+<PageControl DockPanel.Dock="Fill" Background="{Color.bg_sub}" ux:Class="TimeLinePanel" ActiveIndex="{current_page}">
   <Each Items="{timelines}">
     <Panel Activated="{tlPanelActivated}">
       <ScrollView SnapMinTransform="false">
@@ -94,6 +94,7 @@
                     type="{type}" />
                 </WhileString>
               </Deferred>
+              <Rectangle Background="{Color.border}" Height="1" />
             </Each>
           </StackPanel>
         </DockPanel>

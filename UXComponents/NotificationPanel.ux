@@ -1,4 +1,4 @@
-<DockPanel ux:Class="NotificationPanel" Margin="0,0,0,1" Background="#FFF" ux:Name="Notification">
+<DockPanel ux:Class="NotificationPanel" Margin="0,0,0,1" Background="{Color.bg_main}" ux:Name="Notification">
 
   <string ux:Property="display_name" />
   <string ux:Property="avatar_static" />
@@ -6,7 +6,7 @@
 
   <DockPanel DockPanel.Dock="Top">
     <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
-      <Stroke Width="1" Brush="#BBF" />
+      <Stroke Width="1" Brush="{Color.border}" />
       <ImageFill Url="{Property Notification.avatar_static}" />
     </Rectangle>
     <Text DockPanel.Dock="Fill" Alignment="CenterLeft">{Property Notification.display_name}</Text>

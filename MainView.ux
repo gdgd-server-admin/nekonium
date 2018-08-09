@@ -6,11 +6,11 @@
 		<WhileString Value="{loaded}" Test="IsNotEmpty">
 			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
 
-				<Panel Background="#FBB" Layer="Overlay" Margin="10,50,10,10" Visibility="Collapsed" ux:Name="settingPanel">
+				<SettingsPanel ux:Name="settingPanel" Visibility="Collapsed">
 					<WhileTrue Value="{setting_open}">
 						<Change settingPanel.Visibility="Visible" />
 					</WhileTrue>
-				</Panel>
+				</SettingsPanel>
 
 				<DockPanel ux:Name="MainView">
 					<AddingAnimation>
