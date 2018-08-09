@@ -22,8 +22,8 @@
     "Bundles/moment.js:Bundle",
     "Bundles/moment-with-locales.js:Bundle",
   ],
-  "Version": "20180808(dev)",
-	"VersionCode": 84,
+  "Version": "20180809(dev)",
+	"VersionCode": 85,
   "Mobile": {
 		"KeepAlive": true,
 		"ShowStatusbar": true,
