@@ -16,13 +16,13 @@
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" />
       <!-- ローカルの通知を行う -->
-      <!-- <DockPanel Height="48" Margin="3">
+      <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
           プッシュ通知
         </Text>
         <Switch Dock="Right" Value="{ConfigFile.settings.localnotify}" ValueChanged="{configChanged}" />
 			</DockPanel>
-      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <Rectangle Height="1" Background="{Color.border}" />
       <!-- 内臓の画像ビューア -->
       <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">

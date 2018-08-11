@@ -8,6 +8,8 @@ import Compose from 'lib/Compose';
 var moment = require("Bundles/moment-with-locales");
 moment.locale("ja");
 
+var LocalNotify = require("FuseJS/LocalNotifications");
+
 
 export default class App {
   constructor(){
@@ -21,6 +23,7 @@ export default class App {
     this.Compose = new Compose(); // 投稿内容
 
     this.socket = null;
+    this.notify = null; // 通知用WebSocket
 
     this.query = ''; // 検索クエリ
     this.profile = {}; // プロフィール情報
@@ -52,6 +55,7 @@ export default class App {
     this.swipeActive = false;
 
     this.MainViewActivated();
+    this.listenNotify();
   }
 
   async loginButtonClicked(args){
@@ -342,5 +346,85 @@ export default class App {
 
   clearImageUrl(){
     this.image_url = "";
+  }
+
+  listenNotify(){
+
+    console.log("すでにソケットがオープンな場合は1回クローズする");
+    if(this.notify != null){
+      this.notify.close();
+      this.notify = null;
+    }
+
+    console.log("WebSocketをつなぎに行く");
+
+    if(this.ConfigFile.account.access_token != "" && this.ConfigFile.settings.localnotify){
+
+      console.log("通知用のコネクションを張る");
+
+      let streaminguri = 'api/v1/streaming/?stream=user&access_token=';
+      let url = this.ConfigFile.account.base_url.replace("http","ws") + streaminguri + this.ConfigFile.account.access_token;
+      this.notify = new WebSocket(url);
+      this.notify.onopen = (() => {
+
+        console.log("ソケットオープン");
+
+  		});
+      this.notify.onerror = ((error) => {
+        try {
+          this.notify.close();
+        } catch (e) {
+
+        } finally {
+
+        }
+        console.log("エラーによりソケットクローズ");
+      });
+      this.notify.onmessage = ((e) => {
+        var recvdata = JSON.parse(e.data);
+        try {
+          if(recvdata.event == "notification"){
+
+            var payload = JSON.parse(recvdata.payload);
+
+            console.log("ストリーミングＡＰＩで通知を受信");
+
+            payload.created_at = moment(payload.created_at).format('L LT');
+            if(payload.status != undefined){
+              payload.status.content = payload.status.content.replace(/<br \/>/gm,"\n").replace(/<(?:.|\n)*?>/gm, '').replace(/&gt;/gm,">").replace(/&lt;/gm,"<").replace(/&amp;/gm,"&");
+              payload.status.created_at = moment(payload.status.created_at).format('L LT');
+            }
+
+            var summary = "";
+            var detail = "";
+            switch(payload.type){
+          		case "mention":
+            		summary = payload.account.display_name + "からメンションが来た";
+                detail = payload.status.content;
+          		break;
+          		case "reblog":
+          			summary = payload.account.display_name + "がトゥートをブースト";
+                detail = payload.status.content;
+          		break;
+          		case "favourite":
+          			summary = payload.account.display_name + "がトゥートをお気に入り登録";
+                detail = payload.status.content;
+          		break;
+          		case "follow":
+          			summary = payload.account.display_name + "にフォローされた";
+          		break;
+          	}
+
+            LocalNotify.now("nekonium",summary,detail,true);
+            console.log("通知を出した");
+
+          }
+        } catch (err) {
+          console.log(JSON.stringify(err));
+        } finally {
+
+        }
+      });
+    }
   }
 }
