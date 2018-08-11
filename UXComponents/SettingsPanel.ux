@@ -63,6 +63,26 @@
         <TextInput Dock="Fill" PlaceholderColor="{Color.text_sub}" TextColor="{Color.text_main}" PlaceholderText="「＃」はいらない" Value="{ConfigFile.settings.default_tag}" ValueChanged="{configChanged}" Padding="6" />
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" />
+      <Rectangle Height="3" Background="{Color.bg_main}" />
+      <Rectangle Height="2" Background="{Color.border}" />
+      <Rectangle Height="2" Background="{Color.bg_main}" />
+      <Rectangle Height="2" Background="{Color.border}" />
+      <!-- ログアウト -->
+      <DockPanel Height="48" Margin="3">
+        <Button DockPanel.Dock="Fill" Text="ログアウト">
+          <Clicked>
+            <Callback Handler="{doLogout}" />
+          </Clicked>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <SolidColor Color="{Color.bg_main}" />
+            </Rectangle>
+          </Rectangle>
+        </Button>
+			</DockPanel>
     </StackPanel>
   </ScrollView>
 </Panel>

@@ -56,6 +56,10 @@ export default class App {
 
     this.MainViewActivated();
     this.listenNotify();
+
+    if(this.ConfigFile.account.access_token == ""){
+      this.reloadConfig();
+    }
   }
 
   async loginButtonClicked(args){
@@ -327,10 +331,37 @@ export default class App {
     this.setting_open = !sp;
   }
 
+  reloadConfig(){
+    setTimeout((()=>{
+      console.log("設定をリロードする");
+      let cfg = new ConfigFile();
+      cfg.loadConfigFromFile();
+      if(cfg.account.access_token == ""){
+        this.reloadConfig();
+      }else{
+        setTimeout((()=>{
+          this.ConfigFile.loadConfigFromFile();
+        }),1000);
+      }
+    }),1000);
+  }
+
   configChanged(args){
     setTimeout((()=>{
       this.ConfigFile.saveConfigToFile();
       this.Color.toggleColor(this.ConfigFile.settings.nightmode);
+    }),1000);
+  }
+
+  doLogout(){
+    setTimeout((()=>{
+      this.ConfigFile.account.base_url = "";
+      this.ConfigFile.account.access_token = "";
+
+      this.ConfigFile.saveConfigToFile();
+
+      this.reloadConfig();
+      this.setting_open = false;
     }),1000);
   }
 
