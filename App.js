@@ -188,7 +188,7 @@ export default class App {
     console.log("添付メディアを開く");
 
     if(this.ConfigFile.settings.imageviewer){
-      console.log(JSON.stringify(args.data));
+
       if(args.data.type == "image"){
         this.image_url = args.data.url;
       }
@@ -257,7 +257,7 @@ export default class App {
   }
 
   MainViewActivated(){
-    if(this.ConfigFile.access_token != "" && this.ConfigFile.settings.shake){
+    if(this.ConfigFile.account.access_token != "" && this.ConfigFile.settings.shake){
       console.log("ふったらにゃーんするしくみを初期化");
 
       var accelerometer = require("Accelerometer");
