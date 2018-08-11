@@ -24,13 +24,13 @@
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" /> -->
       <!-- 内臓の画像ビューア -->
-      <!-- <DockPanel Height="48" Margin="3">
+      <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
           内臓画像ビューア
         </Text>
         <Switch Dock="Right" Value="{ConfigFile.settings.imageviewer}" ValueChanged="{configChanged}" />
 			</DockPanel>
-      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <Rectangle Height="1" Background="{Color.border}" />
       <!-- Pleromaのローカルチャット -->
       <!-- <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">

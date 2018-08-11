@@ -12,6 +12,12 @@
 					</WhileTrue>
 				</SettingsPanel>
 
+				<ImageViewer ux:Name="imageViewer" Visibility="Collapsed">
+					<WhileString Value="{image_url}" Test="IsNotEmpty">
+						<Change imageViewer.Visibility="Visible" />
+					</WhileString>
+				</ImageViewer>
+
 				<DockPanel ux:Name="MainView">
 					<AddingAnimation>
 						<Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />

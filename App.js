@@ -3,51 +3,11 @@ import PleromaAPI from 'lib/PleromaAPI';
 import TimeLine from 'lib/TimeLine';
 import ConfigFile from 'lib/ConfigFile';
 import Color from 'lib/Color';
+import Compose from 'lib/Compose';
 
 var moment = require("Bundles/moment-with-locales");
 moment.locale("ja");
 
-class Compose {
-  constructor(){
-    this.status = "";
-    this.in_reply_to_id = "";
-    this.media_ids = [];
-    this.sensitive = false;
-    this.spoiler_text = "";
-    this.visiblity = "public";
-
-    this.media_attachment = [];
-    this.visiblity_label = {
-      "public": "公開",
-      "unlisted": "未収蔵",
-      "private": "身内",
-      "direct": "直通"
-    };
-  }
-
-  toggleSensitive(){
-    let s = this.sensitive;
-    this.sensitive = !s;
-  }
-
-  toggleVisiblity(){
-    switch(this.visiblity){
-      case "public":
-      this.visiblity = "unlisted";
-      break;
-      case "unlisted":
-      this.visiblity = "private";
-      break;
-      case "private":
-      this.visiblity = "direct";
-      break;
-      case "direct":
-      this.visiblity = "public";
-      break;
-
-    }
-  }
-}
 
 export default class App {
   constructor(){
@@ -78,6 +38,8 @@ export default class App {
     ];
 
     this.setting_open = false; // 設定画面の表示
+
+    this.image_url = ""; // imageviewerで開くURL
 
     this.ConfigFile.loadConfigFromFile();
     console.log("読み終わった");
@@ -225,7 +187,11 @@ export default class App {
   showUrl(args){
     console.log("添付メディアを開く");
 
-    if(this.ConfigFile.imageviewer){
+    if(this.ConfigFile.settings.imageviewer){
+      console.log(JSON.stringify(args.data));
+      if(args.data.type == "image"){
+        this.image_url = args.data.url;
+      }
 
     }else{
       const InterApp = require("FuseJS/InterApp");
@@ -372,5 +338,9 @@ export default class App {
       }
       this.Compose.status = bufs + "#" + this.ConfigFile.settings.default_tag.replace("#","");
     }
+  }
+
+  clearImageUrl(){
+    this.image_url = "";
   }
 }
