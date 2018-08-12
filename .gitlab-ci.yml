@@ -2,4 +2,5 @@ before_script:
   - npm install
 
 eslint:
-  - npm run eslint
+  script:
+    - npm run eslint
