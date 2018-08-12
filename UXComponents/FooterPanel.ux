@@ -1,0 +1,199 @@
+<DockPanel Background="{Color.bg_bar}" DockPanel.Dock="Bottom" ux:Class="FooterPanel" ux:Name="Footer">
+  <SwipeGesture ux:Name="swipeForCompose" Direction="Up" Type="Active" IsActive="{swipeActive}" />
+  <SwipingAnimation Source="swipeForCompose">
+    <Change swipePanel.Height="0" Duration="0.5" />
+
+    <Change swipeIcon.Visibility="Collapsed" />
+    <!--
+    <Change QuickPhoto.Visibility="Collapsed" />
+    <Change QuickGallery.Visibility="Collapsed" />
+    -->
+    <Change Compose.Height="260" Duration="0.5" />
+  </SwipingAnimation>
+
+  <DockPanel DockPanel.Dock="Top" ux:Name="swipePanel" Height="60">
+    <!--
+    <Panel DockPanel.Dock="Left" Width="60" Height="60" Background="#777" ux:Name="QuickPhoto">
+      <Clicked>
+        <ToggleSwipeActive Target="swipeForCompose" />
+      </Clicked>
+      <Text Alignment="Center" FontSize="36">📷</Text>
+    </Panel>
+    -->
+    <Rectangle Height="2" DockPanel.Dock="Top" Background="{Color.border}" />
+
+    <Panel DockPanel.Dock="Fill">
+      <Text Alignment="Center" ux:Name="swipeIcon" Font="Icon" FontSize="56" Color="{Color.text_main}">&#xf102;</Text>
+    </Panel>
+    <!--
+    <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" ux:Name="QuickGallery">
+      <Clicked>
+        <ToggleSwipeActive Target="swipeForCompose" />
+      </Clicked>
+      <Text Alignment="Center" FontSize="36">📂</Text>
+    </Panel>
+    -->
+  </DockPanel>
+
+  <StackPanel DockPanel.Dock="Fill" ux:Name="Compose" Background="{Color.bg_main}" Height="0">
+    <Rectangle Height="2" Background="{Color.border}" />
+    <Rectangle Height="1" Background="{Color.bg_main}" />
+    <Rectangle Height="2" Background="{Color.border}" />
+    <DockPanel>
+      <WhileString Value="{Compose.in_reply_to_id}" Test="IsNotEmpty">
+        <Button DockPanel.Dock="Left" Text="リプライ" Height="30" Width="80" Margin="4" ux:Name="ReplyIdExists">
+          <Clicked>
+            <Callback Handler="{Compose.clearReplyId}" />
+          </Clicked>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <SolidColor Color="{Color.bg_main}" />
+            </Rectangle>
+          </Rectangle>
+        </Button>
+      </WhileString>
+      <TextInput DockPanel.Dock="Fill" PlaceholderText="すぽいらーてきすと" PlaceholderColor="{Color.text_sub}" TextColor="{Color.text_main}" Padding="4" Margin="4" Value="{Compose.spoiler_text}">
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Color="{Color.border}" />
+        </Rectangle>
+      </TextInput>
+    </DockPanel>
+    <TextView TextWrapping="Wrap" Padding="4" Margin="4" Height="64" Value="{Compose.status}" TextColor="{Color.text_main}">
+      <Rectangle Layer="Background" CornerRadius="4">
+        <Stroke Color="{Color.border}" />
+        <WhileString Value="{Compose.status}" Test="IsEmpty">
+          <Text Color="{Color.text_sub}" Margin="4">ぐだぐだしてる</Text>
+        </WhileString>
+      </Rectangle>
+    </TextView>
+    <!-- 添付メディア -->
+    <Grid Columns="1*,1*,1*,1*">
+      <Panel Column="0" Margin="4" Width="80" Height="80" ux:Name="firstMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="0">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <Text FontSize="40" Alignment="Center" Color="{Color.border}">＋</Text>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="0">
+          <Clicked>
+            <Callback Handler="{Compose.removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <ImageFill Url="{Compose.media_attachment[0].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
+      </Panel>
+      <Panel Column="1" Margin="4" Width="80" Height="80" ux:Name="secondMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="1">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <Text FontSize="40" Alignment="Center" Color="{Color.border}">＋</Text>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="1">
+          <Clicked>
+            <Callback Handler="{Compose.removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <ImageFill Url="{Compose.media_attachment[1].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
+      </Panel>
+      <Panel Column="2" Margin="4" Width="80" Height="80" ux:Name="thirdMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="2">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <Text FontSize="40" Alignment="Center" Color="{Color.border}">＋</Text>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="2">
+          <Clicked>
+            <Callback Handler="{Compose.removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <ImageFill Url="{Compose.media_attachment[2].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
+      </Panel>
+      <Panel Column="3" Margin="4" Width="80" Height="80" ux:Name="fourthMediaPanel">
+        <WhileCount Items="{Compose.media_attachment}" EqualTo="3">
+          <Clicked>
+            <Callback Handler="{uploadFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <Text FontSize="40" Alignment="Center" Color="{Color.border}">＋</Text>
+          </Rectangle>
+        </WhileCount>
+        <WhileCount Items="{Compose.media_attachment}" GreaterThan="3">
+          <Clicked>
+            <Callback Handler="{Compose.removeFile}" />
+          </Clicked>
+          <Rectangle>
+            <Stroke Width="1" Brush="{Color.border}" />
+            <ImageFill Url="{Compose.media_attachment[3].url}" StretchMode="UniformToFill" />
+          </Rectangle>
+        </WhileCount>
+      </Panel>
+    </Grid>
+    <!-- 送信ボタン -->
+    <Grid Columns="1*,1*,1*,1*">
+      <Button Column="0" Text="{Compose.visiblity_label[Compose.visiblity]}" Height="48" Margin="4" Clicked="{Compose.toggleVisiblity}">
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="{Color.border}" />
+          <SolidColor Color="{Color.bg_main}" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+      <Button Column="1" Text="健全" Height="48" Margin="4" ux:Name="SensitiveButton" Clicked="{Compose.toggleSensitive}">
+        <WhileTrue Value="{Compose.sensitive}">
+          <Change SensitiveButton.Text="18禁" />
+        </WhileTrue>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="{Color.border}" />
+          <SolidColor Color="{Color.bg_main}" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+      <Button Column="2" ColumnSpan="2" Text="そうしん！" Height="48" Margin="4" ux:Name="SubmitButton">
+        <Clicked>
+          <Callback Handler="{doCompose}" />
+          <ToggleSwipeActive Target="swipeForCompose" />
+        </Clicked>
+        <WhileString Value="{Compose.status}" Test="IsEmpty">
+          <Change SubmitButton.IsEnabled="false" />
+        </WhileString>
+        <Rectangle Layer="Background" CornerRadius="4">
+          <Stroke Width="1" Brush="{Color.border}" />
+          <SolidColor Color="{Color.bg_main}" />
+          <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+        </Rectangle>
+      </Button>
+    </Grid>
+  </StackPanel>
+</DockPanel>

@@ -1,0 +1,136 @@
+<DockPanel ux:Class="TootPanel" Background="{Color.bg_main}" ux:Name="Toot">
+
+  <string ux:Property="display_name" />
+  <string ux:Property="avatar_static" />
+  <string ux:Property="spoiler_text" />
+  <string ux:Property="content" />
+  <object ux:Property="media_attachments" />
+  <bool ux:Property="sensitive" />
+  <string ux:Property="rebloged_display_name" />
+  <string ux:Property="rebloged_avatar_static" />
+  <string ux:Property="created_at" />
+
+  <string ux:Property="striped_content" />
+
+  <Deferred>
+    <DockPanel DockPanel.Dock="Top">
+      <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+        <Clicked>
+          <Callback Handler="{setUserInfo}" />
+        </Clicked>
+        <Stroke Width="1" Brush="{Color.border}" />
+        <ImageFill Url="{Property Toot.avatar_static}" />
+
+        <WhileString Value="{Property Toot.rebloged_avatar_static}" Test="IsNotEmpty">
+          <Rectangle Layer="Overlay" Width="30" Height="30" Anchor="0%,0%"  Y="35" X="35" CornerRadius="8">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <ImageFill Url="{Property Toot.rebloged_avatar_static}" />
+          </Rectangle>
+        </WhileString>
+      </Rectangle>
+      <Text DockPanel.Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+        <Clicked>
+          <Callback Handler="{setUserInfo}" />
+        </Clicked>
+        {Property Toot.display_name}
+      </Text>
+      <Panel Width="60" Height="60" DockPanel.Dock="Right" Margin="5">
+        <Clicked>
+  				<Toggle Target="expanded" />
+  			</Clicked>
+        <Text Alignment="Center" FontSize="30" Font="Icon" Color="{Color.text_main}">&#xf0c9;</Text>
+        <!-- <Grid Layer="Overlay" Columns="1*,1*,1*,1*" Opacity="0" Width="240" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed"> -->
+        <Grid Layer="Overlay" Columns="1*,1*,1*" Opacity="0" Width="180" Height="60" Anchor="100%,0%" Y="70%" X="30%" ux:Name="ToolTip" Visibility="Collapsed">
+          <WhileTrue ux:Name="expanded">
+            <Change ToolTip.Visibility="Visible" />
+            <Change ToolTip.Opacity="1" Delay="0.08" Duration="0.16" />
+            <BringToFront Target="ToolTip" />
+          </WhileTrue>
+          <Rectangle Layer="Background" CornerRadius="8">
+            <Stroke Width="2" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+
+          <!-- リプライ、ブースト、ふぁぼ、通報（あるいは削除） -->
+          <Panel Width="60" Height="60" Row="0" Column="0" Clicked="{replyTo}">
+            <Text Alignment="Center" FontSize="30" Font="Icon" Color="{Color.text_main}">&#xf112;</Text>
+          </Panel>
+          <Panel Width="60" Height="60" Row="0" Column="1" Clicked="{boostStatus}">
+            <Text Alignment="Center" FontSize="30" Font="Icon" ux:Name="boosted" Color="{Color.text_main}">&#xf079;</Text>
+          </Panel>
+          <Panel Width="60" Height="60" Row="0" Column="2" Clicked="{favoriteStatus}">
+            <Text Alignment="Center" FontSize="30" Font="Icon" ux:Name="favourited" Color="{Color.text_main}">&#xf005;</Text>
+          </Panel>
+          <!--
+          <Panel Width="60" Height="60" Row="0" Column="3">
+            <Text Alignment="Center" FontSize="30">🚩</Text>
+          </Panel>
+        -->
+        </Grid>
+      </Panel>
+    </DockPanel>
+  </Deferred>
+  <Deferred>
+    <StackPanel DockPanel.Dock="Fill">
+      <WhileString Value="{Property Toot.spoiler_text}" Test="IsNotEmpty">
+        <WhileTrue Value="{Property Toot.spoiler_text} != ''" ux:Name="cwExpand">
+          <Change ContentText.Visibility="Collapsed" />
+        </WhileTrue>
+
+        <Panel Margin="4">
+          <Clicked>
+            <Toggle Target="cwExpand" />
+          </Clicked>
+          <Text Alignment="CenterLeft" Margin="5" Color="{Color.text_main}">
+            {Property Toot.spoiler_text}
+          </Text>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <SolidColor Color="{Color.bg_main}" />
+            </Rectangle>
+          </Rectangle>
+        </Panel>
+      </WhileString>
+      <Text TextWrapping="Wrap" ux:Name="ContentText" Margin="5" Color="{Color.text_main}">
+        {Property Toot.content}
+      </Text>
+    </StackPanel>
+  </Deferred>
+  <!-- 添付されたメディア -->
+  <Deferred>
+    <StackPanel  DockPanel.Dock="Bottom">
+      <WhileTrue Value="{Property Toot.sensitive}">
+        <WhileTrue Value="true" ux:Name="nsfwExpand">
+          <Change MAPanel.Visibility="Collapsed" />
+        </WhileTrue>
+        <Button Text="閲覧注意！" Height="30" Margin="4">
+          <Clicked>
+            <Toggle Target="nsfwExpand" />
+          </Clicked>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <SolidColor Color="{Color.bg_main}" />
+            </Rectangle>
+          </Rectangle>
+        </Button>
+      </WhileTrue>
+      <MediaAttachmentsPanel ux:Name="MAPanel" Items="{Property Toot.media_attachments}" />
+      <!-- 投稿日時 -->
+      <Text Alignment="CenterRight" Color="#999" Margin="5">
+        {Property Toot.created_at}
+      </Text>
+      <WhileString Value="{Property Toot.rebloged_display_name}" Test="IsNotEmpty">
+        <Text Alignment="CenterRight" Color="#999" Margin="5">{Property Toot.rebloged_display_name} boosted</Text>
+      </WhileString>
+    </StackPanel>
+  </Deferred>
+  <!-- この人がブーストした -->
+
+
+</DockPanel>

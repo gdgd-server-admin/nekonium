@@ -1,0 +1,83 @@
+<Panel ux:Class="UserPanel" Layer="Overlay">
+  <Panel Layer="Background" Background="#000" Opacity="0.5" />
+  <Panel Margin="5">
+    <Rectangle Layer="Background" CornerRadius="8">
+      <Stroke Width="2" Brush="{Color.border}" />
+      <SolidColor Color="{Color.bg_main}" />
+    </Rectangle>
+    <Circle Layer="Overlay" Width="60" Height="60" Anchor="100%,0%" X="100%" Y="0%" Margin="5">
+      <Clicked>
+        <Callback Handler="{clearUserInfo}" />
+      </Clicked>
+      <Text Font="Icon" FontSize="56" Alignment="Center" Color="#777">
+        &#xf057;
+      </Text>
+      <SolidColor Color="#FFF" />
+    </Circle>
+
+    <ScrollView Margin="6">
+      <Panel>
+        <WhileString Value="{profile.header_static}" Test="IsNotEmpty">
+          <Image Url="{profile.header_static}" Opacity="0.3" Alignment="TopCenter" Width="100%" />
+        </WhileString>
+        <StackPanel>
+          <DockPanel Height="60" Margin="15">
+            <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <ImageFill Url="{profile.avatar_static}" />
+            </Rectangle>
+            <Text Color="{Color.text_main}" DockPanel.Dock="Fill" Alignment="CenterLeft" Margin="10">{profile.display_name}</Text>
+          </DockPanel>
+          <Text Color="{Color.text_main}" TextWrapping="Wrap" MinHeight="100" Margin="5">{profile.note}</Text>
+          <WhileTrue Value="{profile.id} == {ConfigFile.account.id}">
+            <Text FontSize="24" Alignment="Center" Margin="15">「…これは自分だ。」</Text>
+          </WhileTrue>
+          <WhileTrue Value="{profile.id} != {ConfigFile.account.id}">
+            <Grid Columns="1*,1*,1*" Height="60">
+              <DockPanel>
+                <Clicked>
+                  <Callback Handler="{followUser}" />
+                </Clicked>
+                <WhileTrue Value="{relationships.following}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf235;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">フォロー中！</Text>
+                </WhileTrue>
+                <WhileFalse Value="{relationships.following}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf234;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">フォローする</Text>
+                </WhileFalse>
+              </DockPanel>
+              <DockPanel>
+                <Clicked>
+                  <Callback Handler="{muteUser}" />
+                </Clicked>
+                <WhileTrue Value="{relationships.muting}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf028;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">ミュート解除</Text>
+                </WhileTrue>
+                <WhileFalse Value="{relationships.muting}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf026;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">ミュートする</Text>
+                </WhileFalse>
+              </DockPanel>
+              <DockPanel>
+                <Clicked>
+                  <Callback Handler="{blockUser}" />
+                </Clicked>
+                <WhileTrue Value="{relationships.blocking}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf09c;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">ブロック解除</Text>
+                </WhileTrue>
+                <WhileFalse Value="{relationships.blocking}">
+                  <Text DockPanel.Dock="Fill" Alignment="Center" Font="Icon" FontSize="36">&#xf05e;</Text>
+                  <Text DockPanel.Dock="Bottom" FontSize="10" Alignment="Center">ブロックする</Text>
+                </WhileFalse>
+              </DockPanel>
+            </Grid>
+          </WhileTrue>
+        </StackPanel>
+      </Panel>
+    </ScrollView>
+
+  </Panel>
+</Panel>
