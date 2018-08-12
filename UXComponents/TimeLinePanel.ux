@@ -1,0 +1,104 @@
+<PageControl DockPanel.Dock="Fill" Background="{Color.bg_sub}" ux:Class="TimeLinePanel" ActiveIndex="{current_page}">
+  <Each Items="{timelines}">
+    <Panel Activated="{tlPanelActivated}">
+      <ScrollView SnapMinTransform="false">
+        <DockPanel>
+          <Panel Dock="Top" ClipToBounds="True">
+            <!-- places all cog wheels and move rotates them so they fit together -->
+            <Panel ux:Name="cogPanel" Background="#4af" Alignment="Bottom" Height="0" MinHeight="0">
+              <Text Margin="10" TextAlignment="Center" Color="#FFF" FontSize="24" ux:Name="loadingMessage" />
+            </Panel>
+
+            <!-- set the hight of cogPanel so it stays open while loading -->
+            <WhileTrue ux:Name="retainSpace">
+
+            </WhileTrue>
+
+            <!-- Rotate the wheels as we pull down -->
+            <ScrollingAnimation Range="SnapMin">
+              <Change cogPanel.Height="80" Duration="1" />
+            </ScrollingAnimation>
+
+            <!-- Move the big wheels when pulled past threshold -->
+            <Timeline ux:Name="moveCogsIntoPlace">
+
+            </Timeline>
+
+
+            <PullToReload IsLoading="{reloading}" ReloadHandler="{tlPanelPulled}">
+              <State ux:Binding="Pulling">
+                <!-- animate elements while pulling here -->
+                <Change loadingMessage.Value="引っ張って" />
+              </State>
+              <State ux:Binding="PulledPastThreshold">
+                <TimelineAction Target="moveCogsIntoPlace" How="PlayTo" Progress="1" />
+                <Change loadingMessage.Value="離すと更新" />
+              </State>
+              <State ux:Binding="Loading">
+                <Change retainSpace.Value="true" DurationBack="0.5" />
+                <TimelineAction Target="moveCogsIntoPlace" How="PlayTo" When="Backward" Progress="0" />
+                <Change loadingMessage.Value="鋭意更新中..." />
+                <Change cogPanel.Height="60" Duration="1" />
+              </State>
+            </PullToReload>
+          </Panel>
+          <StackPanel Dock="Fill">
+
+            <Each Items="{data}">
+              <Deferred>
+                <!-- typeが空だったらStatus、そうじゃなかったらNotification -->
+                <WhileString Value="{type}" Test="IsEmpty">
+                  <WhileString Value="{reblog}" Test="IsEmpty">
+                    <TootPanel
+                      ux:Name="NormalToot"
+                      display_name="{account.display_name}"
+                      avatar_static="{account.avatar_static}"
+                      spoiler_text="{spoiler_text}"
+                      content="{content}"
+                      media_attachments="{media_attachments}"
+                      sensitive="{sensitive}"
+                      created_at="{created_at}">
+                      <AddingAnimation>
+                        <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                      </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change NormalToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
+                    </TootPanel>
+                  </WhileString>
+                  <WhileString Value="{reblog}" Test="IsNotEmpty">
+                    <TootPanel
+                      ux:Name="ReblogToot"
+                      display_name="{reblog.account.display_name}"
+                      avatar_static="{reblog.account.avatar_static}"
+                      spoiler_text="{reblog.spoiler_text}"
+                      content="{reblog.content}"
+                      media_attachments="{reblog.media_attachments}"
+                      sensitive="{reblog.sensitive}"
+                      rebloged_display_name="{account.display_name}"
+                      rebloged_avatar_static="{account.avatar_static}"
+                      created_at="{reblog.created_at}">
+                      <AddingAnimation>
+                        <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                      </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change ReblogToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
+                    </TootPanel>
+                  </WhileString>
+                </WhileString>
+                <WhileString Value="{type}" Test="IsNotEmpty">
+                  <NotificationPanel
+                    display_name="{account.display_name}"
+                    avatar_static="{account.avatar_static}"
+                    type="{type}" />
+                </WhileString>
+              </Deferred>
+              <Rectangle Background="{Color.border}" Height="1" />
+            </Each>
+          </StackPanel>
+        </DockPanel>
+      </ScrollView>
+    </Panel>
+  </Each>
+</PageControl>

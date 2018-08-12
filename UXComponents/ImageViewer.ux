@@ -1,0 +1,54 @@
+<Panel ux:Class="ImageViewer" Layer="Overlay">
+  <Panel Layer="Background" Background="#000" Opacity="0.5" />
+
+  <Image ux:Class="ZoomImage" />
+
+  <Panel ux:Name="theViewer" HitTestMode="LocalBoundsAndChildren">
+    <Circle Layer="Overlay" Width="60" Height="60" Anchor="100%,0%" X="100%" Y="0%" Margin="5">
+      <Clicked>
+        <Callback Handler="{clearImageUrl}" />
+      </Clicked>
+      <Text Font="Icon" FontSize="56" Alignment="Center" Color="#777">
+        &#xf057;
+      </Text>
+      <SolidColor Color="#FFF" />
+    </Circle>
+
+    <!-- reset transform -->
+    <DoubleTapped>
+      <Set theZoomer.Value="1" />
+      <Set thePanner.Value="0,0" />
+      <Set theRotater.Value="0" />
+    </DoubleTapped>
+
+    <ZoomGesture Target="theTransform" Minimum="1" Maximum="3" />
+    <Attractor ux:Name="theZoomer" Target="theTransform.ZoomFactor" TimeMultiplier="2" Type="Elastic" Unit="Normalized" />
+
+    <RotateGesture Target="theTransform" />
+    <Attractor ux:Name="theRotater" Target="theTransform.Rotation" TimeMultiplier="0.5" Type="Elastic" Unit="Radians" />
+
+    <PanGesture Target="theTransform" Constraint="theViewerImage" />
+    <Attractor ux:Name="thePanner" Target="theTransform.Translation" Type="Elastic" Unit="Points" />
+
+    <!-- the user might start interacting while the attractors are still running, stop that -->
+    <WhileInteracting>
+      <!-- Fix will be released soon -->
+      <Change Target="theZoomer.IsEnabled" Value="false" />
+      <Change Target="thePanner.IsEnabled" Value="false" />
+      <Change Target="theRotater.IsEnabled" Value="false" />
+    </WhileInteracting>
+
+    <!-- A wrapping panel to ensure the InteractiveTransform and layout transforms don't
+    interfere with each other (it is not supported to have them both on the same node) -->
+    <Panel>
+      <ZoomImage ux:Name="theViewerImage" Url="{image_url}">
+        <InteractiveTransform ux:Name="theTransform" />
+      </ZoomImage>
+      <Timeline ux:Name="zoomTo">
+        <Move ux:Name="zoomToPos" RelativeTo="PositionOffset" Vector="1" Duration="0.3" Easing="QuadraticInOut" />
+        <Resize ux:Name="zoomToSize" RelativeTo="Size" Vector="1" Duration="0.3" Easing="QuadraticInOut" />
+      </Timeline>
+    </Panel>
+  </Panel>
+
+</Panel>

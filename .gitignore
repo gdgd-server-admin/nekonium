@@ -1,8 +1,5 @@
 build
 .uno
-/my-release-key.jks
-/release.keystore
-/release.private
-/upload_cert.der
-/upload_certificate.pem
-/deployment_cert.der
+/Android/release.keystore
+/Android/release.private
+/node_modules

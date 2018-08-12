@@ -1,21 +1,59 @@
-<App Background="#136">
-	<Font File="assets/fontawesome-webfont.ttf" ux:Global="FontAwesome" />
-	<Font File="Assets/NotoSansCJKjp-Bold.otf" ux:Global="BoldFont" />
-	<Font File="Assets/NotoSansCJKjp-Regular.otf" ux:Global="RegularFont" />
+<App Model="App" Background="#136">
 
-	<Router ux:Name="router" />
+	<Font File="Fonts/fontawesome-webfont.ttf" ux:Global="Icon" />
 
-	<JavaScript File="ViewMode.js" />
-	
-    <Navigator DefaultPath="SplashView">
-    	<SplashView ux:Template="SplashView" router="router" />
-    	<HomeView ux:Template="HomeView" router="router" />
-    	<LoginView ux:Template="LoginView" router="router" />
-    	<PostView ux:Template="PostView" router="router" />
-    	<ConfigView ux:Template="ConfigView" router="router" />
-    	<ProfileView ux:Template="ProfileView" router="router" />
-    	<SearchResultView ux:Template="SearchResultView" router="router" />
-    	<MiniGameView ux:Template="MiniGameView" router="router" />
-    </Navigator>
+	<ClientPanel>
+		<WhileString Value="{loaded}" Test="IsNotEmpty">
+			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
 
+				<SettingsPanel ux:Name="settingPanel" Visibility="Collapsed">
+					<WhileTrue Value="{setting_open}">
+						<Change settingPanel.Visibility="Visible" />
+					</WhileTrue>
+				</SettingsPanel>
+
+				<ImageViewer ux:Name="imageViewer" Visibility="Collapsed">
+					<WhileString Value="{image_url}" Test="IsNotEmpty">
+						<Change imageViewer.Visibility="Visible" />
+					</WhileString>
+				</ImageViewer>
+
+				<UserPanel ux:Name="userPanel" Visibility="Collapsed">
+					<WhileString Value="{profile}" Test="IsNotEmpty">
+						<Change userPanel.Visibility="Visible" />
+					</WhileString>
+				</UserPanel>
+
+				<DockPanel ux:Name="MainView">
+					<AddingAnimation>
+						<Change MainView.Opacity="0" Delay="0.16" Duration="0.32" />
+					</AddingAnimation>
+
+					<HeaderPanel />
+					<TimeLinePanel />
+					<FooterPanel />
+
+				</DockPanel>
+			</WhileString>
+
+			<WhileString Value="{ConfigFile.account.access_token}" Test="IsEmpty">
+				<LoginPage ux:Name="LoginView">
+					<AddingAnimation>
+						<Change LoginView.Opacity="0" Delay="0.16" Duration="0.32" />
+					</AddingAnimation>
+				</LoginPage>
+			</WhileString>
+		</WhileString>
+
+		<WhileString Value="{loaded}" Test="IsEmpty">
+			<DockPanel Background="#FFF" ux:Name="SplashScreen">
+				<RemovingAnimation>
+					<Change SplashScreen.Opacity="1" Delay="0.16" Duration="0.32" />
+				</RemovingAnimation>
+
+				<Text Alignment="Center">きどうちゅう</Text>
+
+			</DockPanel>
+		</WhileString>
+	</ClientPanel>
 </App>

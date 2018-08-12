@@ -1,0 +1,8 @@
+<WrapPanel ux:Class="MediaAttachmentsPanel" ux:Name="MediaAttachments" FlowDirection="LeftToRight" Width="100%">
+  <Each Items="{Property MediaAttachments.Items}">
+    <Rectangle Width="80" Height="80" Margin="5" ux:Name="ImagePanel" Clicked="{showUrl}">
+      <Stroke Width="1" Brush="{Color.border}" />
+      <ImageFill Url="{url}" StretchMode="UniformToFill" />
+    </Rectangle>
+  </Each>
+</WrapPanel>
