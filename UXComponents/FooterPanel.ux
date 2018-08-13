@@ -22,9 +22,20 @@
     -->
     <Rectangle Height="2" DockPanel.Dock="Top" Background="{Color.border}" />
 
-    <Panel DockPanel.Dock="Fill">
-      <Text Alignment="Center" ux:Name="swipeIcon" Font="Icon" FontSize="56" Color="{Color.text_main}">&#xf102;</Text>
-    </Panel>
+    <Grid Columns="60,1*,60" DockPanel.Dock="Fill" ux:Name="swipeIcon">
+      <SearchPanel Column="0" />
+      <Panel Column="1">
+        <Text Alignment="Center" Font="Icon" FontSize="56" Color="{Color.text_main}">&#xf102;</Text>
+      </Panel>
+      <WhileFloat Value="{current_page}" GreaterThan="4">
+        <Panel Width="40" Height="40" Column="2">
+          <Clicked>
+            <Callback Handler="{closeTL}" />
+          </Clicked>
+          <Text Alignment="Center" FontSize="30" Font="Icon" Color="{Color.text_main}">&#xf00d;</Text>
+        </Panel>
+      </WhileFloat>
+    </Grid>
     <!--
     <Panel DockPanel.Dock="Right" Width="60" Height="60" Background="#777" ux:Name="QuickGallery">
       <Clicked>

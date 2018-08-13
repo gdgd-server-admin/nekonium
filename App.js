@@ -7,6 +7,7 @@ import Compose from 'lib/Compose';
 import Helper from 'lib/Helper';
 import PushNotification from 'lib/PushNotification';
 import ShakeNyaan from 'lib/ShakeNyaan';
+import SearchResult from 'lib/SearchResult';
 
 export default class App {
   constructor(){
@@ -362,5 +363,20 @@ export default class App {
       deviceToast.ToastIt(msg);
       this.relationships = result;
     });
+  }
+
+  async doSearch(){
+    console.log("「" + this.query + "」について検索する！");
+    await this.timelines.push(new SearchResult(this.query, 'api/v1/search?resolve=true&q=' + this.query));
+    await console.log(this.timelines.length);
+    this.current_page = this.timelines.length - 1;
+    this.query = '';
+  }
+
+  async closeTL(){
+    await this.timelines.splice(this.current_page,1);
+    if(this.current_page > this.timelines.length - 1){
+      this.current_page --;      
+    }
   }
 }
