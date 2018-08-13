@@ -3,3 +3,4 @@ build
 /Android/release.keystore
 /Android/release.private
 /node_modules
+/*.log

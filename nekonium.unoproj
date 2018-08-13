@@ -22,6 +22,9 @@
     "Bundles/moment.js:Bundle",
     "Bundles/moment-with-locales.js:Bundle",
   ],
+  "Excludes": [
+    "node_modules/",
+  ],
   "Version": "20180812",
 	"VersionCode": 87,
   "Mobile": {
