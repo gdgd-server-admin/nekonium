@@ -1,7 +1,10 @@
 {
+    "globals": {
+      "fetch": true,
+      "WebSocket": true,
+      "Helper": true
+    },
     "env": {
-        "browser": true,
-        "commonjs": true,
         "es6": true,
         "node": true
     },
@@ -13,11 +16,11 @@
     "rules": {
         "indent": [
             "error",
-            4
+            "tab"
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "unix"
         ],
         "quotes": [
             "error",

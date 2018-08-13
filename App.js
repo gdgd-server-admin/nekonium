@@ -192,7 +192,7 @@ export default class App {
 
       console.log("かくさんしたことをトーストで出す");
       var deviceToast = require("deviceToast");
-      if(args.data.favourited){
+      if(args.data.reblogged){
         deviceToast.ToastIt("かっくさーん！");
       }else{
         deviceToast.ToastIt("かくさんやめ！");
