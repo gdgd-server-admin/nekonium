@@ -1,6 +1,6 @@
 <StackPanel Background="{Color.bg_bar}" DockPanel.Dock="Top" Height="40" ux:Class="HeaderPanel">
-  <DockPanel>
-    <Panel Width="40" Height="40" DockPanel.Dock="Left">
+  <Grid Columns="40,40,1*,40,40">
+    <Panel Width="40" Height="40" Column="0">
       <WhileTrue Value="{swipeActive}">
         <Clicked>
           <Callback Handler="{Compose.addTagToCompose}" />
@@ -10,15 +10,15 @@
     </Panel>
   <!--
   <Panel Width="40" Height="40" Background="#F77" DockPanel.Dock="Left" /> -->
-  <Text DockPanel.Dock="Fill" Alignment="Center" Color="{Color.text_main}">{timelines[current_page].name}</Text>
+  <Text Column="2" Alignment="Center" Color="{Color.text_main}">{timelines[current_page].name}</Text>
   <!-- <Panel Width="40" Height="40" Background="#777" DockPanel.Dock="Right" />
    -->
-  <Panel Width="40" Height="40" DockPanel.Dock="Right">
+  <Panel Width="40" Height="40" Column="4">
     <Clicked>
       <Callback Handler="{toggleSettingPanel}" />
     </Clicked>
     <Text Font="Icon" FontSize="40" Alignment="Center" Color="{Color.text_main}">&#xf013;</Text>
   </Panel>
-  </DockPanel>
+</Grid>
   <Rectangle Height="2" Background="{Color.border}" />
 </StackPanel>
