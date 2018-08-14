@@ -25,8 +25,8 @@
   "Excludes": [
     "node_modules/",
   ],
-  "Version": "20180813",
-	"VersionCode": 88,
+  "Version": "20180814",
+	"VersionCode": 89,
   "Mobile": {
 		"KeepAlive": true,
 		"ShowStatusbar": true,

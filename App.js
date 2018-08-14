@@ -241,6 +241,11 @@ export default class App {
 
   }
 
+  async tagLinkClicked(args){
+    await this.timelines.push(new TimeLine('#' + args.data.name, 'api/v1/timelines/tag/' + args.data.name));
+    this.current_page = this.timelines.length - 1;
+  }
+
   uploadFile(args){
     const CameraRoll = require('FuseJS/CameraRoll');
     CameraRoll.getImage()
@@ -376,7 +381,7 @@ export default class App {
   async closeTL(){
     await this.timelines.splice(this.current_page,1);
     if(this.current_page > this.timelines.length - 1){
-      this.current_page --;      
+      this.current_page --;
     }
   }
 }
