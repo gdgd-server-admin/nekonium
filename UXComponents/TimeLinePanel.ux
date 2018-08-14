@@ -57,7 +57,8 @@
                       content="{content}"
                       media_attachments="{media_attachments}"
                       sensitive="{sensitive}"
-                      created_at="{created_at}">
+                      created_at="{created_at}"
+                      tags="{tags}">
                       <AddingAnimation>
                         <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
@@ -77,7 +78,8 @@
                       sensitive="{reblog.sensitive}"
                       rebloged_display_name="{account.display_name}"
                       rebloged_avatar_static="{account.avatar_static}"
-                      created_at="{reblog.created_at}">
+                      created_at="{reblog.created_at}"
+                      tags="{reblog.tags}">
                       <AddingAnimation>
                         <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
                       </AddingAnimation>
