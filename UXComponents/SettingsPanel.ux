@@ -32,13 +32,13 @@
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" />
       <!-- Pleromaのローカルチャット -->
-      <!-- <DockPanel Height="48" Margin="3">
+      <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
           Pleromaチャット
         </Text>
         <Switch Dock="Right" Value="{ConfigFile.settings.pleromachat}" ValueChanged="{configChanged}" />
 			</DockPanel>
-      <Rectangle Height="1" Background="{Color.border}" /> -->
+      <Rectangle Height="1" Background="{Color.border}" />
       <!-- ふったらにゃーんする機能 -->
       <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">

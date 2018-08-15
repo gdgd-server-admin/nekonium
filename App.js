@@ -41,6 +41,7 @@ export default class App {
     ];
 
     this.setting_open = false; // 設定画面の表示
+    this.chat_open = false; // チャット画面の表示
 
     this.image_url = ""; // imageviewerで開くURL
 
