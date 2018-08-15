@@ -6,6 +6,13 @@
 		<WhileString Value="{loaded}" Test="IsNotEmpty">
 			<WhileString Value="{ConfigFile.account.access_token}" Test="IsNotEmpty">
 
+				<PleromaChatPanel ux:Name="pleromaChatPanel" Visibility="Collapsed">
+					<WhileTrue Value="{PleromaAPI.chat_open}">
+						<Change pleromaChatPanel.Visibility="Visible" />
+						<GiveFocus Target="pleromaChatPanel" />
+					</WhileTrue>
+				</PleromaChatPanel>
+
 				<SettingsPanel ux:Name="settingPanel" Visibility="Collapsed">
 					<WhileTrue Value="{setting_open}">
 						<Change settingPanel.Visibility="Visible" />

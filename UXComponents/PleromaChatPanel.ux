@@ -1,0 +1,67 @@
+<Panel ux:Class="PleromaChatPanel" Layer="Overlay" Margin="10,50,10,10">
+  <Rectangle Layer="Background" CornerRadius="8">
+    <Stroke Width="2" Brush="{Color.border}" />
+    <SolidColor Color="{Color.bg_main}" />
+  </Rectangle>
+  <DockPanel Margin="5">
+    <ScrollView DockPanel.Dock="Fill" ux:Name="ChatLogView">
+
+
+        <StackPanel>
+          <Each Items="{PleromaAPI.chatlog}">
+            <Deferred>
+              <DockPanel ux:Name="ChatMSG">
+                <AddingAnimation>
+                  <Change ChatMSG.Opacity="1" Delay="0.16" Duration="0.32" />
+                  <JavaScript>
+                    ChatLogView.gotoRelative(0,1);
+                  </JavaScript>
+                </AddingAnimation>
+                <RemovingAnimation>
+                  <Change ChatMSG.Opacity="0" Delay="0.16" Duration="0.32" />
+                </RemovingAnimation>
+
+                <DockPanel DockPanel.Dock="Top">
+                  <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+                    <Stroke Width="1" Brush="{Color.border}" />
+                    <ImageFill Url="{author.avatar_static}" />
+                  </Rectangle>
+                  <Text DockPanel.Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+                    {author.display_name}
+                  </Text>
+                </DockPanel>
+
+                <Text DockPanel.Dock="Fill" Color="{Color.text_main}" TextWrapping="Wrap">
+                  {text}
+                </Text>
+
+                <Rectangle Height="1" Background="{Color.border}" DockPanel.Dock="Bottom" />
+
+              </DockPanel>
+            </Deferred>
+          </Each>
+        </StackPanel>
+
+    </ScrollView>
+    <!-- 投稿フォーム -->
+    <DockPanel Height="48" DockPanel.Dock="Bottom">
+      <Rectangle Height="2" Background="{Color.border}" DockPanel.Dock="Top" />
+      <TextInput Dock="Fill" PlaceholderColor="{Color.text_sub}" TextColor="{Color.text_main}" Value="{PleromaAPI.chat_text}" Padding="6">
+        <Rectangle Layer="Background" Height="1" Alignment="Bottom">
+          <SolidColor Color="{Color.border}" />
+        </Rectangle>
+      </TextInput>
+      <Button DockPanel.Dock="Right" Margin="5" Width="40" ux:Name="SendChatButton">
+        <Clicked>
+          <Callback Handler="{PleromaAPI.sendChat}" />
+        </Clicked>
+        <Text Alignment="Center" Color="{Color.text_main}" Font="Icon" FontSize="24">
+          &#xf1d8;
+        </Text>
+        <WhileString Value="{PleromaAPI.chat_text}" Test="IsEmpty">
+          <Change SendChatButton.IsEnabled="false" />
+        </WhileString>
+      </Button>
+    </DockPanel>
+  </DockPanel>
+</Panel>
