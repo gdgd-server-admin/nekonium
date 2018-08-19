@@ -37,7 +37,7 @@ export default class App {
       new TimeLine('ほーむ', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token='),
       new TimeLine('つうち', 'api/v1/notifications'),
       new TimeLine('ろーかる', 'api/v1/timelines/public?local=true','api/v1/streaming/?stream=public:local&access_token='),
-      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=40','api/v1/streaming/?stream=public&access_token='),
+      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=30','api/v1/streaming/?stream=public&access_token='),
     ];
 
     this.setting_open = false; // 設定画面の表示
@@ -121,10 +121,12 @@ export default class App {
             console.log("ストリーミングＡＰＩでデータを受信");
 
             payload.content = helper.convertHTMLToPlain(payload.content);
+            payload.dist_content = helper.makeDistContent(payload.content,payload.emojis);
             payload.created_at = helper.formatTimestamp(payload.created_at);
             payload.account.note = helper.convertHTMLToPlain(payload.account.note);
             if(payload.reblog != undefined){
               payload.reblog.content = helper.convertHTMLToPlain(payload.reblog.content);
+              payload.reblog.dist_content = helper.makeDistContent(payload.reblog.content,payload.reblog.emojis);
               payload.reblog.created_at = helper.formatTimestamp(payload.reblog.created_at);
               payload.reblog.account.note = helper.convertHTMLToPlain(payload.reblog.account.note);
             }
@@ -388,6 +390,16 @@ export default class App {
 
   makeComposeFromClipboard(){
     this.Compose.makeComposeFromClipboard();
+    this.swipeActive = true;
+  }
+
+  extLinkClicked(args){
+    const InterApp = require("FuseJS/InterApp");
+    InterApp.launchUri(args.data.href);
+  }
+
+  addReply(args){
+    this.Compose.status = args.data.name;
     this.swipeActive = true;
   }
 }

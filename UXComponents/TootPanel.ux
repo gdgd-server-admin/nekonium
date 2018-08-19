@@ -11,6 +11,8 @@
   <string ux:Property="created_at" />
   <object ux:Property="tags" />
 
+  <object ux:Property="dist_content" />
+
   <Deferred>
     <DockPanel DockPanel.Dock="Top">
       <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
@@ -74,7 +76,6 @@
       <WhileString Value="{Property Toot.spoiler_text}" Test="IsNotEmpty">
         <WhileTrue Value="{Property Toot.spoiler_text} != ''" ux:Name="cwExpand">
           <Change ContentText.Visibility="Collapsed" />
-          <Change DisplayTags.Visibility="Collapsed" />
         </WhileTrue>
 
         <Panel Margin="4">
@@ -94,22 +95,71 @@
           </Rectangle>
         </Panel>
       </WhileString>
+      <!--
       <Text TextWrapping="Wrap" ux:Name="ContentText" Margin="5" Color="{Color.text_main}">
         {Property Toot.content}
       </Text>
+      -->
+      <WrapPanel ux:Name="ContentText" FlowDirection="LeftToRight" Width="100%" Margin="3">
+        <Deferred>
+          <Each Items="{Property Toot.dist_content}">
+            <Deferred>
+              <Match Value="{type}">
+                <Case String="text">
+                  <Text TextWrapping="Wrap" Color="{Color.text_main}" Margin="0,10,0,10" FontSize="15" Alignment="Center">
+                    {value}
+                  </Text>
+                </Case>
+                <Case String="tag">
+                  <Panel Margin="5" Clicked="{tagLinkClicked}" Height="28" Alignment="Center">
+                    <Rectangle Layer="Background" CornerRadius="8">
+                      <Stroke Width="1" Brush="{Color.border}" />
+                      <SolidColor Color="{Color.bg_tag}" />
+                    </Rectangle>
+                    <Text Color="{Color.text_tag}" Margin="5" FontSize="15">
+                      #{name}
+                    </Text>
+                  </Panel>
+                </Case>
+                <Case String="url">
+                  <Panel Margin="5" Clicked="{extLinkClicked}">
+                    <Rectangle Layer="Background" CornerRadius="8">
+                      <Stroke Width="1" Brush="{Color.border}" />
+                      <SolidColor Color="{Color.bg_url}" />
+                    </Rectangle>
+                    <Text Color="{Color.text_url}" Margin="5">
+                      {href}
+                    </Text>
+                  </Panel>
+                </Case>
+                <Case String="reply">
+                  <Text TextWrapping="Wrap" Color="{Color.text_url}" Margin="5,10,5,10" FontSize="15" Alignment="Center">
+                    {name}
+                  </Text>
+                </Case>
+                <Case String="emoji">
+                  <Image Url="{static_url}" Alignment="Center" Width="32" Height="32" />
+                </Case>
+              </Match>
+            </Deferred>
+          </Each>
+        </Deferred>
+      </WrapPanel>
+      <!--
       <WrapPanel ux:Name="DisplayTags" FlowDirection="LeftToRight" Width="100%">
         <Each Items="{Property Toot.tags}">
           <Panel Margin="5" Clicked="{tagLinkClicked}">
             <Rectangle Layer="Background" CornerRadius="8">
               <Stroke Width="1" Brush="{Color.border}" />
-              <SolidColor Color="{Color.bg_link}" />
+              <SolidColor Color="{Color.bg_tag}" />
             </Rectangle>
-            <Text Color="{Color.text_link}" Margin="5">
+            <Text Color="{Color.text_tag}" Margin="5">
               #{name}
             </Text>
           </Panel>
         </Each>
       </WrapPanel>
+      -->
     </StackPanel>
   </Deferred>
   <!-- 添付されたメディア -->
