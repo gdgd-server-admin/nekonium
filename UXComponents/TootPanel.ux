@@ -138,7 +138,9 @@
                   </Text>
                 </Case>
                 <Case String="emoji">
-                  <Image Url="{static_url}" Alignment="Center" Width="32" Height="32" />
+                  <Deferred>
+                    <Image Url="{static_url}" Alignment="Center" Width="32" Height="32" />
+                  </Deferred>
                 </Case>
               </Match>
             </Deferred>
