@@ -385,4 +385,9 @@ export default class App {
       this.current_page --;
     }
   }
+
+  makeComposeFromClipboard(){
+    this.Compose.makeComposeFromClipboard();
+    this.swipeActive = true;
+  }
 }

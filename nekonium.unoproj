@@ -21,12 +21,13 @@
 		"ForeignAccelerometer/AccelerometerImpl.java:Java:Android",
     "Bundles/moment.js:Bundle",
     "Bundles/moment-with-locales.js:Bundle",
+    "FuseClipBoard/clipboard.uno",
   ],
   "Excludes": [
     "node_modules/",
   ],
-  "Version": "20180815",
-	"VersionCode": 90,
+  "Version": "20180818",
+	"VersionCode": 91,
   "Mobile": {
 		"KeepAlive": true,
 		"ShowStatusbar": true,
