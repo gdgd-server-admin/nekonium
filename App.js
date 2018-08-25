@@ -319,6 +319,13 @@ export default class App {
     this.image_url = "";
   }
 
+  setMyInfo(){
+    this.MastodonAPI.verifyCredentials(this.ConfigFile.account.base_url,this.ConfigFile.account.access_token)
+    .then(result => {
+      this.setting_open = false;
+      this.profile = result;
+    });
+  }
   setUserInfo(args){
     var userid = args.data.account.id;
     if(args.data.reblog != undefined){
