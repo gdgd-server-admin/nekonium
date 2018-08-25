@@ -1,0 +1,60 @@
+<Grid ux:Class="NoteDialog" ux:Name="dialogBody" Layer="Overlay" Margin="10" Height="220" Offset="0,-500" Columns="1*,1*" Rows="1*,1*,1*">
+  <Rectangle Layer="Background" CornerRadius="8">
+    <Stroke Width="2" Brush="{Color.border}" />
+    <SolidColor Color="{Color.bg_main}" />
+  </Rectangle>
+  <Text ux:Name="text" Value="{Property dialogBody.Text}" Alignment="Center" FontSize="22" Row="0" Column="0" ColumnSpan="2" />
+  <TextView TextWrapping="Wrap" Padding="4" Margin="4" Height="64" Value="{Property dialogBody.Note}" TextColor="{Color.text_main}" ux:Name="comment" Column="0" Row="1" ColumnSpan="2" >
+    <Rectangle Layer="Background" CornerRadius="4">
+      <Stroke Color="{Color.border}" />
+      <WhileString Value="{Compose.status}" Test="IsEmpty">
+        <Text Color="{Color.text_sub}" Margin="4">ぐだぐだしてる</Text>
+      </WhileString>
+    </Rectangle>
+  </TextView>
+  <Button Text="やめる" Height="48" Margin="5" Row="2" Column="0">
+    <Clicked>
+      <Set dialogBody.Show="False"/>
+    </Clicked>
+    <Rectangle Layer="Background" CornerRadius="4">
+      <Stroke Width="1" Brush="{Color.border}" />
+      <SolidColor Color="{Color.bg_main}" />
+      <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+        <Stroke Width="1" Brush="{Color.border}" />
+        <SolidColor Color="{Color.bg_main}" />
+      </Rectangle>
+    </Rectangle>
+  </Button>
+  <Button Text="こうしん" Height="48" Margin="5"  Row="2" Column="1" ux:Name="okButton">
+    <Clicked>
+      <Set dialogBody.Show="False"/>
+      <RaiseUserEvent EventName="Event_Handler" >
+        <UserEventArg Name="base_url" StringValue="{ConfigFile.account.base_url}" />
+        <UserEventArg Name="access_token" StringValue="{ConfigFile.account.access_token}" />
+        <UserEventArg Name="note" StringValue="{Property dialogBody.Note}" />
+      </RaiseUserEvent>
+      <Set dialogBody.Note=""/>
+    </Clicked>
+    <Rectangle Layer="Background" CornerRadius="4">
+      <Stroke Width="1" Brush="{Color.border}" />
+      <SolidColor Color="{Color.bg_main}" />
+      <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+        <Stroke Width="1" Brush="{Color.border}" />
+        <SolidColor Color="{Color.bg_main}" />
+      </Rectangle>
+    </Rectangle>
+  </Button>
+  <WhileTrue ux:Name="show" Value="{Property dialogBody.Show}">
+      <Change dialogBody.Offset="0,0" Duration="0.2" Delay="0.2" DelayBack="0" Easing="CubicOut"/>
+  </WhileTrue>
+  <WhileString Value="{Property dialogBody.Note}" Test="IsEmpty">
+    <Change okButton.IsEnabled="false" />
+  </WhileString>
+  <bool ux:Property="Show" />
+  <UserEvent ux:Name="Event_Handler" />
+  <OnUserEvent ux:Class="ChangeNoteHandler" EventName="Event_Handler" />
+  <object ux:Property="InputHandler" />
+  <string ux:Property="Text" />
+  <string ux:Property="placeholder" />
+  <string ux:Property="Note" />
+</Grid>
