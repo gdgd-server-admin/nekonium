@@ -1,4 +1,11 @@
 <Panel ux:Class="UserPanel" Layer="Overlay">
+  <DisplayNameDialog ux:Name="changeDisplayName" Show="False" Text="名前を変更">
+    <InputHandler Handler="{MastodonAPI.changeDisplayName}" />
+  </DisplayNameDialog>
+  <NoteDialog ux:Name="changeNote" Show="False" Text="コメントを変更">
+    <InputHandler Handler="{MastodonAPI.changeNote}" />
+  </NoteDialog>
+
   <Panel Layer="Background" Background="#000" Opacity="0.5" />
   <Panel Margin="5">
     <Rectangle Layer="Background" CornerRadius="8">
@@ -18,7 +25,7 @@
     <ScrollView Margin="6">
       <Panel>
         <WhileString Value="{profile.header_static}" Test="IsNotEmpty">
-          <Image Url="{profile.header_static}" Opacity="0.3" Alignment="TopCenter" Width="100%" />
+          <Image Url="{profile.header_static}" Opacity="0.3" Layer="Background" Alignment="TopCenter" Width="100%" />
         </WhileString>
         <StackPanel>
           <DockPanel Height="60" Margin="15">
@@ -26,11 +33,42 @@
               <Stroke Width="1" Brush="{Color.border}" />
               <ImageFill Url="{profile.avatar_static}" />
             </Rectangle>
-            <Text Color="{Color.text_main}" DockPanel.Dock="Fill" Alignment="CenterLeft" Margin="10">{profile.display_name}</Text>
+            <Panel DockPanel.Dock="Fill">
+              <Text Color="{Color.text_main}" Alignment="CenterLeft" Margin="10">
+                {profile.display_name}
+              </Text>
+            </Panel>
           </DockPanel>
           <Text Color="{Color.text_main}" TextWrapping="Wrap" MinHeight="100" Margin="5">{profile.note}</Text>
           <WhileTrue Value="{profile.id} == {ConfigFile.account.id}">
             <Text FontSize="24" Alignment="Center" Margin="15">「…これは自分だ。」</Text>
+            <Button DockPanel.Dock="Fill" Text="名前を変える" Height="48" Margin="3">
+              <Clicked>
+                <Set changeDisplayName.placeholder="{profile.display_name}" />
+                <Set changeDisplayName.Show="True" />
+              </Clicked>
+              <Rectangle Layer="Background" CornerRadius="4">
+                <Stroke Width="1" Brush="{Color.border}" />
+                <SolidColor Color="{Color.bg_main}" />
+                <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+                  <Stroke Width="1" Brush="{Color.border}" />
+                  <SolidColor Color="{Color.bg_main}" />
+                </Rectangle>
+              </Rectangle>
+            </Button>
+            <Button DockPanel.Dock="Fill" Text="コメントを変える" Height="48" Margin="3">
+              <Clicked>
+                <Set changeNote.Show="True" />
+              </Clicked>
+              <Rectangle Layer="Background" CornerRadius="4">
+                <Stroke Width="1" Brush="{Color.border}" />
+                <SolidColor Color="{Color.bg_main}" />
+                <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+                  <Stroke Width="1" Brush="{Color.border}" />
+                  <SolidColor Color="{Color.bg_main}" />
+                </Rectangle>
+              </Rectangle>
+            </Button>
           </WhileTrue>
           <WhileTrue Value="{profile.id} != {ConfigFile.account.id}">
             <Grid Columns="1*,1*,1*" Height="60">
@@ -74,6 +112,62 @@
                 </WhileFalse>
               </DockPanel>
             </Grid>
+            <Each Items="{usertl}">
+              <Deferred>
+                <!-- typeが空だったらStatus、そうじゃなかったらNotification -->
+                <WhileString Value="{type}" Test="IsEmpty">
+                  <WhileString Value="{reblog}" Test="IsEmpty">
+                    <TootPanel
+                      ux:Name="NormalToot"
+                      display_name="{account.display_name}"
+                      avatar_static="{account.avatar_static}"
+                      spoiler_text="{spoiler_text}"
+                      content="{content}"
+                      media_attachments="{media_attachments}"
+                      sensitive="{sensitive}"
+                      created_at="{created_at}"
+                      tags="{tags}"
+                      dist_content="{dist_content}">
+                      <AddingAnimation>
+                        <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                      </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change NormalToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
+                    </TootPanel>
+                  </WhileString>
+                  <WhileString Value="{reblog}" Test="IsNotEmpty">
+                    <TootPanel
+                      ux:Name="ReblogToot"
+                      display_name="{reblog.account.display_name}"
+                      avatar_static="{reblog.account.avatar_static}"
+                      spoiler_text="{reblog.spoiler_text}"
+                      content="{reblog.content}"
+                      media_attachments="{reblog.media_attachments}"
+                      sensitive="{reblog.sensitive}"
+                      rebloged_display_name="{account.display_name}"
+                      rebloged_avatar_static="{account.avatar_static}"
+                      created_at="{reblog.created_at}"
+                      tags="{reblog.tags}"
+                      dist_content="{reblog.dist_content}">
+                      <AddingAnimation>
+                        <Change ReblogToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                      </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change ReblogToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
+                    </TootPanel>
+                  </WhileString>
+                </WhileString>
+                <WhileString Value="{type}" Test="IsNotEmpty">
+                  <NotificationPanel
+                    display_name="{account.display_name}"
+                    avatar_static="{account.avatar_static}"
+                    type="{type}" />
+                </WhileString>
+              </Deferred>
+              <Rectangle Background="{Color.border}" Height="1" />
+            </Each>
           </WhileTrue>
         </StackPanel>
       </Panel>

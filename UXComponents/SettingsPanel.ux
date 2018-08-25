@@ -7,6 +7,23 @@
     <StackPanel>
       <Text Alignment="Center" LineSpacing="1.5" FontSize="20" Margin="5" Color="{Color.text_main}">Settings</Text>
       <Rectangle Height="1" Background="{Color.border}" />
+      <!-- 自分のプロフィール -->
+      <DockPanel Height="48" Margin="3">
+        <Button DockPanel.Dock="Fill" Text="プロフィール">
+          <Clicked>
+            <Callback Handler="{setMyInfo}" />
+          </Clicked>
+          <Rectangle Layer="Background" CornerRadius="4">
+            <Stroke Width="1" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+            <Rectangle Layer="Background" CornerRadius="2" Margin="2">
+              <Stroke Width="1" Brush="{Color.border}" />
+              <SolidColor Color="{Color.bg_main}" />
+            </Rectangle>
+          </Rectangle>
+        </Button>
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
       <!-- 背景を全体的に黒くする -->
       <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">

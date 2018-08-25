@@ -26,6 +26,7 @@ export default class App {
 
     this.query = ''; // 検索クエリ
     this.profile = null; // プロフィール情報
+    this.usertl = []; // ユーザーＴＬ
     this.relationships = null;
     this.current_page = 0;
 
@@ -85,8 +86,11 @@ export default class App {
 
     console.log("すでにソケットがオープンな場合は1回クローズする");
     if(this.socket != null){
+      this.socket.onopen = null;
+      this.socket.onmessage = null;
+      this.socket.onerror = null;
       this.socket.close();
-      this.socket = null;
+      // this.socket = null;
     }
 
     console.log("WebSocketをつなぎに行く");
@@ -94,6 +98,7 @@ export default class App {
     if(args.data.streaminguri != ""){
       let url = this.ConfigFile.account.base_url.replace("http","ws") + args.data.streaminguri + this.ConfigFile.account.access_token;
       this.socket = new WebSocket(url);
+
       this.socket.onopen = (() => {
 
         console.log("ソケットオープン");
@@ -315,6 +320,13 @@ export default class App {
     this.image_url = "";
   }
 
+  setMyInfo(){
+    this.MastodonAPI.verifyCredentials(this.ConfigFile.account.base_url,this.ConfigFile.account.access_token)
+    .then(result => {
+      this.setting_open = false;
+      this.profile = result;
+    });
+  }
   setUserInfo(args){
     var userid = args.data.account.id;
     if(args.data.reblog != undefined){
@@ -330,10 +342,39 @@ export default class App {
       this.relationships = result;
       this.profile = prof;
     });
+    const utl = 'api/v1/accounts/' + args.data.account.id + '/statuses';
+    this.MastodonAPI.getTimeLine(this.ConfigFile.account.base_url,utl,this.ConfigFile.account.access_token)
+    .then(result => {
+      result.forEach(toot => {
+        toot.created_at = this.Helper.formatTimestamp(toot.created_at);
+        toot.account.note = this.Helper.convertHTMLToPlain(toot.account.note);
+
+        if(toot.content != undefined){
+          toot.content = this.Helper.convertHTMLToPlain(toot.content);
+          toot.dist_content = this.Helper.makeDistContent(toot.content,toot.emojis);
+        }
+
+
+        if(toot.reblog != undefined){
+          toot.reblog.created_at = this.Helper.formatTimestamp(toot.reblog.created_at);
+          toot.reblog.content = this.Helper.convertHTMLToPlain(toot.reblog.content);
+          toot.reblog.account.note = this.Helper.convertHTMLToPlain(toot.reblog.account.note);
+          toot.reblog.dist_content = this.Helper.makeDistContent(toot.reblog.content,toot.reblog.emojis);
+        }
+        if(toot.status != undefined){
+          toot.status.content = this.Helper.convertHTMLToPlain(toot.status.content);
+          toot.status.created_at = this.Helper.formatTimestamp(toot.status.created_at);
+          toot.status.account.note = this.Helper.convertHTMLToPlain(toot.status.account.note);
+          toot.status.content = this.Helper.stripTagFromContent(toot.status.content,toot.status.tags);
+        }
+      });
+      this.usertl = result;
+    });
   }
   clearUserInfo(){
     this.profile = null;
     this.relationships = null;
+    this.usertl = [];
   }
 
   followUser(args){
