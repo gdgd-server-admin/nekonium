@@ -85,8 +85,11 @@ export default class App {
 
     console.log("すでにソケットがオープンな場合は1回クローズする");
     if(this.socket != null){
+      this.socket.onopen = null;
+      this.socket.onmessage = null;
+      this.socket.onerror = null;
       this.socket.close();
-      this.socket = null;
+      // this.socket = null;
     }
 
     console.log("WebSocketをつなぎに行く");
@@ -94,6 +97,7 @@ export default class App {
     if(args.data.streaminguri != ""){
       let url = this.ConfigFile.account.base_url.replace("http","ws") + args.data.streaminguri + this.ConfigFile.account.access_token;
       this.socket = new WebSocket(url);
+
       this.socket.onopen = (() => {
 
         console.log("ソケットオープン");
