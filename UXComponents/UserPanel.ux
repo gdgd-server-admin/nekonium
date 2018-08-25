@@ -25,7 +25,7 @@
     <ScrollView Margin="6">
       <Panel>
         <WhileString Value="{profile.header_static}" Test="IsNotEmpty">
-          <Image Url="{profile.header_static}" Opacity="0.3" Alignment="TopCenter" Width="100%" />
+          <Image Url="{profile.header_static}" Opacity="0.3" Layer="Background" Alignment="TopCenter" Width="100%" />
         </WhileString>
         <StackPanel>
           <DockPanel Height="60" Margin="15">
