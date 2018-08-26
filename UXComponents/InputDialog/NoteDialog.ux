@@ -1,4 +1,4 @@
-<Grid ux:Class="NoteDialog" ux:Name="dialogBody" Layer="Overlay" Margin="10" Height="220" Offset="0,-500" Columns="1*,1*" Rows="1*,1*,1*">
+<Grid ux:Class="NoteDialog" ux:Name="dialogBody" Layer="Overlay" Margin="10" Height="220" Offset="0,-1500" Columns="1*,1*" Rows="1*,1*,1*">
   <Rectangle Layer="Background" CornerRadius="8">
     <Stroke Width="2" Brush="{Color.border}" />
     <SolidColor Color="{Color.bg_main}" />
