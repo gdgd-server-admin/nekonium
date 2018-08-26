@@ -123,18 +123,37 @@ export default class App {
             var payload = JSON.parse(recvdata.payload);
 
             const helper = new Helper();
+            const cfg = new ConfigFile();
+            cfg.loadConfigFromFile();
 
             console.log("ストリーミングＡＰＩでデータを受信");
 
-            payload.content = helper.convertHTMLToPlain(payload.content);
-            payload.dist_content = helper.makeDistContent(payload.content,payload.emojis);
+            payload.kind = helper.makeKind(payload);
             payload.created_at = helper.formatTimestamp(payload.created_at);
             payload.account.note = helper.convertHTMLToPlain(payload.account.note);
-            if(payload.reblog != undefined){
-              payload.reblog.content = helper.convertHTMLToPlain(payload.reblog.content);
+
+            var tags = [];
+            switch(payload.kind){
+            case 'toot':
+              payload.dist_content = helper.makeDistContent(payload.content,payload.emojis);
+              payload.content = helper.convertHTMLToPlain(payload.content);
+              tags = helper.makeTagFromContent(cfg.account.base_url,payload.content);
+              if(tags.length > 0 && payload.tags.length == 0){
+                // tagsが実装されていないので補完する
+                payload.tags = tags;
+              }
+              break;
+            case 'reblogedtoot':
               payload.reblog.dist_content = helper.makeDistContent(payload.reblog.content,payload.reblog.emojis);
+              payload.reblog.content = helper.convertHTMLToPlain(payload.reblog.content);
               payload.reblog.created_at = helper.formatTimestamp(payload.reblog.created_at);
               payload.reblog.account.note = helper.convertHTMLToPlain(payload.reblog.account.note);
+              tags = helper.makeTagFromContent(cfg.account.base_url,payload.reblog.content);
+              if(tags.length > 0 && payload.reblog.tags.length == 0){
+                // tagsが実装されていないので補完する
+                payload.reblog.tags = tags;
+              }
+              break;
             }
 
             console.log("受け取ったデータをTLに反映する");
@@ -213,7 +232,7 @@ export default class App {
   showUrl(args){
     console.log("添付メディアを開く");
 
-    if(this.ConfigFile.settings.imageviewer){
+    if(this.ConfigFile.settings.toot.imageviewer){
 
       if(args.data.type == "image"){
         this.image_url = args.data.url;
@@ -374,23 +393,35 @@ export default class App {
         toot.account.note = this.Helper.convertHTMLToPlain(toot.account.note);
 
         if(toot.content != undefined){
-          toot.content = this.Helper.convertHTMLToPlain(toot.content);
           toot.dist_content = this.Helper.makeDistContent(toot.content,toot.emojis);
+          toot.content = this.Helper.convertHTMLToPlain(toot.content);
+          let tags = this.Helper.makeTagFromContent(this.ConfigFile.account.base_url,toot.content);
+          if(tags.length > 0 && toot.tags.length == 0){
+            // tagsが実装されていないので補完する
+            toot.tags = tags;
+          }
         }
 
 
         if(toot.reblog != undefined){
           toot.reblog.created_at = this.Helper.formatTimestamp(toot.reblog.created_at);
+          toot.reblog.dist_content = this.Helper.makeDistContent(toot.reblog.content,toot.reblog.emojis);
           toot.reblog.content = this.Helper.convertHTMLToPlain(toot.reblog.content);
           toot.reblog.account.note = this.Helper.convertHTMLToPlain(toot.reblog.account.note);
-          toot.reblog.dist_content = this.Helper.makeDistContent(toot.reblog.content,toot.reblog.emojis);
+          let tags = this.Helper.makeTagFromContent(this.ConfigFile.account.base_url,toot.reblog.content);
+          if(tags.length > 0 && toot.reblog.tags.length == 0){
+            // tagsが実装されていないので補完する
+            toot.reblog.tags = tags;
+          }
         }
+        /*
         if(toot.status != undefined){
           toot.status.content = this.Helper.convertHTMLToPlain(toot.status.content);
           toot.status.created_at = this.Helper.formatTimestamp(toot.status.created_at);
           toot.status.account.note = this.Helper.convertHTMLToPlain(toot.status.account.note);
           toot.status.content = this.Helper.stripTagFromContent(toot.status.content,toot.status.tags);
         }
+        */
       });
       this.usertl = result;
     });
