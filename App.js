@@ -34,12 +34,10 @@ export default class App {
     this.shakecount = 0;
     this.lastshake = 0;
 
-    this.timelines = [ // タイムライン
-      new TimeLine('ほーむ', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token='),
-      new TimeLine('つうち', 'api/v1/notifications'),
-      new TimeLine('ろーかる', 'api/v1/timelines/public?local=true','api/v1/streaming/?stream=public:local&access_token='),
-      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=30','api/v1/streaming/?stream=public&access_token='),
-    ];
+    this.timelines = [
+      new TimeLine('ホーム', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token=')
+    ]; // タイムライン
+    this.fix_tl_length = 1; // 既知のTLの数（ＴＬを閉じるボタンの表示に使う）
 
     this.setting_open = false; // 設定画面の表示
     this.chat_open = false; // チャット画面の表示
@@ -52,7 +50,10 @@ export default class App {
     // 設定ファイルのmigrateを行う
     this.ConfigFile.migrateConfig();
 
-    this.loadTagConfig();
+    // migrate後に再読み込みする
+    this.ConfigFile.loadConfigFromFile();
+
+    this.loadTimelineConfig();
     this.loaded = "loaded";
 
     this.Color.toggleColor(this.ConfigFile.settings.nightmode);
@@ -122,18 +123,37 @@ export default class App {
             var payload = JSON.parse(recvdata.payload);
 
             const helper = new Helper();
+            const cfg = new ConfigFile();
+            cfg.loadConfigFromFile();
 
             console.log("ストリーミングＡＰＩでデータを受信");
 
-            payload.content = helper.convertHTMLToPlain(payload.content);
-            payload.dist_content = helper.makeDistContent(payload.content,payload.emojis);
+            payload.kind = helper.makeKind(payload);
             payload.created_at = helper.formatTimestamp(payload.created_at);
             payload.account.note = helper.convertHTMLToPlain(payload.account.note);
-            if(payload.reblog != undefined){
-              payload.reblog.content = helper.convertHTMLToPlain(payload.reblog.content);
+
+            var tags = [];
+            switch(payload.kind){
+            case 'toot':
+              payload.dist_content = helper.makeDistContent(payload.content,payload.emojis);
+              payload.content = helper.convertHTMLToPlain(payload.content);
+              tags = helper.makeTagFromContent(cfg.account.base_url,payload.content);
+              if(tags.length > 0 && payload.tags.length == 0){
+                // tagsが実装されていないので補完する
+                payload.tags = tags;
+              }
+              break;
+            case 'reblogedtoot':
               payload.reblog.dist_content = helper.makeDistContent(payload.reblog.content,payload.reblog.emojis);
+              payload.reblog.content = helper.convertHTMLToPlain(payload.reblog.content);
               payload.reblog.created_at = helper.formatTimestamp(payload.reblog.created_at);
               payload.reblog.account.note = helper.convertHTMLToPlain(payload.reblog.account.note);
+              tags = helper.makeTagFromContent(cfg.account.base_url,payload.reblog.content);
+              if(tags.length > 0 && payload.reblog.tags.length == 0){
+                // tagsが実装されていないので補完する
+                payload.reblog.tags = tags;
+              }
+              break;
             }
 
             console.log("受け取ったデータをTLに反映する");
@@ -212,7 +232,7 @@ export default class App {
   showUrl(args){
     console.log("添付メディアを開く");
 
-    if(this.ConfigFile.settings.imageviewer){
+    if(this.ConfigFile.settings.toot.imageviewer){
 
       if(args.data.type == "image"){
         this.image_url = args.data.url;
@@ -242,11 +262,33 @@ export default class App {
     this.Compose = new Compose();
   }
 
-  async loadTagConfig(){
-    console.log("設定に書かれたタグのＴＬをリストに追加する");
+  async loadTimelineConfig(){
 
-    await this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
+    await this.timelines.splice(1,this.timelines.length - 1);
 
+    if(this.ConfigFile.settings.timeline.favorite){
+      console.log("お気に入りを追加");
+      this.timelines.push(new TimeLine('お気に入り', 'api/v1/favourites'));
+    }
+    if(this.ConfigFile.settings.timeline.notification){
+      console.log("通知を追加");
+      this.timelines.push(new TimeLine('通知', 'api/v1/notifications'));
+    }
+    if(this.ConfigFile.settings.timeline.local){
+      console.log("ローカルを追加");
+      this.timelines.push(new TimeLine('ローカル', 'api/v1/timelines/public?local=true','api/v1/streaming/?stream=public:local&access_token='));
+    }
+    if(this.ConfigFile.settings.timeline.public){
+      console.log("連合を追加");
+      this.timelines.push(new TimeLine('連合', 'api/v1/timelines/public?limit=30','api/v1/streaming/?stream=public&access_token='));
+    }
+    if(this.ConfigFile.settings.timeline.default_tag){
+      console.log("デフォルトのタグを追加");
+      this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
+    }
+
+    this.fix_tl_length = this.timelines.length;
+    this.current_page = 0;
   }
 
   async tagLinkClicked(args){
@@ -301,6 +343,7 @@ export default class App {
       if(this.ConfigFile.settings.shake){
         this.ShakeNyaan.startNyaan();
       }
+      this.loadTimelineConfig();
     }),1000);
   }
 
@@ -350,23 +393,35 @@ export default class App {
         toot.account.note = this.Helper.convertHTMLToPlain(toot.account.note);
 
         if(toot.content != undefined){
-          toot.content = this.Helper.convertHTMLToPlain(toot.content);
           toot.dist_content = this.Helper.makeDistContent(toot.content,toot.emojis);
+          toot.content = this.Helper.convertHTMLToPlain(toot.content);
+          let tags = this.Helper.makeTagFromContent(this.ConfigFile.account.base_url,toot.content);
+          if(tags.length > 0 && toot.tags.length == 0){
+            // tagsが実装されていないので補完する
+            toot.tags = tags;
+          }
         }
 
 
         if(toot.reblog != undefined){
           toot.reblog.created_at = this.Helper.formatTimestamp(toot.reblog.created_at);
+          toot.reblog.dist_content = this.Helper.makeDistContent(toot.reblog.content,toot.reblog.emojis);
           toot.reblog.content = this.Helper.convertHTMLToPlain(toot.reblog.content);
           toot.reblog.account.note = this.Helper.convertHTMLToPlain(toot.reblog.account.note);
-          toot.reblog.dist_content = this.Helper.makeDistContent(toot.reblog.content,toot.reblog.emojis);
+          let tags = this.Helper.makeTagFromContent(this.ConfigFile.account.base_url,toot.reblog.content);
+          if(tags.length > 0 && toot.reblog.tags.length == 0){
+            // tagsが実装されていないので補完する
+            toot.reblog.tags = tags;
+          }
         }
+        /*
         if(toot.status != undefined){
           toot.status.content = this.Helper.convertHTMLToPlain(toot.status.content);
           toot.status.created_at = this.Helper.formatTimestamp(toot.status.created_at);
           toot.status.account.note = this.Helper.convertHTMLToPlain(toot.status.account.note);
           toot.status.content = this.Helper.stripTagFromContent(toot.status.content,toot.status.tags);
         }
+        */
       });
       this.usertl = result;
     });
