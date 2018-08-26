@@ -46,29 +46,16 @@
 
             <Each Items="{data}">
               <Deferred>
-                <!-- typeが空だったらStatus、そうじゃなかったらNotification -->
-                <WhileString Value="{type}" Test="IsEmpty">
-                  <WhileString Value="{reblog}" Test="IsEmpty">
-                    <TootPanel
-                      ux:Name="NormalToot"
+                <Match Value="{kind}">
+                  <Case String="notification">
+                    <!-- 通知 -->
+                    <NotificationPanel
                       display_name="{account.display_name}"
                       avatar_static="{account.avatar_static}"
-                      spoiler_text="{spoiler_text}"
-                      content="{content}"
-                      media_attachments="{media_attachments}"
-                      sensitive="{sensitive}"
-                      created_at="{created_at}"
-                      tags="{tags}"
-                      dist_content="{dist_content}">
-                      <AddingAnimation>
-                        <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
-                      </AddingAnimation>
-                      <RemovingAnimation>
-                        <Change NormalToot.Opacity="0" Delay="0.16" Duration="0.32" />
-                      </RemovingAnimation>
-                    </TootPanel>
-                  </WhileString>
-                  <WhileString Value="{reblog}" Test="IsNotEmpty">
+                      type="{type}" />
+                  </Case>
+                  <Case String="reblogedtoot">
+                    <!-- 拡散されたトゥート -->
                     <TootPanel
                       ux:Name="ReblogToot"
                       display_name="{reblog.account.display_name}"
@@ -89,14 +76,29 @@
                         <Change ReblogToot.Opacity="0" Delay="0.16" Duration="0.32" />
                       </RemovingAnimation>
                     </TootPanel>
-                  </WhileString>
-                </WhileString>
-                <WhileString Value="{type}" Test="IsNotEmpty">
-                  <NotificationPanel
-                    display_name="{account.display_name}"
-                    avatar_static="{account.avatar_static}"
-                    type="{type}" />
-                </WhileString>
+                  </Case>
+                  <Case String="toot">
+                    <!-- 通常のトゥート -->
+                    <TootPanel
+                      ux:Name="NormalToot"
+                      display_name="{account.display_name}"
+                      avatar_static="{account.avatar_static}"
+                      spoiler_text="{spoiler_text}"
+                      content="{content}"
+                      media_attachments="{media_attachments}"
+                      sensitive="{sensitive}"
+                      created_at="{created_at}"
+                      tags="{tags}"
+                      dist_content="{dist_content}">
+                      <AddingAnimation>
+                        <Change NormalToot.Opacity="1" Delay="0.16" Duration="0.32" />
+                      </AddingAnimation>
+                      <RemovingAnimation>
+                        <Change NormalToot.Opacity="0" Delay="0.16" Duration="0.32" />
+                      </RemovingAnimation>
+                    </TootPanel>
+                  </Case>
+                </Match>
               </Deferred>
               <Rectangle Background="{Color.border}" Height="1" />
             </Each>

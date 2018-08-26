@@ -40,14 +40,6 @@
         <Switch Dock="Right" Value="{ConfigFile.settings.localnotify}" ValueChanged="{configChanged}" />
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" />
-      <!-- 内臓の画像ビューア -->
-      <DockPanel Height="48" Margin="3">
-        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
-          内臓画像ビューア
-        </Text>
-        <Switch Dock="Right" Value="{ConfigFile.settings.imageviewer}" ValueChanged="{configChanged}" />
-			</DockPanel>
-      <Rectangle Height="1" Background="{Color.border}" />
       <!-- Pleromaのローカルチャット -->
       <DockPanel Height="48" Margin="3">
         <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
@@ -117,6 +109,26 @@
           デフォルトのタグ
         </Text>
         <Switch Dock="Right" Value="{ConfigFile.settings.timeline.default_tag}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
+
+      <Text Alignment="Center" LineSpacing="1.5" FontSize="20" Margin="5" Color="{Color.text_main}">投稿の表示</Text>
+      <Rectangle Height="1" Background="{Color.border}" />
+
+      <!-- 内臓の画像ビューア -->
+      <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          内臓画像ビューア
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.toot.imageviewer}" ValueChanged="{configChanged}" />
+			</DockPanel>
+      <Rectangle Height="1" Background="{Color.border}" />
+      <!-- シンプル表示 -->
+      <DockPanel Height="48" Margin="3">
+        <Text Dock="Fill" Alignment="CenterLeft" Color="{Color.text_main}">
+          シンプル表示
+        </Text>
+        <Switch Dock="Right" Value="{ConfigFile.settings.toot.simple}" ValueChanged="{configChanged}" />
 			</DockPanel>
       <Rectangle Height="1" Background="{Color.border}" />
 
