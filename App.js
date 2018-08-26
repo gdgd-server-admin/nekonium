@@ -34,7 +34,9 @@ export default class App {
     this.shakecount = 0;
     this.lastshake = 0;
 
-    this.timelines = []; // タイムライン
+    this.timelines = [
+      new TimeLine('ホーム', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token=')
+    ]; // タイムライン
     this.fix_tl_length = 1; // 既知のTLの数（ＴＬを閉じるボタンの表示に使う）
 
     this.setting_open = false; // 設定画面の表示
@@ -242,11 +244,8 @@ export default class App {
   }
 
   async loadTimelineConfig(){
-    console.log("設定に書かれたタグのＴＬをリストに追加する");
-    console.log(JSON.stringify(this.ConfigFile.settings.timeline));
-    await this.timelines.splice(0,this.timelines.length);
 
-    await this.timelines.push(new TimeLine('ホーム', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token=')); // ホームを無条件に追加
+    await this.timelines.splice(1,this.timelines.length - 1);
 
     if(this.ConfigFile.settings.timeline.favorite){
       console.log("お気に入りを追加");
