@@ -27,7 +27,7 @@
       <Panel Column="1">
         <Text Alignment="Center" Font="Icon" FontSize="56" Color="{Color.text_main}">&#xf102;</Text>
       </Panel>
-      <WhileFloat Value="{current_page}" GreaterThan="4">
+      <WhileFloat Value="{current_page}" GreaterThanEqual="{fix_tl_length}">
         <Panel Width="40" Height="40" Column="2">
           <Clicked>
             <Callback Handler="{closeTL}" />

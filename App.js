@@ -34,12 +34,8 @@ export default class App {
     this.shakecount = 0;
     this.lastshake = 0;
 
-    this.timelines = [ // タイムライン
-      new TimeLine('ほーむ', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token='),
-      new TimeLine('つうち', 'api/v1/notifications'),
-      new TimeLine('ろーかる', 'api/v1/timelines/public?local=true','api/v1/streaming/?stream=public:local&access_token='),
-      new TimeLine('ぷぶりっく', 'api/v1/timelines/public?limit=30','api/v1/streaming/?stream=public&access_token='),
-    ];
+    this.timelines = []; // タイムライン
+    this.fix_tl_length = 1; // 既知のTLの数（ＴＬを閉じるボタンの表示に使う）
 
     this.setting_open = false; // 設定画面の表示
     this.chat_open = false; // チャット画面の表示
@@ -52,7 +48,10 @@ export default class App {
     // 設定ファイルのmigrateを行う
     this.ConfigFile.migrateConfig();
 
-    this.loadTagConfig();
+    // migrate後に再読み込みする
+    this.ConfigFile.loadConfigFromFile();
+
+    this.loadTimelineConfig();
     this.loaded = "loaded";
 
     this.Color.toggleColor(this.ConfigFile.settings.nightmode);
@@ -242,11 +241,36 @@ export default class App {
     this.Compose = new Compose();
   }
 
-  async loadTagConfig(){
+  async loadTimelineConfig(){
     console.log("設定に書かれたタグのＴＬをリストに追加する");
+    console.log(JSON.stringify(this.ConfigFile.settings.timeline));
+    await this.timelines.splice(0,this.timelines.length);
 
-    await this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
+    await this.timelines.push(new TimeLine('ホーム', 'api/v1/timelines/home','api/v1/streaming/?stream=user&access_token=')); // ホームを無条件に追加
 
+    if(this.ConfigFile.settings.timeline.favorite){
+      console.log("お気に入りを追加");
+      this.timelines.push(new TimeLine('お気に入り', 'api/v1/favourites'));
+    }
+    if(this.ConfigFile.settings.timeline.notification){
+      console.log("通知を追加");
+      this.timelines.push(new TimeLine('通知', 'api/v1/notifications'));
+    }
+    if(this.ConfigFile.settings.timeline.local){
+      console.log("ローカルを追加");
+      this.timelines.push(new TimeLine('ローカル', 'api/v1/timelines/public?local=true','api/v1/streaming/?stream=public:local&access_token='));
+    }
+    if(this.ConfigFile.settings.timeline.public){
+      console.log("連合を追加");
+      this.timelines.push(new TimeLine('連合', 'api/v1/timelines/public?limit=30','api/v1/streaming/?stream=public&access_token='));
+    }
+    if(this.ConfigFile.settings.timeline.default_tag){
+      console.log("デフォルトのタグを追加");
+      this.timelines.push(new TimeLine(this.ConfigFile.settings.default_tag, 'api/v1/timelines/tag/' + this.ConfigFile.settings.default_tag.replace("#","")));
+    }
+
+    this.fix_tl_length = this.timelines.length;
+    this.current_page = 0;
   }
 
   async tagLinkClicked(args){
@@ -301,6 +325,7 @@ export default class App {
       if(this.ConfigFile.settings.shake){
         this.ShakeNyaan.startNyaan();
       }
+      this.loadTimelineConfig();
     }),1000);
   }
 
