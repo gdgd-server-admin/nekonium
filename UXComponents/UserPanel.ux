@@ -31,7 +31,7 @@
           <DockPanel Height="60" Margin="15">
             <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
               <Stroke Width="1" Brush="{Color.border}" />
-              <ImageFill Url="{profile.avatar_static}" />
+              <ImageFill Url="{profile.avatar_static}" StretchMode="UniformToFill" />
             </Rectangle>
             <Panel DockPanel.Dock="Fill">
               <Text Color="{Color.text_main}" Alignment="CenterLeft" Margin="10">

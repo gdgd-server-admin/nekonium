@@ -20,12 +20,12 @@
           <Callback Handler="{setUserInfo}" />
         </Clicked>
         <Stroke Width="1" Brush="{Color.border}" />
-        <ImageFill Url="{Property Toot.avatar_static}" />
+        <ImageFill Url="{Property Toot.avatar_static}" StretchMode="UniformToFill" />
 
         <WhileString Value="{Property Toot.rebloged_avatar_static}" Test="IsNotEmpty">
           <Rectangle Layer="Overlay" Width="30" Height="30" Anchor="0%,0%"  Y="35" X="35" CornerRadius="8">
             <Stroke Width="1" Brush="{Color.border}" />
-            <ImageFill Url="{Property Toot.rebloged_avatar_static}" />
+            <ImageFill Url="{Property Toot.rebloged_avatar_static}" StretchMode="UniformToFill" />
           </Rectangle>
         </WhileString>
       </Rectangle>
