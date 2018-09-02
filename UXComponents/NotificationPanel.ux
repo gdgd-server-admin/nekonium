@@ -4,33 +4,134 @@
   <string ux:Property="avatar_static" />
   <string ux:Property="type" />
 
-  <DockPanel DockPanel.Dock="Top">
-    <Rectangle Width="60" Height="60" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
-      <Clicked>
-        <Callback Handler="{setUserInfo}" />
-      </Clicked>
-      <Stroke Width="1" Brush="{Color.border}" />
-      <ImageFill Url="{Property Notification.avatar_static}" />
-    </Rectangle>
-    <Text DockPanel.Dock="Fill" Alignment="CenterLeft">
-      <Clicked>
-        <Callback Handler="{setUserInfo}" />
-      </Clicked>
-      {Property Notification.display_name}
-    </Text>
-  </DockPanel>
-  <Panel DockPanel.Dock="Fill">
-    <WhileString Value="{Property Notification.type}" Equals="mention">
-      <Text>リプきたよ</Text>
-    </WhileString>
-    <WhileString Value="{Property Notification.type}" Equals="reblog">
-      <Text>かくさんされた！</Text>
-    </WhileString>
-    <WhileString Value="{Property Notification.type}" Equals="favourite">
-      <Text>ふぁぼられた！</Text>
-    </WhileString>
-    <WhileString Value="{Property Notification.type}" Equals="follow">
-      <Text>フォローされた</Text>
-    </WhileString>
-  </Panel>
+  <Match Value="{Property Notification.type}">
+    <Case String="mention">
+      <DockPanel DockPanel.Dock="Top">
+        <Rectangle Width="30" Height="30" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+          <Clicked>
+            <Callback Handler="{setUserInfo}" />
+          </Clicked>
+          <Stroke Width="1" Brush="{Color.border}" />
+          <ImageFill Url="{Property Notification.avatar_static}" StretchMode="UniformToFill" />
+        </Rectangle>
+        <Text DockPanel.Dock="Fill" Alignment="CenterLeft">
+          からリプきたよ
+        </Text>
+      </DockPanel>
+      <Deferred>
+        <TootPanel DockPanel.Dock="Fill" Margin="5"
+          ux:Name="ReplyedToot"
+          display_name="{status.account.display_name}"
+          avatar_static="{status.account.avatar_static}"
+          spoiler_text="{status.spoiler_text}"
+          content="{status.content}"
+          media_attachments="{status.media_attachments}"
+          sensitive="{status.sensitive}"
+          created_at="{status.created_at}"
+          tags="{status.tags}"
+          dist_content="{status.dist_content}">
+          <Rectangle Layer="Background" CornerRadius="8">
+            <Stroke Width="2" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+          <AddingAnimation>
+            <Change ReplyedToot.Opacity="1" Delay="0.16" Duration="0.32" />
+          </AddingAnimation>
+          <RemovingAnimation>
+            <Change ReplyedToot.Opacity="0" Delay="0.16" Duration="0.32" />
+          </RemovingAnimation>
+        </TootPanel>
+      </Deferred>
+    </Case>
+    <Case String="reblog">
+      <DockPanel DockPanel.Dock="Top">
+        <Rectangle Width="30" Height="30" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+          <Clicked>
+            <Callback Handler="{setUserInfo}" />
+          </Clicked>
+          <Stroke Width="1" Brush="{Color.border}" />
+          <ImageFill Url="{Property Notification.avatar_static}" StretchMode="UniformToFill" />
+        </Rectangle>
+        <Text DockPanel.Dock="Fill" Alignment="CenterLeft">
+          がブーストしたよ
+        </Text>
+      </DockPanel>
+      <Deferred>
+        <TootPanel DockPanel.Dock="Fill" Margin="5"
+          ux:Name="ReblogedToot"
+          display_name="{status.account.display_name}"
+          avatar_static="{status.account.avatar_static}"
+          spoiler_text="{status.spoiler_text}"
+          content="{status.content}"
+          media_attachments="{status.media_attachments}"
+          sensitive="{status.sensitive}"
+          created_at="{status.created_at}"
+          tags="{status.tags}"
+          dist_content="{status.dist_content}">
+          <Rectangle Layer="Background" CornerRadius="8">
+            <Stroke Width="2" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+          <AddingAnimation>
+            <Change ReblogedToot.Opacity="1" Delay="0.16" Duration="0.32" />
+          </AddingAnimation>
+          <RemovingAnimation>
+            <Change ReblogedToot.Opacity="0" Delay="0.16" Duration="0.32" />
+          </RemovingAnimation>
+        </TootPanel>
+      </Deferred>
+    </Case>
+    <Case String="favourite">
+      <DockPanel DockPanel.Dock="Top">
+        <Rectangle Width="30" Height="30" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+          <Clicked>
+            <Callback Handler="{setUserInfo}" />
+          </Clicked>
+          <Stroke Width="1" Brush="{Color.border}" />
+          <ImageFill Url="{Property Notification.avatar_static}" StretchMode="UniformToFill" />
+        </Rectangle>
+        <Text DockPanel.Dock="Fill" Alignment="CenterLeft">
+          がファボったよ
+        </Text>
+      </DockPanel>
+      <Deferred>
+        <TootPanel DockPanel.Dock="Fill" Margin="5"
+          ux:Name="FavoritedToot"
+          display_name="{status.account.display_name}"
+          avatar_static="{status.account.avatar_static}"
+          spoiler_text="{status.spoiler_text}"
+          content="{status.content}"
+          media_attachments="{status.media_attachments}"
+          sensitive="{status.sensitive}"
+          created_at="{status.created_at}"
+          tags="{status.tags}"
+          dist_content="{status.dist_content}">
+          <Rectangle Layer="Background" CornerRadius="8">
+            <Stroke Width="2" Brush="{Color.border}" />
+            <SolidColor Color="{Color.bg_main}" />
+          </Rectangle>
+          <AddingAnimation>
+            <Change FavoritedToot.Opacity="1" Delay="0.16" Duration="0.32" />
+          </AddingAnimation>
+          <RemovingAnimation>
+            <Change FavoritedToot.Opacity="0" Delay="0.16" Duration="0.32" />
+          </RemovingAnimation>
+        </TootPanel>
+      </Deferred>
+    </Case>
+    <Case String="follow">
+      <DockPanel DockPanel.Dock="Top">
+        <Rectangle Width="30" Height="30" DockPanel.Dock="Left" Margin="5" CornerRadius="8">
+          <Clicked>
+            <Callback Handler="{setUserInfo}" />
+          </Clicked>
+          <Stroke Width="1" Brush="{Color.border}" />
+          <ImageFill Url="{Property Notification.avatar_static}" StretchMode="UniformToFill" />
+        </Rectangle>
+        <Text DockPanel.Dock="Fill" Alignment="CenterLeft">
+          フォローされた！
+        </Text>
+      </DockPanel>
+    </Case>
+  </Match>
 </DockPanel>

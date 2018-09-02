@@ -180,9 +180,16 @@ export default class App {
 
   replyTo(args){
     console.log("リプライを送る！");
-    this.Compose.status = "@" + args.data.account.acct;
-    this.Compose.in_reply_to_id = args.data.id;
-    this.Compose.visiblity = args.data.visibility;
+    if(args.data.status != undefined){
+      this.Compose.status = "@" + args.data.status.account.acct;
+      this.Compose.in_reply_to_id = args.data.status.id;
+      this.Compose.visiblity = args.data.status.visibility;
+    }else{
+      this.Compose.status = "@" + args.data.account.acct;
+      this.Compose.in_reply_to_id = args.data.id;
+      this.Compose.visiblity = args.data.visibility;
+    }
+
     this.swipeActive = true;
   }
 
@@ -385,7 +392,7 @@ export default class App {
       this.relationships = result;
       this.profile = prof;
     });
-    const utl = 'api/v1/accounts/' + args.data.account.id + '/statuses';
+    const utl = 'api/v1/accounts/' + userid + '/statuses';
     this.MastodonAPI.getTimeLine(this.ConfigFile.account.base_url,utl,this.ConfigFile.account.access_token)
     .then(result => {
       result.forEach(toot => {
